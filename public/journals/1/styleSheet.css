@@ -1,0 +1,41 @@
+/* Custom Branding for Veridica */
+
+/* Body text color and Page background */
+body {
+    background-color: #F5F6F4;
+    color: #1E2A4A;
+}
+
+/* Header */
+.pkp_structure_head {
+    background-color: #1E2A4A;
+}
+
+/* Primary/Accent Links */
+a {
+    color: #B8892B;
+}
+a:hover, a:focus {
+    color: #8c6821;
+}
+
+/* Buttons / CTA */
+.cmp_button, button, .pkp_button, .submit {
+    background-color: #B8892B !important;
+    color: #2A1E05 !important;
+    border-color: #B8892B !important;
+}
+
+/* Content cards */
+.pkp_structure_main, .pkp_structure_sidebar {
+    background-color: #FFFFFF;
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.pkp_structure_sidebar {
+    padding: 1.5rem;
+}

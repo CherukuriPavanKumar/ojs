@@ -1,0 +1,52 @@
+# OJS Configuration
+/config.inc.php
+/config.pkp.inc.php
+
+# Cache
+/cache/*.php
+/cache/*.css
+/cache/t_compile/*
+!/cache/t_compile/.gitignore
+/cache/t_cache/*
+!/cache/t_cache/.gitignore
+/cache/opcache/*
+!/cache/opcache/.gitignore
+/cache/HTML/*
+!/cache/HTML/.gitignore
+/cache/URI/*
+!/cache/URI/.gitignore
+/cache/_db/*
+!/cache/_db/.gitignore
+
+# Files
+/files/*
+!/files/.gitignore
+
+# Build & Dependencies
+node_modules/
+js/build/
+js/build.js
+js/build_frontend.js
+js/hot-updates/
+styles/build.css
+styles/build_frontend.css
+./build
+temp/
+/plugins/paymethod/paypal/vendor/
+
+# Environment & Tests
+.claude/
+.playwright-mcp/
+.htaccess
+.project
+.buildpath
+.settings
+.DS_Store
+.php_cs.cache
+.php-cs-fixer.cache
+cypress.env.json
+cypress/logs/
+cypress/screenshots/
+.phpunit.result.cache
+/plugins/themes/default/js/lib/swiper/
+registry/uiLocaleKeysBackend.json
