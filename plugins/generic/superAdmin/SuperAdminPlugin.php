@@ -118,13 +118,19 @@ class SuperAdminPlugin extends GenericPlugin
 
     public function handleDecisionAdded(DecisionAdded $event)
     {
+        // $event->decision is a persisted Decision DataObject.
+        // getData('decision') returns the integer constant (e.g. 3 for EXTERNAL_REVIEW).
+        // $event->decisionType->getDecision() returns the same value — use it as a direct fallback.
+        $decisionValue = $event->decision->getData('decision')
+            ?? $event->decisionType->getDecision();
+
         $this->logActivity(
             $event->editor?->getId(),
             $event->context?->getId(),
             'decision_added',
             [
                 'submission_id' => $event->submission->getId(),
-                'decision' => method_exists($event->decisionType, 'getDecision') ? $event->decisionType->getDecision() : (property_exists($event->decisionType, 'decision') ? $event->decisionType->decision : get_class($event->decisionType)),
+                'decision'      => $decisionValue,
             ]
         );
     }
