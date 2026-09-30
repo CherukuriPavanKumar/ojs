@@ -877,7 +877,7 @@ class FormBuilderVocabulary
         }
 
         $form = $this->getForm();
-        if (isset($form) && isset($form->errorFields[$params['name']])) {
+        if (isset($form) && isset($params['name']) && isset($form->errorFields[$params['name']])) {
             $smarty->assign('FBV_error', true);
             $errors = $form->getErrorsArray();
             $smarty->assign('FBV_subLabelTranslate', false);
@@ -961,10 +961,10 @@ class FormBuilderVocabulary
             }
 
             $form = $this->getForm();
-            if (isset($form) && isset($form->errorFields[$params['name']])) {
-                $smarty->assign('FBV_class', 'error ' . $params['class']);
+            if (isset($form) && isset($params['name']) && isset($form->errorFields[$params['name']])) {
+                $smarty->assign('FBV_class', 'error ' . ($params['class'] ?? ''));
             } else {
-                $smarty->assign('FBV_class', $params['class']);
+                $smarty->assign('FBV_class', $params['class'] ?? '');
             }
 
             $smarty->assign(['FBV_suppressId' => null, 'FBV_label' => null, 'FBV_required' => false, 'FBV_disabled' => false, 'FBV_name' => null]);

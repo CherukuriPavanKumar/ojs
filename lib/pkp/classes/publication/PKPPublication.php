@@ -450,7 +450,7 @@ class PKPPublication extends \PKP\core\DataObject
         $metadataprops = $getMProps(PKPSchemaService::SCHEMA_PUBLICATION);
         $authorProps = $getMProps(PKPSchemaService::SCHEMA_AUTHOR);
 
-        $getlocales = fn (array $props, object $item): array => array_map(fn (string $prop): array => array_keys($item->getData($prop) ?? []), $props);
+        $getlocales = fn (array $props, object $item): array => array_map(fn (string $prop): array => array_keys(is_array($item->getData($prop)) ? $item->getData($prop) : []), $props);
         $metadataLocales = $getlocales($metadataprops, $this);
         $authorsLocales = $this->getData('authors')?->map(fn (Author $author): array => $getlocales($authorProps, $author)) ?? [];
 

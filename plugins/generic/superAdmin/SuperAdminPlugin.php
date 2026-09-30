@@ -37,13 +37,26 @@ class SuperAdminPlugin extends GenericPlugin
             Event::listen(Login::class, [$this, 'handleLogin']);
             Event::listen(SubmissionSubmitted::class, [$this, 'handleSubmissionSubmitted']);
             Event::listen(DecisionAdded::class, [$this, 'handleDecisionAdded']);
+            Event::listen(\PKP\observers\events\PublicationPublished::class, [$this, 'handlePublicationPublished']);
 
             // Hook listeners for legacy PKP hooks
             Hook::add('ReviewAssignment::add', [$this, 'handleReviewAssignmentAdd']);
             Hook::add('ReviewerAction::confirmReview', [$this, 'handleReviewerConfirm']);
             Hook::add('SubmissionFile::add', [$this, 'handleSubmissionFileAdd']);
+            Hook::add('User::add', [$this, 'handleUserAdd']);
+
+            // Page routing for Super Admin panel
+            Hook::add('LoadHandler', [$this, 'setPageHandler']);
         }
         return $success;
+    }
+
+    /**
+     * @copydoc Plugin::getEnabled()
+     */
+    public function getEnabled($contextId = null)
+    {
+        return true;
     }
 
     /**
@@ -77,14 +90,31 @@ class SuperAdminPlugin extends GenericPlugin
     {
         $request = Application::get()->getRequest();
         $ip = $request->getRemoteAddr();
+        $detailStr = is_string($eventDetail) ? $eventDetail : json_encode($eventDetail);
 
-        DB::table('super_admin_activity_log')->insert([
+        $utcNow = date('Y-m-d H:i:s');
+        $id = DB::table('super_admin_activity_log')->insertGetId([
             'user_id' => $userId,
             'journal_id' => $journalId,
             'event_type' => $eventType,
-            'event_detail' => json_encode($eventDetail),
+            'event_detail' => $detailStr,
             'ip_address' => $ip,
+            'created_at' => $utcNow,
         ]);
+        DB::table('super_admin_activity_log')->where('id', $id)->update(['log_id' => $id]);
+
+        try {
+            DB::table('veridica_activity_log')->insert([
+                'user_id' => $userId,
+                'journal_id' => $journalId,
+                'action_type' => $eventType,
+                'action_detail' => $detailStr,
+                'ip_address' => $ip,
+                'created_at' => $utcNow,
+            ]);
+        } catch (\Exception $e) {
+            // Ignore if table missing
+        }
     }
 
     public function handleLogin(Login $event)
@@ -193,6 +223,71 @@ class SuperAdminPlugin extends GenericPlugin
             ]
         );
         return false;
+    }
+
+    public function setPageHandler(string $hookName, array $params): bool
+    {
+        $page = &$params[0];
+        $handler = &$params[3];
+
+        if ($this->getEnabled() && $page === 'superadmin') {
+            $handler = new \APP\plugins\generic\superAdmin\pages\SuperAdminHandler($this);
+            return true;
+        }
+        return false;
+    }
+
+    public function handleUserAdd($hookName, $args)
+    {
+        $user = $args[0];
+        $request = Application::get()->getRequest();
+        $context = $request->getContext();
+
+        $this->logActivity(
+            $user?->getId(),
+            $context?->getId(),
+            'user_registered',
+            [
+                'username' => $user?->getUsername(),
+                'email' => $user?->getEmail()
+            ]
+        );
+        return false;
+    }
+
+    public function handlePublicationPublished($event)
+    {
+        $publication = $event->publication;
+        $submission = $event->submission;
+        $context = $event->context;
+        $request = Application::get()->getRequest();
+        $user = $request->getUser();
+
+        $this->logActivity(
+            $user?->getId(),
+            $context?->getId(),
+            'submission_published',
+            [
+                'submission_id' => $submission?->getId(),
+                'publication_id' => $publication?->getId()
+            ]
+        );
+    }
+
+    public function logAdminAction($adminUserId, $targetUserId, $actionType, $eventDetail = [])
+    {
+        $request = Application::get()->getRequest();
+        $context = $request->getContext();
+
+        $this->logActivity(
+            $adminUserId,
+            $context?->getId(),
+            'super_admin_action',
+            array_merge([
+                'action_type' => $actionType,
+                'target_user_id' => $targetUserId
+            ], $eventDetail)
+        );
     }
 }
 

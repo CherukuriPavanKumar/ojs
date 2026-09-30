@@ -201,6 +201,7 @@ class Filesystem
      */
     public function put($path, $contents, $lock = false)
     {
+        $this->ensureDirectoryExists(dirname($path));
         return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
     }
 

@@ -154,6 +154,14 @@
 
 	<script type="text/javascript">
 		pkp.registry.init('app', {$pageComponent|json_encode}, {$state|json_encode});
+		document.addEventListener('click', function(e) {
+			setTimeout(function() {
+				var pLink = document.querySelector('a[href*="user/profile"]');
+				if (pLink && !pLink.textContent.trim()) pLink.textContent = 'View Profile';
+				var lLink = document.querySelector('a[href*="login/signOut"]');
+				if (lLink && !lLink.textContent.trim()) lLink.textContent = 'Log Out';
+			}, 50);
+		}, true);
 	</script>
 </body>
 </html>

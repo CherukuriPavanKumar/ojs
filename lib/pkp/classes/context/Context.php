@@ -340,7 +340,7 @@ abstract class Context extends \PKP\core\DataObject
      */
     public function getSupportedFormLocales(): ?array
     {
-        return $this->getData('supportedFormLocales');
+        return $this->getData('supportedFormLocales') ?? [$this->getPrimaryLocale() ?? 'en'];
     }
 
     /**
@@ -362,7 +362,7 @@ abstract class Context extends \PKP\core\DataObject
      */
     public function getSupportedSubmissionLocales()
     {
-        return $this->getData('supportedSubmissionLocales');
+        return $this->getData('supportedSubmissionLocales') ?? [$this->getPrimaryLocale() ?? 'en'];
     }
 
     /**
@@ -381,7 +381,7 @@ abstract class Context extends \PKP\core\DataObject
      */
     public function getSupportedLocales()
     {
-        return $this->getData('supportedLocales');
+        return $this->getData('supportedLocales') ?? [$this->getPrimaryLocale() ?? 'en'];
     }
 
     /**
@@ -402,7 +402,7 @@ abstract class Context extends \PKP\core\DataObject
      */
     public function getSupportedAddedSubmissionLocales(): array
     {
-        return $this->getData('supportedAddedSubmissionLocales');
+        return $this->getData('supportedAddedSubmissionLocales') ?? [];
     }
 
     /**
@@ -419,7 +419,7 @@ abstract class Context extends \PKP\core\DataObject
      */
     public function getSupportedDefaultSubmissionLocale(): string
     {
-        return $this->getData('supportedDefaultSubmissionLocale');
+        return $this->getData('supportedDefaultSubmissionLocale') ?? $this->getPrimaryLocale() ?? 'en';
     }
 
     /**
@@ -435,7 +435,7 @@ abstract class Context extends \PKP\core\DataObject
      */
     public function getSupportedSubmissionMetadataLocales(): array
     {
-        return $this->getData('supportedSubmissionMetadataLocales');
+        return $this->getData('supportedSubmissionMetadataLocales') ?? [$this->getPrimaryLocale() ?? 'en'];
     }
 
     /**

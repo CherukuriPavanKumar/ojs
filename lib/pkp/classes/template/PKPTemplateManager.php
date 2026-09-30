@@ -290,7 +290,7 @@ class PKPTemplateManager extends Smarty
                     }
                 }
 
-                if (count($supportedLocales = $currentContext?->getSupportedLocales() ?? $site->getSupportedLocales()) > 1) {
+                if (count($supportedLocales = $currentContext?->getSupportedLocales() ?? $request->getSite()?->getSupportedLocales() ?? []) > 1) {
                     (function () use ($request, $router, $supportedLocales) {
                         $page = $router->getRequestedPage($request);
                         $op = $router->getRequestedOp($request);
