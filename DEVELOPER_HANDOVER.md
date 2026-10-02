@@ -1,8 +1,9 @@
 # Veridica Academic Network & OJS Super Admin Oversight Panel
 ## Developer Handover & System Documentation
 
-**Date**: September 28, 2026  
-**Project**: Veridica Open Journal Systems (OJS 3.4.0-5 Custom Build) & Super Admin Oversight Panel
+**Date**: October 02, 2026
+**Project**: Veridica Open Journal Systems (OJS 3.5.0-5 Custom Build) & Super Admin Oversight Panel
+**Status**: ✅ ALL PHASES COMPLETE
 
 ---
 
@@ -30,128 +31,137 @@ All standard test accounts use the default password: **`Password123!`**
 
 ### Service Endpoints & Ports
 
-* **Main OJS Journal Frontend**: `http://veridica.local`
-  * **Local Directory**: `/home/vivek/WEBBHEADSS/company projects/ojspavankumar/ojs`
-  * **Symlink**: `/var/www/veridica`
-  * **Web Server**: Apache2 (VirtualHost: `veridica.local`)
-* **Super Admin Oversight Panel (Next.js 14)**: `http://admin.veridica.local`
-  * **Local Directory**: `/var/www/veridica-admin`
-  * **Runtime**: Node.js v20+ listening on `127.0.0.1:3001` via Apache Reverse Proxy
+* **Main OJS Journal Frontend**: `http://veridica.local` (or `http://127.0.0.1:8000` for dev)
+  * **Local Directory**: `/home/pavankumar/ojs-3.5.0-5`
+  * **Web Server**: Apache2 (VirtualHost: `veridica.local`) or PHP built-in server
+* **Super Admin Oversight Panel**: `http://veridica.local/index.php/veridica/superadmin`
+  * Built natively into OJS — no separate Next.js service required.
 * **Database Connection**:
   * **Engine**: MySQL 8.0 / MariaDB
-  * **Database**: `veridica_ojs`
-  * **User**: `ojs_user`
-  * **Password**: `Veridica@2026#Secure`
+  * **Database**: `ojs_dev`
+  * **Socket**: `~/.local/run/ojs-mariadb.sock`
   * **Host/Port**: `127.0.0.1:3306`
+
+### Starting the Application (Development)
+```bash
+# Terminal 1: Start MariaDB
+mariadbd --datadir="$HOME/.local/share/ojs-mariadb" \
+         --socket="$HOME/.local/run/ojs-mariadb.sock" \
+         --port=3306 --bind-address=127.0.0.1
+
+# Terminal 2: Start PHP Dev Server
+cd /home/pavankumar/ojs-3.5.0-5
+php -S 127.0.0.1:8000 -t .
+```
 
 ---
 
 ## 3. 🏗️ Architecture & Component Overview
 
-```mermaid
-graph TD
-    User[Web Browser / Developer] --> Apache[Apache2 Web Server :80]
-    Apache -->|veridica.local| OJS[OJS PHP Core Application /var/www/veridica]
-    Apache -->|admin.veridica.local| NextJS[Next.js 14 Super Admin Panel /var/www/veridica-admin :3001]
-    
-    OJS --> DB[(MySQL Database: veridica_ojs)]
-    NextJS --> DB
-    
-    OJS -->|SuperAdminPlugin| LogTable[super_admin_activity_log & veridica_activity_log]
+```
+OJS Core (PHP) ──> MySQL/MariaDB
+    │
+    ├── plugins/generic/superAdmin/
+    │       ├── SuperAdminPlugin.php       ← Event hook registrations
+    │       ├── SuperAdminSchemaMigration.php ← DB schema
+    │       ├── MfaHelper.php              ← Pure PHP TOTP engine (RFC 6238)
+    │       └── pages/SuperAdminHandler.php ← Dashboard + MFA controller
+    │
+    └── tools/purgeOldIps.php             ← GDPR cron script
 ```
 
-### Key Repositories & Modules
+---
 
-1. **OJS Core Application (`/var/www/veridica`)**:
-   * OJS 3.4.0-5 PKP framework customized for Veridica branding.
-   * Branding stylesheet located at `public/journals/1/styleSheet.css`.
-2. **Super Admin Generic Plugin (`plugins/generic/superAdmin/`)**:
-   * Registers event listeners for both Laravel framework events and legacy PKP hooks.
-   * `SuperAdminPlugin.php`: Captures real-time activity log entries into `super_admin_activity_log`.
-   * `SuperAdminHandler.php`: Handles internal PKP API endpoints (`getUsers`, `getActivityLogs`, `getStats`).
-3. **Next.js Oversight Application (`/var/www/veridica-admin`)**:
-   * NextAuth.js authentication linked to `super_admin_activity_log` / `users` database tables.
-   * Features: `/dashboard`, `/users` (Directory & Suspension toggle), `/activity` (Real-time audit log), `/metrics` (Visual charts), `/settings/mfa` (TOTP MFA), and `/api/export/pdf` (Branded PDF report generator).
+## 4. ✅ Verified Super Admin Event Hooks (Phase 1)
+
+All **6 platform oversight event hooks** verified live:
+
+| Hook Event | Trigger Condition | Status |
+| :--- | :--- | :---: |
+| `login` | User authenticates | ✅ Verified |
+| `file_uploaded` | Manuscript file attached | ✅ Verified |
+| `submission_submitted` | Submission completed | ✅ Verified |
+| `review_assigned` | Reviewer assigned | ✅ Verified |
+| `review_accepted` | Reviewer confirms | ✅ Verified |
+| `decision_added` | Editorial decision recorded | ✅ Verified |
 
 ---
 
-## 4. ✅ Verified Super Admin Event Hooks
+## 5. 🗄️ Database Schema
 
-All **6 platform oversight event hooks** have been tested and verified live:
-
-| Hook Event | Trigger Condition | PKP / Laravel Listener | Log Payload Example | Status |
-| :--- | :--- | :--- | :--- | :---: |
-| **`login`** | User authenticates on platform | `Illuminate\Auth\Events\Login` | `{"username":"author1"}` | ✅ Verified |
-| **`file_uploaded`** | Manuscript file attached | `SubmissionFile::add` | `{"submission_id":1,"file_id":101,"file_name":"manuscript_v1.pdf"}` | ✅ Verified |
-| **`submission_submitted`** | Manuscript submission completed | `PKP\observers\events\SubmissionSubmitted` | `{"submission_id":1}` | ✅ Verified |
-| **`review_assigned`** | Reviewer assigned by editor | `ReviewAssignment::add` | `{"submission_id":1,"reviewer_id":6}` | ✅ Verified |
-| **`review_accepted`** | Reviewer confirms assignment | `ReviewerAction::confirmReview` | `{"submission_id":1}` | ✅ Verified |
-| **`decision_added`** | Editorial decision recorded | `PKP\observers\events\DecisionAdded` | `{"submission_id":1,"decision":1}` | ✅ Verified |
-
----
-
-## 5. 🗄️ Core Activity Log Database Schema
-
-### `super_admin_activity_log` Table Structure
-
+### `super_admin_activity_log` Table
 ```sql
 CREATE TABLE `super_admin_activity_log` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `log_id` bigint DEFAULT NULL,
-  `user_id` bigint DEFAULT NULL,
-  `journal_id` bigint DEFAULT NULL,
-  `event_type` varchar(255) NOT NULL,
-  `event_detail` longtext,
-  `action_detail` longtext GENERATED ALWAYS AS (`event_detail`) VIRTUAL,
-  `ip_address` varchar(45) DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  `log_id`        bigint        NOT NULL AUTO_INCREMENT,
+  `user_id`       bigint        DEFAULT NULL,
+  `journal_id`    bigint        DEFAULT NULL,
+  `event_type`    varchar(255)  NOT NULL,
+  `event_detail`  longtext,
+  `ip_address`    varchar(45)   DEFAULT NULL,  -- Purged after 30 days (GDPR)
+  `created_at`    datetime      DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`log_id`)
 );
 ```
 
----
+### MFA-Related `user_settings` Keys
 
-## 6. 🚀 How to Run & Maintain the Application
-
-### 1. Rebuilding Next.js Super Admin Application
-If changes are made to `/var/www/veridica-admin`:
-
-```bash
-cd /var/www/veridica-admin
-npm run build
-```
-
-### 2. Starting Next.js Production Daemon
-To keep the Next.js service running on port 3001:
-
-Using PM2 (Recommended):
-```bash
-cd /var/www/veridica-admin
-pm2 start npm --name "veridica-admin" -- start -- -p 3001
-pm2 save
-```
-
-Or using systemd service (`/etc/systemd/system/veridica-admin.service`):
-```ini
-[Unit]
-Description=Veridica Super Admin Next.js App
-After=network.target
-
-[Service]
-Type=simple
-User=vivek
-WorkingDirectory=/var/www/veridica-admin
-ExecStart=/usr/bin/npm start -- -p 3001
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-```
+| setting_name | Purpose | Lifetime |
+|---|---|---|
+| `superAdminMfaSecret` | TOTP secret (base32) | Permanent until MFA reset |
+| `superAdminMfaPendingSecret` | Temp secret during QR setup | Deleted on confirm |
+| `superAdminMfaVerifiedAt` | Unix timestamp of last OTP verify | Expires after 1 hour |
 
 ---
 
-## 7. 📌 Remaining Scope & Developer Handover Checklist
+## 6. 🔐 MFA Flow (Phase 4)
 
-* [ ] **PM2 / Systemd Daemon Setup**: Ensure `/var/www/veridica-admin` is registered under PM2 or systemd so port 3001 restarts automatically on system reboots.
-* [ ] **Mobile Responsiveness Polish (Phase 5)**: Audit mobile viewport tables and charts on `/activity` and `/metrics`.
-* [ ] **Custom Email Templates**: Review and adjust email text in `registry/emailTemplates.xml` if additional custom transactional emails are requested.
+The Super Admin Panel is protected by **TOTP-based Two-Factor Authentication** (RFC 6238 — compatible with Google Authenticator and Authy).
+
+**First login ever:**
+1. Admin visits `/superadmin` → redirected to `/superadmin/mfaSetup`
+2. Scans QR code with Authenticator app (or enters manual secret)
+3. Enters 6-digit OTP to confirm → secret saved to DB
+
+**Every subsequent login session:**
+1. Admin visits `/superadmin` → redirected to `/superadmin/mfaVerify`
+2. Enters 6-digit OTP → `superAdminMfaVerifiedAt` timestamp written to DB
+3. Dashboard accessible for 1 hour before re-verification required
+
+**Lost authenticator app?** Click "Reset MFA device" on the verify page — this clears all MFA state and forces re-registration.
+
+---
+
+## 7. ⏰ GDPR Data Retention Cron
+
+A cron job runs daily at 03:00 AM to purge IP addresses older than 30 days:
+
+```
+# Registered in crontab:
+0 3 * * * php /home/pavankumar/ojs-3.5.0-5/tools/purgeOldIps.php >> /home/pavankumar/ojs-3.5.0-5/logs/gdpr-purge.log 2>&1
+```
+
+**To run manually:**
+```bash
+php /home/pavankumar/ojs-3.5.0-5/tools/purgeOldIps.php
+```
+
+---
+
+## 8. 📦 Complete Phase-Wise Delivery Checklist
+
+| Phase | Deliverable | Status |
+|---|---|---|
+| **Phase 1** | 6 event hooks + `super_admin_activity_log` schema | ✅ Done |
+| **Phase 2** | Super Admin Dashboard UI (metrics, logs, user mgmt, CSV export) | ✅ Done |
+| **Phase 3** | SMTP config, OAI-PMH, ORCID (native), Crossref/DOI, PKP PN, Languages | ✅ Done |
+| **Phase 4** | TOTP MFA (QR setup + per-session verify) + GDPR IP purge cron | ✅ Done |
+| **Phase 5** | Mobile responsive CSS, E2E QA (all 6 hooks verified), cron registered | ✅ Done |
+
+---
+
+## 9. 📌 Important Notes for Future Developers
+
+1. **Do NOT modify `lib/pkp/` core files** beyond the two approved patches (`Locale.php` for PHP 8.5, `PKPTemplateManager.php` for sidebar link).
+2. **MFA uses DB-backed state** — OJS's session handler drops raw `$_SESSION` writes between redirects. All MFA flags live in `user_settings`.
+3. **SMTP credentials** are in `config.inc.php` (gitignored) — update with real credentials before production deployment.
+4. **Plugin is always-on** — `getEnabled()` returns `true` unconditionally so it does not appear in the OJS plugin gallery UI.

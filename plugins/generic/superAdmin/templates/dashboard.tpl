@@ -410,6 +410,38 @@
 }
 .vsa-page-info { font-size: 12px; color: #64748B; }
 .vsa-page-curr { font-size: 13px; font-weight: 600; color: #1E293B; margin: 0 8px; }
+
+/* ============================================================
+   MOBILE RESPONSIVENESS
+   ============================================================ */
+@media (max-width: 900px) {
+    .vsa-metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .vsa-header-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .vsa-header-actions { width: 100%; }
+    .vsa-btn { width: 100%; justify-content: center; }
+    .vsa-toolbar { flex-wrap: wrap; gap: 10px; }
+    .vsa-filter-group { flex: 1 1 calc(50% - 10px); min-width: 140px; }
+}
+@media (max-width: 600px) {
+    .vsa-metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .vsa-metric-card { padding: 14px 12px; }
+    .vsa-metric-val { font-size: 22px; }
+    .vsa-metric-lbl { font-size: 11px; }
+    .vsa-tabs-container { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; gap: 6px; }
+    .vsa-tab-btn { white-space: nowrap; font-size: 13px; padding: 8px 14px; }
+    .vsa-toolbar { flex-direction: column; }
+    .vsa-filter-group { width: 100%; flex: unset; }
+    .vsa-select, .vsa-input { width: 100%; box-sizing: border-box; }
+    .vsa-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .vsa-table { min-width: 640px; }
+    .vsa-title { font-size: 18px; }
+    .vsa-subtitle { font-size: 12px; }
+    .vsa-pagination { flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+}
+@media (max-width: 400px) {
+    .vsa-metrics-grid { grid-template-columns: 1fr; }
+    #veridica-superadmin-root { padding: 8px; }
+}
 </style>
 
 <!-- JavaScript Logic -->
