@@ -584,3 +584,276 @@ a.galley_link.html {
     .obj_article_details .page_title h1 { font-size: 1.4rem; }
     .cmp_button, a.galley_link { width: 100% !important; text-align: center !important; }
 }
+
+/* ==========================================================================
+   PHASE 2 UPGRADES: HERO, GRID, FEATURES
+   ========================================================================== */
+
+.veridica-homepage {
+    margin-top: -32px; /* Pull up into header if needed, but we'll just keep it flush */
+}
+
+.veridica-hero {
+    position: relative;
+    background: linear-gradient(135deg, #001228 0%, #003366 100%);
+    padding: 100px 24px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 60px;
+    border-bottom: 4px solid var(--v-gold);
+}
+
+.veridica-hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('https://www.transparenttextures.com/patterns/cubes.png');
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.veridica-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.veridica-hero-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.2);
+    color: var(--v-gold-light);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(201,168,76,0.4);
+}
+
+.veridica-hero-title {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.veridica-hero-subtitle {
+    font-size: 1.1rem;
+    color: #C8D8EE;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.veridica-hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.veridica-btn-primary, .veridica-btn-secondary {
+    padding: 14px 28px;
+    border-radius: var(--v-radius);
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: var(--v-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.veridica-btn-primary {
+    background: var(--v-gold);
+    color: var(--v-navy);
+    box-shadow: 0 4px 14px rgba(201,168,76,0.4);
+}
+.veridica-btn-primary:hover {
+    background: var(--v-gold-light);
+    color: var(--v-navy);
+    transform: translateY(-2px);
+}
+
+.veridica-btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.veridica-btn-secondary:hover {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+}
+
+.veridica-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.veridica-section {
+    margin-bottom: 80px;
+}
+
+.veridica-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    border-bottom: 2px solid var(--v-border);
+    padding-bottom: 16px;
+}
+
+.veridica-section-header h2 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.veridica-issue-id {
+    background: var(--v-navy);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: var(--v-radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.veridica-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-bottom: 80px;
+}
+
+.veridica-feature-card {
+    background: var(--v-surface);
+    padding: 32px;
+    border-radius: var(--v-radius-lg);
+    box-shadow: var(--v-shadow);
+    text-align: center;
+    border: 1px solid var(--v-border);
+    transition: var(--v-transition);
+}
+
+.veridica-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--v-shadow-lg);
+    border-color: var(--v-gold);
+}
+
+.veridica-feature-card i {
+    font-size: 32px;
+    color: var(--v-accent);
+    margin-bottom: 20px;
+}
+
+.veridica-feature-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+
+.veridica-feature-card p {
+    color: var(--v-muted);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Override default article lists in TOC to look like cards */
+.veridica-article-grid .obj_article_summary {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-left: 4px solid var(--v-accent);
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: var(--v-radius);
+    box-shadow: var(--v-shadow-sm);
+    display: flex;
+    flex-direction: column;
+}
+.veridica-article-grid .obj_article_summary:hover {
+    box-shadow: var(--v-shadow);
+    transform: translateY(-2px);
+    border-left-color: var(--v-gold);
+}
+
+@media (max-width: 768px) {
+    .veridica-hero-title { font-size: 2.2rem; }
+    .veridica-hero-actions { flex-direction: column; }
+    .veridica-features { grid-template-columns: 1fr; }
+    .veridica-section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
+/* ==========================================================================
+   MEGA FOOTER
+   ========================================================================== */
+.veridica-mega-footer {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+}
+.v-footer-col h4 {
+    color: var(--v-gold);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+.v-footer-col p {
+    color: #8DA8C8;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 300px;
+}
+.v-footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.v-footer-col ul li {
+    margin-bottom: 12px;
+}
+.v-footer-col ul li a {
+    color: #8DA8C8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--v-transition);
+}
+.v-footer-col ul li a:hover {
+    color: var(--v-white);
+    padding-left: 4px;
+}
+.v-social-icons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+}
+.v-social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.05);
+    color: var(--v-gold);
+    border-radius: 50%;
+    transition: var(--v-transition);
+}
+.v-social-icons a:hover {
+    background: var(--v-gold);
+    color: var(--v-navy);
+}
+@media (max-width: 768px) {
+    .veridica-mega-footer { grid-template-columns: 1fr; gap: 32px; }
+    .v-footer-col p { max-width: 100%; }
+}
