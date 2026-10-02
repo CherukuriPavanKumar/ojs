@@ -17,6 +17,7 @@ namespace APP\plugins\generic\superAdmin\pages;
 use APP\core\Application;
 use APP\handler\Handler;
 use APP\template\TemplateManager;
+use APP\plugins\generic\superAdmin\MfaHelper;
 use Illuminate\Support\Facades\DB;
 use PKP\core\JSONMessage;
 use PKP\security\authorization\PKPSiteAccessPolicy;
@@ -42,7 +43,11 @@ class SuperAdminHandler extends Handler
                 'getActivityLogs',
                 'getUsers',
                 'toggleUserStatus',
-                'exportCSV'
+                'exportCSV',
+                'mfaSetup',
+                'mfaConfirmSetup',
+                'mfaVerify',
+                'mfaReset',
             ]
         );
     }
@@ -68,6 +73,20 @@ class SuperAdminHandler extends Handler
      */
     public function index($args, $request)
     {
+        $user = $request->getUser();
+        $userId = $user->getId();
+
+        // --- MFA Gate ---
+        // If MFA not yet set up, redirect to setup page.
+        if (!MfaHelper::getSecret($userId)) {
+            $request->redirectUrl($request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin', 'mfaSetup'));
+        }
+        // If MFA set up but not verified in this session, redirect to verify page.
+        if (!MfaHelper::isSessionVerified($userId)) {
+            $request->redirectUrl($request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin', 'mfaVerify'));
+        }
+        // --- End MFA Gate ---
+
         $templateMgr = TemplateManager::getManager($request);
         $this->setupTemplate($request);
 
@@ -88,6 +107,150 @@ class SuperAdminHandler extends Handler
         ]);
 
         return $templateMgr->display($this->plugin->getTemplateResource('dashboard.tpl'));
+    }
+
+    // =========================================================================
+    // MFA — Step 1: Show QR code setup page (first login ever)
+    // =========================================================================
+    public function mfaSetup($args, $request)
+    {
+        $user    = $request->getUser();
+        $userId  = $user->getId();
+
+        // If already set up, skip to verify
+        if (MfaHelper::getSecret($userId)) {
+            $request->redirectUrl($request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin', 'mfaVerify'));
+        }
+
+        // Generate a fresh tentative secret and store it in DB temporarily
+        $existingPending = DB::table('user_settings')
+            ->where('user_id', $userId)
+            ->where('setting_name', 'superAdminMfaPendingSecret')
+            ->first();
+
+        if (!$existingPending) {
+            $secret = MfaHelper::generateSecret();
+            DB::table('user_settings')->insert([
+                'user_id'       => $userId,
+                'setting_name'  => 'superAdminMfaPendingSecret',
+                'setting_value' => $secret,
+                'locale'        => '',
+            ]);
+        } else {
+            $secret = $existingPending->setting_value;
+        }
+
+        $templateMgr = TemplateManager::getManager($request);
+        $this->setupTemplate($request);
+        $templateMgr->assign([
+            'qrCodeUrl'    => MfaHelper::getQrCodeUrl($user->getUsername(), $secret),
+            'otpAuthUri'   => MfaHelper::getOtpAuthUri($user->getUsername(), $secret),
+            'manualSecret' => $secret,
+            'pluginUrl'    => $request->getBaseUrl() . '/' . $this->plugin->getPluginPath(),
+            'confirmUrl'   => $request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin', 'mfaConfirmSetup'),
+        ]);
+
+        return $templateMgr->display($this->plugin->getTemplateResource('mfaSetup.tpl'));
+    }
+
+    // =========================================================================
+    // MFA — Step 2: Confirm setup by entering first valid OTP
+    // =========================================================================
+    public function mfaConfirmSetup($args, $request)
+    {
+        $user    = $request->getUser();
+        $userId  = $user->getId();
+        $code    = trim($request->getUserVar('code') ?? '');
+
+        // Read pending secret from DB (more reliable than PHP session in OJS)
+        $pendingRow = DB::table('user_settings')
+            ->where('user_id', $userId)
+            ->where('setting_name', 'superAdminMfaPendingSecret')
+            ->first();
+        $secret = $pendingRow?->setting_value ?? '';
+
+        if (empty($secret)) {
+            $request->redirectUrl($request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin', 'mfaSetup'));
+        }
+
+        if (!MfaHelper::verifyCode($secret, $code)) {
+            $templateMgr = TemplateManager::getManager($request);
+            $this->setupTemplate($request);
+            $templateMgr->assign([
+                'qrCodeUrl'    => MfaHelper::getQrCodeUrl($user->getUsername(), $secret),
+                'otpAuthUri'   => MfaHelper::getOtpAuthUri($user->getUsername(), $secret),
+                'manualSecret' => $secret,
+                'pluginUrl'    => $request->getBaseUrl() . '/' . $this->plugin->getPluginPath(),
+                'confirmUrl'   => $request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin', 'mfaConfirmSetup'),
+                'error'        => 'Invalid code. Please try again.',
+            ]);
+            return $templateMgr->display($this->plugin->getTemplateResource('mfaSetup.tpl'));
+        }
+
+        // Code valid — promote pending secret to permanent and clean up
+        MfaHelper::saveSecret($userId, $secret);
+        DB::table('user_settings')
+            ->where('user_id', $userId)
+            ->where('setting_name', 'superAdminMfaPendingSecret')
+            ->delete();
+        MfaHelper::markSessionVerified($userId);
+
+        $request->redirectUrl($request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin'));
+    }
+
+    // =========================================================================
+    // MFA — Verify: Show OTP entry form for returning logins
+    // =========================================================================
+    public function mfaVerify($args, $request)
+    {
+        $user   = $request->getUser();
+        $userId = $user->getId();
+
+        // Already verified this session?
+        if (MfaHelper::isSessionVerified($userId)) {
+            $request->redirectUrl($request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin'));
+        }
+
+        $error = null;
+        $code  = trim($request->getUserVar('code') ?? '');
+
+        if (!empty($code)) {
+            $secret = MfaHelper::getSecret($userId);
+
+            if ($secret && MfaHelper::verifyCode($secret, $code)) {
+                MfaHelper::markSessionVerified($userId);
+                $request->redirectUrl($request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin'));
+            }
+            $error = 'Invalid code. Please check your authenticator app and try again.';
+        }
+
+        $templateMgr = TemplateManager::getManager($request);
+        $this->setupTemplate($request);
+        $templateMgr->assign([
+            'verifyUrl' => $request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin', 'mfaVerify'),
+            'resetUrl'  => $request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin', 'mfaReset'),
+            'error'     => $error,
+        ]);
+
+        return $templateMgr->display($this->plugin->getTemplateResource('mfaVerify.tpl'));
+    }
+
+    // =========================================================================
+    // MFA — Reset: Allow admin to reset their own MFA (re-registers new device)
+    // =========================================================================
+    public function mfaReset($args, $request)
+    {
+        $user   = $request->getUser();
+        $userId = $user->getId();
+
+        MfaHelper::removeSecret($userId);
+        MfaHelper::clearSession($userId);
+        DB::table('user_settings')
+            ->where('user_id', $userId)
+            ->where('setting_name', 'superAdminMfaPendingSecret')
+            ->delete();
+
+        $request->redirectUrl($request->getDispatcher()->url($request, Application::ROUTE_PAGE, null, 'superadmin', 'mfaSetup'));
     }
 
     /**

@@ -1241,6 +1241,13 @@ class PKPTemplateManager extends Smarty
                             'isCurrent' => $router->getRequestedPage($request) === 'admin',
                             'icon' => 'NavAdmin',
                         ];
+                        
+                        $menu['superadmin'] = [
+                            'name' => 'Super Admin Panel',
+                            'url' => $router->url($request, null, 'superadmin'),
+                            'isCurrent' => $router->getRequestedPage($request) === 'superadmin',
+                            'icon' => 'Dashboard',
+                        ];
                     }
                 }
 
