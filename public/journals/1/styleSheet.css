@@ -857,3 +857,90 @@ a.galley_link.html {
     .veridica-mega-footer { grid-template-columns: 1fr; gap: 32px; }
     .v-footer-col p { max-width: 100%; }
 }
+
+/* ==========================================================================
+   PHASE 3: ARTICLE DETAIL LAYOUT
+   ========================================================================== */
+.veridica-article-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 48px;
+    margin-top: 32px;
+}
+
+.veridica-article-main {
+    min-width: 0; /* Prevents grid blowout */
+}
+
+.veridica-article-sidebar {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    padding: 24px;
+    box-shadow: var(--v-shadow-sm);
+}
+
+.veridica-article-sidebar .item {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--v-border);
+}
+.veridica-article-sidebar .item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+/* Sidebar Headings */
+.veridica-article-sidebar h2.label,
+.veridica-article-sidebar h3.label {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--v-navy);
+    margin-bottom: 12px;
+}
+
+/* Authors List */
+.obj_article_details .authors {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.obj_article_details .authors li {
+    background: #F8FAFC;
+    border: 1px solid var(--v-border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.obj_article_details .authors .name {
+    font-weight: 600;
+    color: var(--v-navy);
+}
+.obj_article_details .authors .orcid {
+    display: inline-flex;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .veridica-article-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    .veridica-article-sidebar {
+        position: relative;
+        top: 0;
+    }
+}
