@@ -960,13 +960,62 @@ a.galley_link.html {
 .veridica-login-card {
     background: var(--v-surface);
     width: 100%;
-    max-width: 460px;
+    max-width: 900px;
     border-radius: var(--v-radius-lg);
     box-shadow: var(--v-shadow-lg);
     border: 1px solid var(--v-border);
-    padding: 40px;
     position: relative;
     overflow: hidden;
+    display: flex;
+}
+
+.v-login-branding {
+    flex: 1;
+    background: linear-gradient(135deg, var(--v-navy) 0%, #003366 100%);
+    padding: 60px 40px;
+    color: var(--v-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.v-login-branding h2 {
+    font-size: 28px;
+    margin-bottom: 16px;
+    color: var(--v-gold);
+}
+.v-login-branding p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    color: rgba(255,255,255,0.8);
+}
+.v-login-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.v-login-features li {
+    font-size: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.v-login-features li i {
+    color: var(--v-gold);
+    font-size: 18px;
+}
+
+.v-login-form-container {
+    flex: 1;
+    padding: 60px 40px;
+    background: var(--v-surface);
+}
+
+@media (max-width: 768px) {
+    .veridica-login-card { flex-direction: column; }
+    .v-login-branding { padding: 40px 24px; }
+    .v-login-form-container { padding: 40px 24px; }
 }
 
 .veridica-login-card::before {
@@ -1042,7 +1091,7 @@ a.galley_link.html {
 }
 
 .veridica-register-card {
-    max-width: 680px;
+    max-width: 1000px;
 }
 
 /* Fix "box within a box" OJS default form styles */

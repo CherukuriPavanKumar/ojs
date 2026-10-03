@@ -15,10 +15,21 @@
 
 <div class="veridica-login-page">
     <div class="veridica-login-card veridica-register-card">
-        <div class="v-login-header">
-            <h1>{translate key="user.register"}</h1>
-            <p>Create an account to submit manuscripts and participate in peer review.</p>
+        <div class="v-login-branding">
+            <h2>Veridica Publishing</h2>
+            <p>Create an account to submit manuscripts, participate in peer review, and engage with global research.</p>
+            <ul class="v-login-features">
+                <li><i class="fas fa-file-alt"></i> Streamlined Submissions</li>
+                <li><i class="fas fa-users"></i> Expert Peer Review</li>
+                <li><i class="fas fa-chart-line"></i> Advanced Article Metrics</li>
+            </ul>
         </div>
+
+        <div class="v-login-form-container">
+            <div class="v-login-header">
+                <h1>{translate key="user.register"}</h1>
+                <p>Join the Veridica network today.</p>
+            </div>
 
 	<form class="cmp_form register" id="register" method="post" action="{url op="register"}" role="form">
 		{if $orcidEnabled}
@@ -167,16 +178,19 @@
 			</fieldset>
 		{/if}
 
-		<div class="buttons">
-			<button class="submit" type="submit">
+		<div class="v-login-actions">
+			<button class="veridica-btn-primary" type="submit">
 				{translate key="user.register"}
 			</button>
 
 			{capture assign="rolesProfileUrl"}{url page="user" op="profile" path="roles"}{/capture}
-			<a href="{url page="login" source=$rolesProfileUrl}" class="login">{translate key="user.login"}</a>
+			<p class="v-login-register">
+			    Already have an account? <a href="{url page="login" source=$rolesProfileUrl}" class="login">{translate key="user.login"}</a>
+            </p>
 		</div>
 	</form>
-
+    </div><!-- v-login-form-container -->
+    </div><!-- veridica-login-card -->
 </div><!-- .page -->
 
 {include file="frontend/components/footer.tpl"}

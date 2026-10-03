@@ -6,10 +6,21 @@
 
 <div class="veridica-login-page">
     <div class="veridica-login-card">
-        <div class="v-login-header">
-            <h1>{translate key="user.login"}</h1>
-            <p>Welcome back to Veridica Open Access Publishing</p>
+        <div class="v-login-branding">
+            <h2>Veridica Publishing</h2>
+            <p>Access your dashboard to submit manuscripts, manage peer reviews, and track your publications.</p>
+            <ul class="v-login-features">
+                <li><i class="fas fa-check-circle"></i> Rapid Peer Review</li>
+                <li><i class="fas fa-check-circle"></i> Global Reach</li>
+                <li><i class="fas fa-check-circle"></i> Open Access</li>
+            </ul>
         </div>
+        
+        <div class="v-login-form-container">
+            <div class="v-login-header">
+                <h1>{translate key="user.login"}</h1>
+                <p>Welcome back to Veridica</p>
+            </div>
 
         {if $loginMessage}
             <div class="cmp_notification notice">
@@ -88,6 +99,7 @@
                 </div>
             </fieldset>
         </form>
+        </div><!-- v-login-form-container -->
     </div>
 </div>
 
