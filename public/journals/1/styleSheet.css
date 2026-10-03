@@ -1138,6 +1138,15 @@ a.galley_link.html {
 /* ==========================================================================
    PHASE 5: ABOUT & SUBMISSIONS
    ========================================================================== */
+/* Breakout trick to force full width inside OJS pkp_structure_main */
+.veridica-login-page,
+.veridica-page-header,
+.veridica-hero {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+}
+
 .veridica-page-header {
     background: linear-gradient(135deg, var(--v-navy) 0%, #002244 100%);
     padding: 80px 24px;
