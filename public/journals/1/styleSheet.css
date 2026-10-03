@@ -1044,3 +1044,35 @@ a.galley_link.html {
 .veridica-register-card {
     max-width: 680px;
 }
+
+/* Fix "box within a box" OJS default form styles */
+.veridica-login-page .cmp_form {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.veridica-login-page .cmp_form fieldset {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.veridica-login-page button.veridica-btn-primary {
+    background: var(--v-gold) !important;
+    color: var(--v-navy) !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-weight: 700 !important;
+    padding: 12px 24px !important;
+    border-radius: var(--v-radius) !important;
+    transition: var(--v-transition) !important;
+}
+
+.veridica-login-page button.veridica-btn-primary:hover {
+    background: #e6bf55 !important;
+    transform: translateY(-2px);
+}
