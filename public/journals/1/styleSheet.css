@@ -944,3 +944,103 @@ a.galley_link.html {
         top: 0;
     }
 }
+
+/* ==========================================================================
+   PHASE 4: LOGIN & FORMS
+   ========================================================================== */
+.veridica-login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+    padding: 40px 24px;
+    background: var(--v-bg);
+}
+
+.veridica-login-card {
+    background: var(--v-surface);
+    width: 100%;
+    max-width: 460px;
+    border-radius: var(--v-radius-lg);
+    box-shadow: var(--v-shadow-lg);
+    border: 1px solid var(--v-border);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.veridica-login-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--v-navy), var(--v-gold));
+}
+
+.v-login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+.v-login-header h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+.v-login-header p {
+    color: var(--v-muted);
+    font-size: 14px;
+}
+
+.v-form-group {
+    margin-bottom: 20px;
+}
+.v-form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--v-navy);
+}
+.v-form-group input[type="text"],
+.v-form-group input[type="password"] {
+    width: 100%;
+    border: 1.5px solid var(--v-border);
+    border-radius: var(--v-radius);
+    padding: 12px 14px;
+    font-size: 14px;
+    transition: var(--v-transition);
+}
+.v-form-group input:focus {
+    border-color: var(--v-accent);
+    box-shadow: 0 0 0 3px rgba(0,80,158,0.1);
+    outline: none;
+}
+
+.v-form-forgot {
+    text-align: right;
+    margin-top: 8px;
+}
+.v-form-forgot a {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.v-login-actions {
+    margin-top: 32px;
+}
+.v-login-actions button {
+    width: 100%;
+    justify-content: center;
+}
+.v-login-register {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--v-muted);
+}
+.v-login-register a {
+    font-weight: 600;
+}
+
+.veridica-register-card {
+    max-width: 680px;
+}
