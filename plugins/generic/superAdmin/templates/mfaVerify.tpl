@@ -10,20 +10,18 @@
 .mfa-wrap {
     max-width: 420px;
     margin: 80px auto;
-    background: #0F172A;
-    border: 1px solid #1E293B;
-    border-radius: 8px;
+    background: #1e2433;
+    border: 1px solid #2e3650;
+    border-radius: 16px;
     padding: 48px 40px;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.2);
-    font-family: 'Inter', sans-serif;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.4);
 }
 .mfa-logo {
     width: 56px;
     height: 56px;
-    background: #C9A84C;
-    color: #0F172A;
-    border-radius: 8px;
+    background: linear-gradient(135deg, #6c63ff, #3b82f6);
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,25 +29,24 @@
     font-size: 24px;
 }
 .mfa-title {
-    font-family: 'Merriweather', Georgia, serif;
     font-size: 22px;
     font-weight: 700;
-    color: #FFFFFF;
+    color: #f1f5f9;
     margin-bottom: 8px;
 }
 .mfa-subtitle {
     font-size: 14px;
-    color: #94A3B8;
+    color: #8b96a7;
     margin-bottom: 28px;
     line-height: 1.6;
 }
 .mfa-input {
     width: 100%;
     padding: 16px;
-    background: #1E293B;
-    border: 1px solid #334155;
-    border-radius: 6px;
-    color: #FFFFFF;
+    background: #151b2d;
+    border: 1px solid #2e3650;
+    border-radius: 10px;
+    color: #f1f5f9;
     font-size: 28px;
     letter-spacing: 12px;
     text-align: center;
@@ -58,26 +55,26 @@
     transition: border-color 0.2s;
     box-sizing: border-box;
 }
-.mfa-input:focus { border-color: #C9A84C; box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.2); }
+.mfa-input:focus { border-color: #6c63ff; }
 .mfa-btn {
     width: 100%;
     padding: 14px;
-    background: #C9A84C;
+    background: linear-gradient(135deg, #6c63ff, #3b82f6);
     border: none;
-    border-radius: 6px;
-    color: #0F172A;
+    border-radius: 10px;
+    color: #fff;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: opacity 0.2s;
     margin-bottom: 12px;
 }
-.mfa-btn:hover { background: #B48A3C; color: #FFFFFF; }
+.mfa-btn:hover { opacity: 0.88; }
 .mfa-error {
-    background: rgba(153,27,27,0.2);
-    border: 1px solid rgba(153,27,27,0.5);
-    color: #FCA5A5;
-    border-radius: 6px;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.35);
+    color: #f87171;
+    border-radius: 8px;
     padding: 12px 16px;
     font-size: 13px;
     margin-bottom: 16px;
@@ -85,24 +82,24 @@
 .mfa-reset-link {
     display: block;
     font-size: 12px;
-    color: #94A3B8;
+    color: #4b5563;
     text-decoration: none;
     margin-top: 12px;
     transition: color 0.2s;
 }
-.mfa-reset-link:hover { color: #FCA5A5; }
+.mfa-reset-link:hover { color: #f87171; }
 .mfa-divider {
     border: none;
-    border-top: 1px solid #1E293B;
+    border-top: 1px solid #2e3650;
     margin: 24px 0 20px;
 }
 .otp-timer {
     font-size: 12px;
-    color: #94A3B8;
+    color: #4b5563;
     margin-bottom: 16px;
 }
 .otp-timer span {
-    color: #C9A84C;
+    color: #6c63ff;
     font-weight: 600;
 }
 </style>
