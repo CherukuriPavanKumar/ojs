@@ -1134,3 +1134,164 @@ a.galley_link.html {
     background: #e6bf55 !important;
     transform: translateY(-2px);
 }
+
+/* ==========================================================================
+   PHASE 5: ABOUT & SUBMISSIONS
+   ========================================================================== */
+.veridica-page-header {
+    background: linear-gradient(135deg, var(--v-navy) 0%, #002244 100%);
+    padding: 80px 24px;
+    color: var(--v-white);
+    text-align: center;
+    border-bottom: 4px solid var(--v-gold);
+}
+.veridica-page-header h1 {
+    font-size: 36px;
+    margin-bottom: 16px;
+    color: var(--v-white);
+}
+.veridica-page-header .v-lead {
+    font-size: 18px;
+    color: rgba(255,255,255,0.8);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.veridica-page-content {
+    padding: 60px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.v-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.v-reading-column {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--v-text);
+}
+
+.v-submission-action-bar {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-left: 4px solid var(--v-gold);
+    border-radius: var(--v-radius-lg);
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 48px;
+    box-shadow: var(--v-shadow-sm);
+}
+.v-action-text h3 {
+    margin: 0 0 8px 0;
+    color: var(--v-navy);
+}
+.v-action-text p {
+    margin: 0;
+    color: var(--v-muted);
+}
+.v-action-buttons {
+    display: flex;
+    gap: 16px;
+}
+.veridica-btn-secondary {
+    display: inline-block;
+    padding: 12px 24px;
+    background: transparent;
+    color: var(--v-navy);
+    border: 2px solid var(--v-navy);
+    border-radius: var(--v-radius);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--v-transition);
+}
+.veridica-btn-secondary:hover {
+    background: var(--v-navy);
+    color: var(--v-white);
+}
+.veridica-btn-primary {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--v-gold);
+    color: var(--v-navy);
+    border: none;
+    border-radius: var(--v-radius);
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--v-transition);
+    box-shadow: var(--v-shadow-sm);
+}
+.veridica-btn-primary:hover {
+    background: #e6bf55;
+    transform: translateY(-2px);
+}
+
+.v-submission-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 48px;
+}
+.v-content-card {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+.v-content-card h2 {
+    background: #F8FAFC;
+    padding: 20px 32px;
+    margin: 0;
+    border-bottom: 1px solid var(--v-border);
+    font-size: 20px;
+    color: var(--v-navy);
+}
+.v-card-body {
+    padding: 32px;
+    line-height: 1.7;
+}
+
+.v-submission-sidebar {
+    position: sticky;
+    top: 40px;
+    align-self: start;
+}
+.v-sidebar-widget {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+.v-sidebar-widget h3 {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    color: var(--v-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.widget-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--v-muted);
+}
+
+@media (max-width: 900px) {
+    .v-submission-action-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+    }
+    .v-submission-grid {
+        grid-template-columns: 1fr;
+    }
+    .v-submission-sidebar {
+        position: relative;
+        top: 0;
+    }
+}
