@@ -4,6 +4,9 @@
  *}
 {include file="frontend/components/header.tpl" pageTitle="user.login"}
 
+	</div><!-- pkp_structure_main -->
+</div><!-- pkp_structure_content -->
+
 <div class="veridica-login-page">
     <div class="veridica-login-card">
         <div class="v-login-branding">
@@ -102,5 +105,8 @@
         </div><!-- v-login-form-container -->
     </div>
 </div>
+
+<div class="pkp_structure_content">
+	<div class="pkp_structure_main" role="main">
 
 {include file="frontend/components/footer.tpl"}

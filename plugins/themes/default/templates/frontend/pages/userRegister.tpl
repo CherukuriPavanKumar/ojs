@@ -11,6 +11,9 @@
  *}
 {include file="frontend/components/header.tpl" pageTitle="user.register"}
 
+	</div><!-- pkp_structure_main -->
+</div><!-- pkp_structure_content -->
+
 {assign var="siteContextId" value=PKP\core\PKPApplication::SITE_CONTEXT_ID|intval}
 
 <div class="veridica-login-page">
@@ -192,5 +195,8 @@
     </div><!-- v-login-form-container -->
     </div><!-- veridica-login-card -->
 </div><!-- .page -->
+
+<div class="pkp_structure_content">
+	<div class="pkp_structure_main" role="main">
 
 {include file="frontend/components/footer.tpl"}

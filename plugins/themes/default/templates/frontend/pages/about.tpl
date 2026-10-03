@@ -4,6 +4,9 @@
  *}
 {include file="frontend/components/header.tpl" pageTitle="about.aboutContext"}
 
+	</div><!-- pkp_structure_main -->
+</div><!-- pkp_structure_content -->
+
 <div class="veridica-page-header">
     <div class="v-container">
         <h1>{translate key="about.aboutContext"}</h1>
@@ -17,5 +20,8 @@
         {$currentContext->getLocalizedData('about')}
     </div>
 </div>
+
+<div class="pkp_structure_content">
+	<div class="pkp_structure_main" role="main">
 
 {include file="frontend/components/footer.tpl"}
