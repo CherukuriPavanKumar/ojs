@@ -960,34 +960,46 @@ a.galley_link.html {
 .veridica-login-card {
     background: var(--v-surface);
     width: 100%;
-    max-width: 900px;
+    max-width: 1100px;
+    min-height: 600px;
     border-radius: var(--v-radius-lg);
-    box-shadow: var(--v-shadow-lg);
+    box-shadow: 0 20px 40px rgba(0, 18, 40, 0.1);
     border: 1px solid var(--v-border);
     position: relative;
     overflow: hidden;
     display: flex;
 }
 
+.veridica-login-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--v-navy), var(--v-gold));
+    z-index: 10;
+}
+
 .v-login-branding {
-    flex: 1;
-    background: linear-gradient(135deg, var(--v-navy) 0%, #003366 100%);
-    padding: 60px 40px;
+    flex: 1.2;
+    background: linear-gradient(135deg, var(--v-navy) 0%, #002244 100%);
+    padding: 80px 60px;
     color: var(--v-white);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
 }
 .v-login-branding h2 {
-    font-size: 28px;
-    margin-bottom: 16px;
+    font-size: 36px;
+    margin-bottom: 20px;
     color: var(--v-gold);
+    line-height: 1.2;
 }
 .v-login-branding p {
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 32px;
-    color: rgba(255,255,255,0.8);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    color: rgba(255,255,255,0.85);
 }
 .v-login-features {
     list-style: none;
@@ -995,21 +1007,24 @@ a.galley_link.html {
     margin: 0;
 }
 .v-login-features li {
-    font-size: 14px;
-    margin-bottom: 12px;
+    font-size: 15px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 }
 .v-login-features li i {
     color: var(--v-gold);
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .v-login-form-container {
     flex: 1;
-    padding: 60px 40px;
+    padding: 80px 60px;
     background: var(--v-surface);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 @media (max-width: 768px) {
@@ -1018,13 +1033,7 @@ a.galley_link.html {
     .v-login-form-container { padding: 40px 24px; }
 }
 
-.veridica-login-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, var(--v-navy), var(--v-gold));
-}
+
 
 .v-login-header {
     text-align: center;
