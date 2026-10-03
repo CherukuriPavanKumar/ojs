@@ -1098,6 +1098,236 @@ a.galley_link.html {
     font-weight: 600;
 }
 
+/* ============================================================================
+   PHASE 5: ARCHIVE, ISSUE, AND SEARCH
+   ============================================================================ */
+.veridica-page-header {
+    background: linear-gradient(120deg, #001228 0%, #003D6B 100%);
+    border-bottom: 4px solid var(--v-gold);
+    color: var(--v-white);
+    padding: 56px 24px 52px;
+}
+.veridica-page-header .v-container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+.veridica-page-header .pkp_breadcrumbs {
+    color: #B9CBE0;
+}
+.veridica-page-header .pkp_breadcrumbs a {
+    color: var(--v-gold-light);
+}
+.veridica-page-header h1 {
+    color: var(--v-white);
+    font-size: 2.45rem;
+    margin: 14px 0 10px;
+}
+.veridica-page-header .v-lead {
+    color: #D4E0EE;
+    margin: 0;
+    max-width: 650px;
+}
+.veridica-archive-page,
+.veridica-issue-content,
+.veridica-search-content {
+    padding-top: 42px;
+    padding-bottom: 54px;
+}
+.veridica-archive-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+.veridica-archive-intro h2 {
+    margin: 0;
+    font-size: 1.45rem;
+}
+.veridica-archive-intro p {
+    color: var(--v-muted);
+    margin: 0;
+    max-width: 560px;
+}
+.issues_archive,
+.search_results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.veridica-issue-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+.veridica-issue-grid > li {
+    min-width: 0;
+}
+.veridica-issue-grid .obj_issue_summary {
+    height: 100%;
+    margin: 0;
+    padding: 26px;
+}
+.veridica-issue-grid .obj_issue_summary .cover {
+    display: block;
+    margin: -26px -26px 22px;
+    background: #EAF0F7;
+    text-align: center;
+}
+.veridica-issue-grid .obj_issue_summary .cover img {
+    display: block;
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+}
+.veridica-issue-grid .obj_issue_summary h2 {
+    margin: 0 0 10px;
+}
+.veridica-issue-grid .obj_issue_summary .title {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1.15rem;
+    color: var(--v-navy);
+}
+.veridica-issue-grid .obj_issue_summary .series {
+    color: var(--v-gold-dark);
+    font: 600 0.78rem/1.4 'Inter', sans-serif;
+    letter-spacing: 0.7px;
+    margin-top: 8px;
+    text-transform: uppercase;
+}
+.veridica-issue-grid .description {
+    color: var(--v-muted);
+    font-size: 13.5px;
+}
+.veridica-issue-content .obj_issue_toc {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    box-shadow: var(--v-shadow-sm);
+    padding: 34px;
+}
+.veridica-issue-content .obj_issue_toc .heading {
+    display: grid;
+    grid-template-columns: minmax(150px, 220px) 1fr;
+    gap: 30px;
+    align-items: start;
+    border-bottom: 1px solid var(--v-border);
+    padding-bottom: 28px;
+    margin-bottom: 30px;
+}
+.veridica-issue-content .obj_issue_toc .heading .cover img {
+    display: block;
+    width: 100%;
+    border-radius: var(--v-radius-sm);
+    box-shadow: var(--v-shadow);
+}
+.veridica-issue-content .obj_issue_toc .description {
+    color: var(--v-muted);
+    font-size: 14px;
+}
+.veridica-issue-content .obj_article_summary {
+    border-radius: var(--v-radius);
+    margin-bottom: 14px;
+}
+.veridica-issue-content .galleys {
+    margin-bottom: 30px;
+    padding: 18px 20px;
+    background: #F5F8FC;
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius);
+}
+.veridica-search-form {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    box-shadow: var(--v-shadow-sm);
+    padding: 24px;
+    margin-bottom: 34px;
+}
+.veridica-search-form .search_input {
+    display: flex;
+    gap: 10px;
+}
+.veridica-search-form .query {
+    flex: 1;
+    min-width: 0;
+    border: 1.5px solid var(--v-border);
+    border-radius: var(--v-radius);
+    padding: 13px 16px;
+    font-size: 15px;
+}
+.veridica-search-form .query:focus {
+    border-color: var(--v-accent);
+    box-shadow: 0 0 0 3px rgba(0,80,158,0.12);
+    outline: none;
+}
+.veridica-search-submit {
+    min-width: 50px;
+    justify-content: center;
+    padding: 10px 15px !important;
+}
+.veridica-search-form .search_advanced {
+    border: 0;
+    border-top: 1px solid var(--v-border);
+    margin: 22px 0 0;
+    padding: 20px 0 0;
+}
+.veridica-search-form .search_advanced legend {
+    color: var(--v-navy);
+    font-family: 'Merriweather', Georgia, serif;
+    font-weight: 700;
+    padding: 0 8px 0 0;
+}
+.veridica-search-form .date_range,
+.veridica-search-form .author {
+    display: flex;
+    gap: 16px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+.veridica-search-form .author {
+    margin-top: 16px;
+}
+.veridica-search-form .author input,
+.veridica-search-form .author select {
+    flex: 1 1 220px;
+}
+.veridica-search-results > li {
+    margin-bottom: 18px;
+}
+.veridica-search-results .obj_article_summary {
+    margin-bottom: 0;
+}
+.veridica-empty-state {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    padding: 56px 24px;
+    text-align: center;
+    color: var(--v-muted);
+}
+.veridica-empty-state i {
+    display: block;
+    color: var(--v-gold-dark);
+    font-size: 32px;
+    margin-bottom: 14px;
+}
+
+@media (max-width: 768px) {
+    .veridica-page-header { padding: 40px 16px 36px; }
+    .veridica-page-header h1 { font-size: 1.8rem; }
+    .veridica-archive-page,
+    .veridica-issue-content,
+    .veridica-search-content { padding-top: 28px; }
+    .veridica-archive-intro { display: block; }
+    .veridica-archive-intro p { margin-top: 8px; }
+    .veridica-issue-grid { grid-template-columns: 1fr; }
+    .veridica-issue-content .obj_issue_toc { padding: 20px; }
+    .veridica-issue-content .obj_issue_toc .heading { grid-template-columns: 1fr; }
+    .veridica-issue-content .obj_issue_toc .heading .cover { max-width: 220px; }
+    .veridica-search-form { padding: 18px; }
+}
+
 .veridica-register-card {
     max-width: 1000px;
 }

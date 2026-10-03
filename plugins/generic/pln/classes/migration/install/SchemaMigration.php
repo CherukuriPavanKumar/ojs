@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file classes/migration/install/SchemaMigration.php
+ *
+ * Copyright (c) 2016 Simon Fraser University
+ * Copyright (c) 2016 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
+ *
+ * @class SchemaMigration
+ *
+ * @brief Describe database table structures.
+ */
+
+namespace APP\plugins\generic\pln\classes\migration\install;
+
+use APP\plugins\generic\pln\classes\migration\upgrade\I102_ResetCompletedDeposits;
+use APP\plugins\generic\pln\classes\migration\upgrade\I114_BackfillDepositObjectDateModified;
+use APP\plugins\generic\pln\classes\migration\upgrade\I28_FixDepositStatus;
+use APP\plugins\generic\pln\classes\migration\upgrade\I35_FixMissingField;
+use APP\plugins\generic\pln\classes\migration\upgrade\I57_UpdateSettings;
+use Exception;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
+use PKP\install\DowngradeNotSupportedException;
+
+class SchemaMigration extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        // PLN Deposit Objects
+        if (!Schema::hasTable('pln_deposit_objects')) {
+            Schema::create('pln_deposit_objects', function (Blueprint $table) {
+                $table->bigInteger('deposit_object_id')->autoIncrement();
+                $table->bigInteger('journal_id');
+                $table->bigInteger('object_id');
+                $table->string('object_type', 36);
+                $table->bigInteger('deposit_id')->nullable();
+                $table->datetime('date_created');
+                $table->datetime('date_modified')->nullable();
+            });
+        }
+
+        // PLN Deposits
+        if (!Schema::hasTable('pln_deposits')) {
+            Schema::create('pln_deposits', function (Blueprint $table) {
+                $table->bigInteger('deposit_id')->autoIncrement();
+                $table->bigInteger('journal_id');
+                $table->string('uuid', 36)->nullable();
+                $table->bigInteger('status')->default(0)->nullable();
+                $table->string('staging_state')->nullable();
+                $table->string('lockss_state')->nullable();
+                $table->datetime('date_status')->nullable();
+                $table->datetime('date_created');
+                $table->datetime('date_modified')->nullable();
+                $table->string('export_deposit_error', 1000)->nullable();
+                $table->datetime('date_preserved')->nullable();
+            });
+        }
+
+        $cacheKey = __METHOD__;
+        $completed = Cache::get($cacheKey, []);
+        /** @var class-string<Migration> $class */
+        foreach ([I35_FixMissingField::class, I28_FixDepositStatus::class, I57_UpdateSettings::class, I102_ResetCompletedDeposits::class, I114_BackfillDepositObjectDateModified::class] as $class) {
+            if ($completed[$class] ?? false) {
+                continue;
+            }
+
+            try {
+                $migration = new $class();
+                $migration->up();
+                $completed[$class] = true;
+                Cache::forever($cacheKey, $completed);
+            } catch (Exception $e) {
+                error_log("Failed to run PKP PN plugin migration {$class}\n{$e}");
+            }
+        }
+    }
+
+    /**
+     * Rollback the migrations.
+     */
+    public function down(): void
+    {
+        throw new DowngradeNotSupportedException();
+    }
+}

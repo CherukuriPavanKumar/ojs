@@ -93,7 +93,7 @@ class SuperAdminPlugin extends GenericPlugin
         $detailStr = is_string($eventDetail) ? $eventDetail : json_encode($eventDetail);
 
         $utcNow = date('Y-m-d H:i:s');
-        $id = DB::table('super_admin_activity_log')->insertGetId([
+        DB::table('super_admin_activity_log')->insert([
             'user_id' => $userId,
             'journal_id' => $journalId,
             'event_type' => $eventType,
@@ -101,7 +101,6 @@ class SuperAdminPlugin extends GenericPlugin
             'ip_address' => $ip,
             'created_at' => $utcNow,
         ]);
-        DB::table('super_admin_activity_log')->where('id', $id)->update(['log_id' => $id]);
 
         try {
             DB::table('veridica_activity_log')->insert([
