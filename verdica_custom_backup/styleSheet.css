@@ -1,0 +1,1346 @@
+/* ==========================================================================
+   VERIDICA PUBLICATION — CONCEPT 2: HANDCRAFTED EDITORIAL IVORY THEME
+   Safe CSS-only override.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+
+/* ==========================================================================
+   DESIGN TOKENS — CONCEPT 2 HANDCRAFTED EDITORIAL
+   ========================================================================== */
+:root {
+    --v-navy:        #18233C;
+    --v-blue:        #233252;
+    --v-accent:      #B8860B;
+    --v-gold:        #C99A46;
+    --v-gold-light:  #E5C37A;
+    --v-gold-dark:   #9E7428;
+    --v-white:       #FFFFFF;
+    --v-bg:          #FAF6F0; /* Soft Warm Ivory Parchment */
+    --v-surface:     #FCFAF7;
+    --v-border:      #E8DEC8; /* Tactile Warm Border */
+    --v-border-gold: #D6AB57;
+    --v-text:        #2C241D;
+    --v-muted:       #6E6256;
+    --v-radius-sm:   8px;
+    --v-radius:      14px;
+    --v-radius-lg:   20px;
+    --v-shadow-sm:   0 2px 8px rgba(44,36,29,0.04), 0 1px 3px rgba(44,36,29,0.02);
+    --v-shadow:      0 6px 24px rgba(44,36,29,0.07), 0 2px 6px rgba(44,36,29,0.04);
+    --v-shadow-lg:   0 14px 44px rgba(24,35,60,0.12);
+    --v-transition:  all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--v-bg);
+    color: var(--v-text);
+    line-height: 1.7;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+    color: var(--v-navy);
+    line-height: 1.28;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+}
+
+a { color: var(--v-navy); transition: var(--v-transition); text-decoration: none; }
+a:hover { color: var(--v-gold-dark); text-decoration: none; }
+
+/* ==========================================================================
+   ICONS
+   ========================================================================== */
+.fa, .fas, .far, .fab, .fa-solid, .fa-regular {
+    font-family: "Font Awesome 6 Free", "FontAwesome", sans-serif !important;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+}
+.fa-search::before, .fas.fa-search::before { content: "\f002"; }
+.fa-user::before,   .fas.fa-user::before   { content: "\f007"; }
+.fa-file-pdf-o::before, .fa-file-pdf::before { content: "\f1c1"; }
+.fa-envelope::before   { content: "\f0e0"; }
+.fa-quote-right::before { content: "\f10e"; }
+.fa-bars::before       { content: "\f0c9"; }
+.fa-angle-right::before { content: "\f105"; }
+
+/* ==========================================================================
+   1. HEADER & NAVIGATION — LIGHT EDITORIAL THEME
+   COLOR-ONLY OVERRIDES (safe, no layout changes)
+   ========================================================================== */
+
+/* Main header bar — warm ivory background */
+header.pkp_structure_head,
+.pkp_structure_head {
+    background: #FCFAF7 !important;
+    border-bottom: 2px solid #D6C9A8 !important;
+    box-shadow: 0 2px 12px rgba(44, 36, 29, 0.06) !important;
+}
+
+/* Logo image */
+.pkp_site_name .is_img img {
+    max-height: 56px !important;
+    width: auto !important;
+}
+
+/* Journal text name link */
+.pkp_site_name a.is_text {
+    color: #18233C !important;
+    font-family: 'Cormorant Garamond', 'Lora', Georgia, serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    text-shadow: none !important;
+}
+
+/* The blue secondary nav bar row — make it ivory */
+.pkp_navigation_primary_row {
+    background: #FCFAF7 !important;
+    border-top: 1px solid #E8DEC8 !important;
+    box-shadow: none !important;
+}
+
+/* Primary navigation links */
+.pkp_navigation_primary > li > a,
+.pkp_navigation_user > li > a {
+    color: #2C241D !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    border-radius: 6px !important;
+}
+
+.pkp_navigation_primary > li > a:hover,
+.pkp_navigation_user > li > a:hover {
+    color: #C87D55 !important;
+    background: rgba(200, 125, 85, 0.08) !important;
+}
+
+/* Search link */
+.pkp_navigation_search_wrapper a,
+a.pkp_search,
+.pkp_search_desktop {
+    color: #2C241D !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+}
+.pkp_navigation_search_wrapper a:hover,
+a.pkp_search:hover {
+    color: #C87D55 !important;
+}
+
+/* Search input box */
+.pkp_search input[type="text"] {
+    background: #FFFFFF !important;
+    border: 1px solid #E8DEC8 !important;
+    color: #2C241D !important;
+    border-radius: 20px !important;
+    padding: 7px 16px !important;
+    font-size: 13px !important;
+}
+.pkp_search input[type="text"]:focus {
+    border-color: #C87D55 !important;
+    outline: none;
+}
+.pkp_search input[type="text"]::placeholder { color: #9E8A7A !important; }
+
+/* Dropdown submenus */
+.pkp_navigation_primary ul,
+.pkp_navigation_user ul {
+    background: #FCFAF7 !important;
+    border: 1px solid #E8DEC8 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(44,36,29,0.10) !important;
+}
+.pkp_navigation_primary ul a,
+.pkp_navigation_user ul a {
+    color: #2C241D !important;
+}
+.pkp_navigation_primary ul a:hover,
+.pkp_navigation_user ul a:hover {
+    background: rgba(200,125,85,0.08) !important;
+    color: #C87D55 !important;
+}
+
+/* ==========================================================================
+   2. LOGIN PAGE
+   ========================================================================== */
+.pkp_page_login .pkp_structure_main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 160px);
+    padding: 40px 16px;
+}
+.pkp_page_login #login {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    box-shadow: var(--v-shadow-lg);
+    padding: 48px 40px;
+    max-width: 420px;
+    width: 100%;
+}
+.pkp_page_login #login::before {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--v-navy), var(--v-gold));
+    border-radius: 2px;
+    margin-bottom: 28px;
+}
+.pkp_page_login h1 {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    color: var(--v-navy);
+}
+.pkp_page_login .pkp_form input[type="text"],
+.pkp_page_login .pkp_form input[type="password"],
+.pkp_page_login .pkp_form input[type="email"] {
+    width: 100% !important;
+    border: 1.5px solid var(--v-border) !important;
+    border-radius: var(--v-radius) !important;
+    padding: 11px 14px !important;
+    font-size: 14px !important;
+    transition: var(--v-transition) !important;
+    color: var(--v-text) !important;
+}
+.pkp_page_login .pkp_form input:focus {
+    border-color: var(--v-accent) !important;
+    box-shadow: 0 0 0 3px rgba(0,80,158,0.12) !important;
+    outline: none !important;
+}
+
+/* ==========================================================================
+   3. MAIN CONTENT AREA
+   ========================================================================== */
+.pkp_structure_main {
+    background: transparent;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+.pkp_structure_content { background: transparent; }
+
+/* ==========================================================================
+   4. ARTICLE & ISSUE CARDS
+   ========================================================================== */
+.obj_article_summary,
+.obj_issue_summary {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--v-shadow-sm);
+    transition: var(--v-transition);
+    position: relative;
+    overflow: hidden;
+}
+.obj_article_summary::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--v-navy), var(--v-gold));
+    border-radius: var(--v-radius) 0 0 var(--v-radius);
+}
+.obj_article_summary:hover,
+.obj_issue_summary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--v-shadow-lg);
+    border-color: rgba(0,80,158,0.2);
+}
+
+.obj_article_summary .title a {
+    color: var(--v-navy);
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    line-height: 1.4;
+    transition: var(--v-transition);
+}
+.obj_article_summary .title a:hover { color: var(--v-accent); }
+
+.obj_article_summary .authors {
+    color: var(--v-muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-top: 6px;
+}
+.obj_article_summary .published {
+    color: var(--v-muted);
+    font-size: 12.5px;
+    margin-top: 4px;
+}
+
+/* Sidebar blocks */
+.pkp_block {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    box-shadow: var(--v-shadow-sm);
+}
+.pkp_block .title {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--v-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 2px solid var(--v-gold);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+}
+
+/* ==========================================================================
+   5. BUTTONS & GALLEY LINKS
+   ========================================================================== */
+.cmp_button,
+a.galley_link,
+.block_make_submission_link,
+.pkp_form input[type="submit"],
+.pkp_form button[type="submit"],
+button.submit {
+    background: linear-gradient(135deg, var(--v-navy) 0%, var(--v-blue) 100%) !important;
+    color: var(--v-white) !important;
+    border: 1.5px solid rgba(201,168,76,0.4) !important;
+    border-radius: var(--v-radius) !important;
+    padding: 10px 22px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    transition: var(--v-transition) !important;
+    box-shadow: 0 2px 8px rgba(0,31,63,0.18) !important;
+    cursor: pointer;
+}
+.cmp_button:hover,
+a.galley_link:hover,
+.block_make_submission_link:hover,
+.pkp_form input[type="submit"]:hover,
+button.submit:hover {
+    background: linear-gradient(135deg, var(--v-gold-dark) 0%, var(--v-gold) 100%) !important;
+    color: var(--v-navy) !important;
+    border-color: var(--v-gold-dark) !important;
+    box-shadow: 0 4px 14px rgba(192,143,38,0.35) !important;
+    transform: translateY(-1px);
+}
+
+/* PDF galley — distinct red accent */
+a.galley_link.pdf {
+    background: linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%) !important;
+    border-color: rgba(239,68,68,0.4) !important;
+}
+a.galley_link.pdf:hover {
+    background: linear-gradient(135deg, #B91C1C 0%, #DC2626 100%) !important;
+    color: var(--v-white) !important;
+}
+
+/* HTML galley */
+a.galley_link.html {
+    background: linear-gradient(135deg, #064E3B 0%, #065F46 100%) !important;
+    border-color: rgba(16,185,129,0.4) !important;
+}
+
+/* ==========================================================================
+   6. ARTICLE LANDING PAGE
+   ========================================================================== */
+.obj_article_details .page_title h1 {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1.8rem;
+    color: var(--v-navy);
+    line-height: 1.35;
+    margin-bottom: 16px;
+}
+
+.obj_article_details .authors {
+    font-size: 14.5px;
+    color: var(--v-muted);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.obj_article_details .abstract {
+    background: linear-gradient(135deg, #F0F5FF 0%, #EEF4FF 100%);
+    border-left: 4px solid var(--v-accent);
+    border-radius: 0 var(--v-radius) var(--v-radius) 0;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #2D3A50;
+}
+
+.obj_article_details .keywords {
+    margin-top: 16px;
+}
+.obj_article_details .keywords .label {
+    font-weight: 700;
+    color: var(--v-navy);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Citation block */
+.obj_article_details .citation {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius);
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--v-muted);
+}
+
+/* ==========================================================================
+   7. FORMS (Submission, Registration, etc.)
+   ========================================================================== */
+.pkp_form label {
+    font-weight: 600;
+    color: var(--v-text);
+    font-size: 13.5px;
+    margin-bottom: 5px;
+    display: block;
+}
+.pkp_form input[type="text"],
+.pkp_form input[type="email"],
+.pkp_form input[type="password"],
+.pkp_form input[type="url"],
+.pkp_form textarea,
+.pkp_form select {
+    border: 1.5px solid var(--v-border) !important;
+    border-radius: var(--v-radius) !important;
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    font-family: 'Inter', sans-serif !important;
+    color: var(--v-text) !important;
+    background: var(--v-surface) !important;
+    transition: var(--v-transition) !important;
+    width: 100%;
+}
+.pkp_form input:focus,
+.pkp_form textarea:focus,
+.pkp_form select:focus {
+    border-color: var(--v-accent) !important;
+    box-shadow: 0 0 0 3px rgba(0,80,158,0.12) !important;
+    outline: none !important;
+}
+
+/* ==========================================================================
+   8. NOTIFICATION / ALERT BANNERS
+   ========================================================================== */
+.pkp_notification, .pkp_controllers_notification {
+    border-radius: var(--v-radius) !important;
+    border: none !important;
+    padding: 14px 18px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+}
+.pkp_notification.notifySuccess { background: #D1FAE5 !important; color: #065F46 !important; }
+.pkp_notification.notifyWarning { background: #FEF3C7 !important; color: #92400E !important; }
+.pkp_notification.notifyError   { background: #FEE2E2 !important; color: #991B1B !important; }
+.pkp_notification.notifyInfo    { background: #DBEAFE !important; color: #1E40AF !important; }
+
+/* ==========================================================================
+   9. PAGINATION
+   ========================================================================== */
+.pkp_pagination {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin: 32px 0;
+    flex-wrap: wrap;
+}
+.pkp_pagination a,
+.pkp_pagination span {
+    padding: 7px 13px;
+    border-radius: var(--v-radius-sm);
+    border: 1px solid var(--v-border);
+    background: var(--v-surface);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--v-accent);
+    text-decoration: none;
+    transition: var(--v-transition);
+}
+.pkp_pagination a:hover {
+    background: var(--v-navy);
+    color: var(--v-white);
+    border-color: var(--v-navy);
+}
+.pkp_pagination .current {
+    background: var(--v-navy);
+    color: var(--v-white);
+    border-color: var(--v-navy);
+}
+
+/* ==========================================================================
+   10. BREADCRUMBS
+   ========================================================================== */
+.pkp_breadcrumbs {
+    font-size: 12.5px;
+    color: var(--v-muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.pkp_breadcrumbs a { color: var(--v-accent); }
+.pkp_breadcrumbs a:hover { color: var(--v-gold-dark); }
+.pkp_breadcrumbs .separator { color: var(--v-border); }
+
+/* ==========================================================================
+   11. ISSUE TABLE OF CONTENTS PAGE
+   ========================================================================== */
+.obj_issue_toc .section {
+    margin-bottom: 36px;
+}
+.obj_issue_toc .section .title {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--v-navy);
+    border-bottom: 2px solid var(--v-gold);
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   12. VERIDICA BRANDING BADGE (PKP Footer Override)
+   ========================================================================== */
+.pkp_brand_footer {
+    display: none !important; /* Hide "Powered by PKP" to keep clean Veridica branding */
+}
+
+/* ==========================================================================
+   13. FOOTER
+   ========================================================================== */
+.pkp_structure_footer_wrapper {
+    background: linear-gradient(180deg, #121A2D 0%, #18233C 100%) !important;
+    border-top: 3px solid var(--v-gold) !important;
+    padding: 40px 0 24px !important;
+    margin-top: 48px;
+}
+.pkp_structure_footer_wrapper,
+.pkp_structure_footer_wrapper p,
+.pkp_structure_footer_wrapper li {
+    color: #8DA8C8 !important;
+    font-size: 13.5px !important;
+    line-height: 1.7;
+}
+.pkp_structure_footer_wrapper a {
+    color: #A8C4E0 !important;
+    text-decoration: none;
+    transition: var(--v-transition);
+}
+.pkp_structure_footer_wrapper a:hover { color: var(--v-gold-light) !important; }
+
+.pkp_structure_footer_wrapper .pkp_block .title {
+    color: var(--v-gold-light) !important;
+    border-bottom-color: rgba(201,168,76,0.3) !important;
+    font-size: 0.8rem !important;
+}
+
+/* Footer copyright line */
+.pkp_structure_footer {
+    border-top: 1px solid rgba(255,255,255,0.08) !important;
+    margin-top: 24px !important;
+    padding-top: 16px !important;
+    text-align: center !important;
+    font-size: 12px !important;
+    color: #506070 !important;
+}
+
+/* ==========================================================================
+   14. OJS BACKEND ADMIN UI — Veridica Accent
+   ========================================================================== */
+.pkp_page_dashboard .app__header,
+.app__header {
+    border-bottom: 2px solid var(--v-gold) !important;
+}
+
+/* ==========================================================================
+   15. RESPONSIVE
+   ========================================================================== */
+@media (max-width: 768px) {
+    .pkp_page_login #login { padding: 32px 24px; }
+    .obj_article_summary { padding: 18px 20px; }
+    .obj_article_summary .title a { font-size: 1rem; }
+    .pkp_structure_main { padding: 20px 16px; }
+}
+@media (max-width: 480px) {
+    .pkp_site_name a.is_text { font-size: 1.1rem !important; }
+    .obj_article_details .page_title h1 { font-size: 1.4rem; }
+    .cmp_button, a.galley_link { width: 100% !important; text-align: center !important; }
+}
+
+/* ==========================================================================
+   PHASE 2 UPGRADES: HERO, GRID, FEATURES
+   ========================================================================== */
+
+.veridica-homepage {
+    margin-top: 0;
+}
+
+.veridica-hero {
+    position: relative;
+    background: #FCFAF7;
+    border: 1px solid #E8DEC8;
+    border-radius: 20px;
+    padding: 70px 32px;
+    text-align: center;
+    color: #2C241D;
+    margin-bottom: 48px;
+    box-shadow: 0 10px 30px rgba(44, 36, 29, 0.05);
+}
+
+.veridica-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.veridica-hero-badge {
+    display: inline-block;
+    background: rgba(200, 125, 85, 0.1);
+    color: #C87D55;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(200, 125, 85, 0.3);
+}
+
+.veridica-hero-title {
+    font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #18233C;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    text-shadow: none;
+}
+
+.veridica-hero-subtitle {
+    font-size: 1.15rem;
+    color: #6E6256;
+    line-height: 1.65;
+    margin-bottom: 36px;
+}
+
+.veridica-hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.veridica-btn-primary, .veridica-btn-secondary {
+    padding: 14px 28px;
+    border-radius: var(--v-radius);
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: var(--v-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.veridica-btn-primary {
+    background: var(--v-gold);
+    color: var(--v-navy);
+    box-shadow: 0 4px 14px rgba(201,168,76,0.4);
+}
+.veridica-btn-primary:hover {
+    background: var(--v-gold-light);
+    color: var(--v-navy);
+    transform: translateY(-2px);
+}
+
+.veridica-btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.veridica-btn-secondary:hover {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+}
+
+.veridica-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.veridica-section {
+    margin-bottom: 80px;
+}
+
+.veridica-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    border-bottom: 2px solid var(--v-border);
+    padding-bottom: 16px;
+}
+
+.veridica-section-header h2 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.veridica-issue-id {
+    background: var(--v-navy);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: var(--v-radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.veridica-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-bottom: 80px;
+}
+
+.veridica-feature-card {
+    background: var(--v-surface);
+    padding: 32px;
+    border-radius: var(--v-radius-lg);
+    box-shadow: var(--v-shadow);
+    text-align: center;
+    border: 1px solid var(--v-border);
+    transition: var(--v-transition);
+}
+
+.veridica-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--v-shadow-lg);
+    border-color: var(--v-gold);
+}
+
+.veridica-feature-card i {
+    font-size: 32px;
+    color: var(--v-accent);
+    margin-bottom: 20px;
+}
+
+.veridica-feature-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+
+.veridica-feature-card p {
+    color: var(--v-muted);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Override default article lists in TOC to look like cards */
+.veridica-article-grid .obj_article_summary {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-left: 4px solid var(--v-accent);
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: var(--v-radius);
+    box-shadow: var(--v-shadow-sm);
+    display: flex;
+    flex-direction: column;
+}
+.veridica-article-grid .obj_article_summary:hover {
+    box-shadow: var(--v-shadow);
+    transform: translateY(-2px);
+    border-left-color: var(--v-gold);
+}
+
+@media (max-width: 768px) {
+    .veridica-hero-title { font-size: 2.2rem; }
+    .veridica-hero-actions { flex-direction: column; }
+    .veridica-features { grid-template-columns: 1fr; }
+    .veridica-section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
+/* ==========================================================================
+   MEGA FOOTER
+   ========================================================================== */
+.veridica-mega-footer {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+}
+.v-footer-col h4 {
+    color: var(--v-gold);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+.v-footer-col p {
+    color: #8DA8C8;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 300px;
+}
+.v-footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.v-footer-col ul li {
+    margin-bottom: 12px;
+}
+.v-footer-col ul li a {
+    color: #8DA8C8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--v-transition);
+}
+.v-footer-col ul li a:hover {
+    color: var(--v-white);
+    padding-left: 4px;
+}
+.v-social-icons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+}
+.v-social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.05);
+    color: var(--v-gold);
+    border-radius: 50%;
+    transition: var(--v-transition);
+}
+.v-social-icons a:hover {
+    background: var(--v-gold);
+    color: var(--v-navy);
+}
+@media (max-width: 768px) {
+    .veridica-mega-footer { grid-template-columns: 1fr; gap: 32px; }
+    .v-footer-col p { max-width: 100%; }
+}
+
+/* ==========================================================================
+   PHASE 3: ARTICLE DETAIL LAYOUT
+   ========================================================================== */
+.veridica-article-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 48px;
+    margin-top: 32px;
+}
+
+.veridica-article-main {
+    min-width: 0; /* Prevents grid blowout */
+}
+
+.veridica-article-sidebar {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    padding: 24px;
+    box-shadow: var(--v-shadow-sm);
+}
+
+.veridica-article-sidebar .item {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--v-border);
+}
+.veridica-article-sidebar .item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+/* Sidebar Headings */
+.veridica-article-sidebar h2.label,
+.veridica-article-sidebar h3.label {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--v-navy);
+    margin-bottom: 12px;
+}
+
+/* Authors List */
+.obj_article_details .authors {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.obj_article_details .authors li {
+    background: #F8FAFC;
+    border: 1px solid var(--v-border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.obj_article_details .authors .name {
+    font-weight: 600;
+    color: var(--v-navy);
+}
+.obj_article_details .authors .orcid {
+    display: inline-flex;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .veridica-article-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    .veridica-article-sidebar {
+        position: relative;
+        top: 0;
+    }
+}
+
+
+/* ============================================================================
+   PHASE 5: ARCHIVE, ISSUE, AND SEARCH
+   ============================================================================ */
+.veridica-page-header {
+    background: linear-gradient(120deg, #18233C 0%, #233252 100%);
+    border-bottom: 3px solid var(--v-gold);
+    color: var(--v-white);
+    padding: 42px 24px 38px;
+}
+.veridica-page-header .v-container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+.veridica-page-header .pkp_breadcrumbs {
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 10px;
+}
+.veridica-page-header .pkp_breadcrumbs a {
+    color: var(--v-gold-light);
+}
+.veridica-page-header h1 {
+    color: #FFFFFF;
+    font-size: 2.2rem;
+    margin: 10px 0 8px;
+}
+.veridica-page-header .v-lead {
+    color: rgba(255,255,255,0.80);
+    margin: 0;
+    max-width: 650px;
+    font-size: 15px;
+}
+.veridica-archive-page,
+.veridica-issue-content,
+.veridica-search-content {
+    padding-top: 42px;
+    padding-bottom: 54px;
+}
+.veridica-archive-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+.veridica-archive-intro h2 {
+    margin: 0;
+    font-size: 1.45rem;
+}
+.veridica-archive-intro p {
+    color: var(--v-muted);
+    margin: 0;
+    max-width: 560px;
+}
+.issues_archive,
+.search_results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.veridica-issue-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+.veridica-issue-grid > li {
+    min-width: 0;
+}
+.veridica-issue-grid .obj_issue_summary {
+    height: 100%;
+    margin: 0;
+    padding: 26px;
+}
+.veridica-issue-grid .obj_issue_summary .cover {
+    display: block;
+    margin: -26px -26px 22px;
+    background: #EAF0F7;
+    text-align: center;
+}
+.veridica-issue-grid .obj_issue_summary .cover img {
+    display: block;
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+}
+.veridica-issue-grid .obj_issue_summary h2 {
+    margin: 0 0 10px;
+}
+.veridica-issue-grid .obj_issue_summary .title {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1.15rem;
+    color: var(--v-navy);
+}
+.veridica-issue-grid .obj_issue_summary .series {
+    color: var(--v-gold-dark);
+    font: 600 0.78rem/1.4 'Inter', sans-serif;
+    letter-spacing: 0.7px;
+    margin-top: 8px;
+    text-transform: uppercase;
+}
+.veridica-issue-grid .description {
+    color: var(--v-muted);
+    font-size: 13.5px;
+}
+.veridica-issue-content .obj_issue_toc {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    box-shadow: var(--v-shadow-sm);
+    padding: 34px;
+}
+.veridica-issue-content .obj_issue_toc .heading {
+    display: grid;
+    grid-template-columns: minmax(150px, 220px) 1fr;
+    gap: 30px;
+    align-items: start;
+    border-bottom: 1px solid var(--v-border);
+    padding-bottom: 28px;
+    margin-bottom: 30px;
+}
+.veridica-issue-content .obj_issue_toc .heading .cover img {
+    display: block;
+    width: 100%;
+    border-radius: var(--v-radius-sm);
+    box-shadow: var(--v-shadow);
+}
+.veridica-issue-content .obj_issue_toc .description {
+    color: var(--v-muted);
+    font-size: 14px;
+}
+.veridica-issue-content .obj_article_summary {
+    border-radius: var(--v-radius);
+    margin-bottom: 14px;
+}
+.veridica-issue-content .galleys {
+    margin-bottom: 30px;
+    padding: 18px 20px;
+    background: #F5F8FC;
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius);
+}
+.veridica-search-form {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    box-shadow: var(--v-shadow-sm);
+    padding: 24px;
+    margin-bottom: 34px;
+}
+.veridica-search-form .search_input {
+    display: flex;
+    gap: 10px;
+}
+.veridica-search-form .query {
+    flex: 1;
+    min-width: 0;
+    border: 1.5px solid var(--v-border);
+    border-radius: var(--v-radius);
+    padding: 13px 16px;
+    font-size: 15px;
+}
+.veridica-search-form .query:focus {
+    border-color: var(--v-accent);
+    box-shadow: 0 0 0 3px rgba(0,80,158,0.12);
+    outline: none;
+}
+.veridica-search-submit {
+    min-width: 50px;
+    justify-content: center;
+    padding: 10px 15px !important;
+}
+.veridica-search-form .search_advanced {
+    border: 0;
+    border-top: 1px solid var(--v-border);
+    margin: 22px 0 0;
+    padding: 20px 0 0;
+}
+.veridica-search-form .search_advanced legend {
+    color: var(--v-navy);
+    font-family: 'Merriweather', Georgia, serif;
+    font-weight: 700;
+    padding: 0 8px 0 0;
+}
+.veridica-search-form .date_range,
+.veridica-search-form .author {
+    display: flex;
+    gap: 16px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+.veridica-search-form .author {
+    margin-top: 16px;
+}
+.veridica-search-form .author input,
+.veridica-search-form .author select {
+    flex: 1 1 220px;
+}
+.veridica-search-results > li {
+    margin-bottom: 18px;
+}
+.veridica-search-results .obj_article_summary {
+    margin-bottom: 0;
+}
+.veridica-empty-state {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    padding: 56px 24px;
+    text-align: center;
+    color: var(--v-muted);
+}
+.veridica-empty-state i {
+    display: block;
+    color: var(--v-gold-dark);
+    font-size: 32px;
+    margin-bottom: 14px;
+}
+
+@media (max-width: 768px) {
+    .veridica-page-header { padding: 40px 16px 36px; }
+    .veridica-page-header h1 { font-size: 1.8rem; }
+    .veridica-archive-page,
+    .veridica-issue-content,
+    .veridica-search-content { padding-top: 28px; }
+    .veridica-archive-intro { display: block; }
+    .veridica-archive-intro p { margin-top: 8px; }
+    .veridica-issue-grid { grid-template-columns: 1fr; }
+    .veridica-issue-content .obj_issue_toc { padding: 20px; }
+    .veridica-issue-content .obj_issue_toc .heading { grid-template-columns: 1fr; }
+    .veridica-issue-content .obj_issue_toc .heading .cover { max-width: 220px; }
+    .veridica-search-form { padding: 18px; }
+}
+
+
+
+/* ==========================================================================
+   PHASE 5: ABOUT & SUBMISSIONS
+   ========================================================================== */
+.veridica-page-header {
+    background: linear-gradient(135deg, var(--v-navy) 0%, #233252 100%);
+    padding: 80px 24px;
+    color: var(--v-white);
+    text-align: center;
+    border-bottom: 4px solid var(--v-gold);
+}
+.veridica-page-header h1 {
+    font-size: 36px;
+    margin-bottom: 16px;
+    color: var(--v-white);
+}
+.veridica-page-header .v-lead {
+    font-size: 18px;
+    color: rgba(255,255,255,0.8);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.veridica-page-content {
+    padding: 60px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.v-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.v-reading-column {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--v-text);
+}
+
+.v-submission-action-bar {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-left: 4px solid var(--v-gold);
+    border-radius: var(--v-radius-lg);
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 48px;
+    box-shadow: var(--v-shadow-sm);
+}
+.v-action-text h3 {
+    margin: 0 0 8px 0;
+    color: var(--v-navy);
+}
+.v-action-text p {
+    margin: 0;
+    color: var(--v-muted);
+}
+.v-action-buttons {
+    display: flex;
+    gap: 16px;
+}
+.veridica-btn-secondary {
+    display: inline-block;
+    padding: 12px 24px;
+    background: transparent;
+    color: var(--v-navy);
+    border: 2px solid var(--v-navy);
+    border-radius: var(--v-radius);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--v-transition);
+}
+.veridica-btn-secondary:hover {
+    background: var(--v-navy);
+    color: var(--v-white);
+}
+.veridica-btn-primary {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--v-gold);
+    color: var(--v-navy);
+    border: none;
+    border-radius: var(--v-radius);
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--v-transition);
+    box-shadow: var(--v-shadow-sm);
+}
+.veridica-btn-primary:hover {
+    background: #e6bf55;
+    transform: translateY(-2px);
+}
+
+.v-submission-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 48px;
+}
+.v-content-card {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+.v-content-card h2 {
+    background: #F8FAFC;
+    padding: 20px 32px;
+    margin: 0;
+    border-bottom: 1px solid var(--v-border);
+    font-size: 20px;
+    color: var(--v-navy);
+}
+.v-card-body {
+    padding: 32px;
+    line-height: 1.7;
+}
+
+.v-submission-sidebar {
+    position: sticky;
+    top: 40px;
+    align-self: start;
+}
+.v-sidebar-widget {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+.v-sidebar-widget h3 {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    color: var(--v-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.widget-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--v-muted);
+}
+
+@media (max-width: 900px) {
+    .v-submission-action-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+    }
+    .v-submission-grid {
+        grid-template-columns: 1fr;
+    }
+    .v-submission-sidebar {
+        position: relative;
+        top: 0;
+    }
+}

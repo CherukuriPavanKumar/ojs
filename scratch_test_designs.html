@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veridica Super Admin - Light Tone Login Design Concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,400&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #F4F3EF;
+      color: #1F2937;
+      padding: 40px 20px;
+    }
+    .header-banner {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 50px;
+    }
+    .header-banner h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 32px;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+    .header-banner p {
+      font-size: 15px;
+      color: #6B7280;
+    }
+    .designs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .concept-column {
+      display: flex;
+      flex-direction: column;
+    }
+    .concept-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .concept-title span.tag {
+      background: #E5E7EB;
+      color: #4B5563;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    /* PREVIEW CONTAINER */
+    .preview-canvas {
+      padding: 40px 24px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 720px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    /* COMMON LOGIN CARD STRUCTURE */
+    .login-card {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 8px;
+      padding: 36px 32px;
+    }
+    .card-brand {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .brand-badge {
+      display: inline-block;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      margin-bottom: 10px;
+    }
+    .brand-title {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+    .brand-sub {
+      font-size: 11.5px;
+      line-height: 1.4;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px 13px;
+      font-size: 13px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+      outline: none;
+    }
+    .totp-input {
+      font-family: 'SF Mono', Monaco, 'Roboto Mono', monospace;
+      letter-spacing: 0.22em;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      margin-top: 20px;
+      transition: all 0.15s ease;
+    }
+    .compliance-footer {
+      margin-top: 24px;
+      padding-top: 18px;
+      text-align: center;
+      font-size: 10.5px;
+    }
+    .compliance-footer p {
+      margin-top: 4px;
+      font-size: 9.5px;
+    }
+
+    /* -------------------------------------------------------------
+       CONCEPT 1: ARCHIVAL IVORY & OXFORD CHARCOAL (Collegiate Heritage)
+       ------------------------------------------------------------- */
+    .canvas-concept1 {
+      background: #EBE8E1;
+    }
+    .card-concept1 {
+      background: #FAF8F5;
+      border: 1px solid #DFD9CE;
+      box-shadow: 0 10px 25px -4px rgba(44, 38, 30, 0.08), 0 2px 6px -1px rgba(44, 38, 30, 0.04);
+    }
+    .card-concept1 .brand-icon {
+      background: #2C2822;
+      color: #E5CCA2;
+    }
+    .card-concept1 .brand-badge {
+      background: #EDE6D8;
+      color: #5C4F3B;
+    }
+    .card-concept1 .brand-title {
+      color: #1F1C18;
+    }
+    .card-concept1 .brand-sub {
+      color: #7A7265;
+    }
+    .card-concept1 .form-label {
+      color: #38332B;
+    }
+    .card-concept1 .form-input {
+      background: #FFFFFF;
+      border: 1px solid #D8D1C3;
+      color: #1F1C18;
+    }
+    .card-concept1 .form-input:focus {
+      border-color: #9C7D4A;
+      box-shadow: 0 0 0 3px rgba(156, 125, 74, 0.12);
+    }
+    .card-concept1 .btn-submit {
+      background: #2C2822;
+      color: #FAF8F5;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .card-concept1 .btn-submit:hover {
+      background: #1A1713;
+    }
+    .card-concept1 .compliance-footer {
+      border-top: 1px solid #EAE3D6;
+      color: #6E6659;
+    }
+    .card-concept1 .compliance-footer p {
+      color: #9E9585;
+    }
+
+    /* -------------------------------------------------------------
+       CONCEPT 2: SCHOLARLY ALABASTER & NAVY (Oxford Clean Institutional)
+       ------------------------------------------------------------- */
+    .canvas-concept2 {
+      background: #E8ECEF;
+    }
+    .card-concept2 {
+      background: #FFFFFF;
+      border: 1px solid #D5DCE2;
+      border-top: 4px solid #1E3A8A;
+      box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.07);
+    }
+    .card-concept2 .brand-icon {
+      background: #EFF6FF;
+      color: #1E3A8A;
+      border: 1px solid #DBEAFE;
+    }
+    .card-concept2 .brand-badge {
+      background: #F1F5F9;
+      color: #334155;
+      border: 1px solid #E2E8F0;
+    }
+    .card-concept2 .brand-title {
+      color: #0F172A;
+    }
+    .card-concept2 .brand-sub {
+      color: #64748B;
+    }
+    .card-concept2 .form-label {
+      color: #1E293B;
+    }
+    .card-concept2 .form-input {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      color: #0F172A;
+    }
+    .card-concept2 .form-input:focus {
+      background: #FFFFFF;
+      border-color: #1E3A8A;
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+    }
+    .card-concept2 .btn-submit {
+      background: #1E3A8A;
+      color: #FFFFFF;
+      box-shadow: 0 2px 4px rgba(30, 58, 138, 0.15);
+    }
+    .card-concept2 .btn-submit:hover {
+      background: #172554;
+    }
+    .card-concept2 .compliance-footer {
+      border-top: 1px solid #E2E8F0;
+      color: #475569;
+    }
+    .card-concept2 .compliance-footer p {
+      color: #94A3B8;
+    }
+
+    /* -------------------------------------------------------------
+       CONCEPT 3: CAMBRIDGE STONE & BRITISH RACING GREEN (Press Seal)
+       ------------------------------------------------------------- */
+    .canvas-concept3 {
+      background: #E5E9E5;
+    }
+    .card-concept3 {
+      background: #FBFDFB;
+      border: 1px solid #CCD5CC;
+      box-shadow: 0 10px 25px -4px rgba(26, 46, 36, 0.08);
+    }
+    .card-concept3 .brand-icon {
+      background: #1E3D30;
+      color: #DDEBE3;
+    }
+    .card-concept3 .brand-badge {
+      background: #E8EFEA;
+      color: #244B3B;
+    }
+    .card-concept3 .brand-title {
+      color: #142820;
+    }
+    .card-concept3 .brand-sub {
+      color: #556B60;
+    }
+    .card-concept3 .form-label {
+      color: #1E3D30;
+    }
+    .card-concept3 .form-input {
+      background: #FFFFFF;
+      border: 1px solid #C4D0C5;
+      color: #142820;
+    }
+    .card-concept3 .form-input:focus {
+      border-color: #1E3D30;
+      box-shadow: 0 0 0 3px rgba(30, 61, 48, 0.12);
+    }
+    .card-concept3 .btn-submit {
+      background: #1E3D30;
+      color: #FFFFFF;
+      box-shadow: 0 2px 4px rgba(30, 61, 48, 0.2);
+    }
+    .card-concept3 .btn-submit:hover {
+      background: #142820;
+    }
+    .card-concept3 .compliance-footer {
+      border-top: 1px solid #E2E8E3;
+      color: #4B6356;
+    }
+    .card-concept3 .compliance-footer p {
+      color: #83998D;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-banner">
+    <h1>Veridica Super Admin — Light Tone Design Concepts</h1>
+    <p>Authentic, restrained academic governance software designs. No gimmicky gradients, neon glows, or vibe coding.</p>
+  </div>
+
+  <div class="designs-grid">
+    
+    <!-- DESIGN 1 -->
+    <div class="concept-column">
+      <div class="concept-title">
+        <span>Concept 1: Archival Linen & Charcoal</span>
+        <span class="tag">Warm Heritage</span>
+      </div>
+      <div class="preview-canvas canvas-concept1">
+        <div class="login-card card-concept1">
+          <div class="card-brand">
+            <div class="brand-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+            </div>
+            <div>
+              <span class="brand-badge">Veridica Governance</span>
+            </div>
+            <h2 class="brand-title">Veridica Academic</h2>
+            <p class="brand-sub">Institutional Super Admin Vault</p>
+          </div>
+
+          <form onsubmit="return false;">
+            <div class="form-group">
+              <label class="form-label">Admin Email Address</label>
+              <input type="email" class="form-input" value="admin@veridica.com" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Account Password</label>
+              <input type="password" class="form-input" value="password123" readonly>
+            </div>
+            <div class="form-group">
+              <div class="form-label">
+                <span>TOTP 2FA Authenticator</span>
+                <span style="font-size:9.5px; opacity:0.65; text-transform:none;">(Required)</span>
+              </div>
+              <input type="text" class="form-input totp-input" value="582 914" readonly>
+            </div>
+
+            <button class="btn-submit" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Authorize & Sign In
+            </button>
+          </form>
+
+          <div class="compliance-footer">
+            <div>256-bit SSL Encrypted • Oxford Standard</div>
+            <p>Veridica Academic Publishing Security &copy; 2026</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESIGN 2 -->
+    <div class="concept-column">
+      <div class="concept-title">
+        <span>Concept 2: Clean Alabaster & Royal Navy</span>
+        <span class="tag">Oxford Crisp</span>
+      </div>
+      <div class="preview-canvas canvas-concept2">
+        <div class="login-card card-concept2">
+          <div class="card-brand">
+            <div class="brand-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+            </div>
+            <div>
+              <span class="brand-badge">Veridica Governance</span>
+            </div>
+            <h2 class="brand-title">Veridica Academic</h2>
+            <p class="brand-sub">Institutional Super Admin Vault</p>
+          </div>
+
+          <form onsubmit="return false;">
+            <div class="form-group">
+              <label class="form-label">Admin Email Address</label>
+              <input type="email" class="form-input" value="admin@veridica.com" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Account Password</label>
+              <input type="password" class="form-input" value="password123" readonly>
+            </div>
+            <div class="form-group">
+              <div class="form-label">
+                <span>TOTP 2FA Authenticator</span>
+                <span style="font-size:9.5px; opacity:0.65; text-transform:none;">(Required)</span>
+              </div>
+              <input type="text" class="form-input totp-input" value="582 914" readonly>
+            </div>
+
+            <button class="btn-submit" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Authorize & Sign In
+            </button>
+          </form>
+
+          <div class="compliance-footer">
+            <div>256-bit SSL Encrypted • Oxford Standard</div>
+            <p>Veridica Academic Publishing Security &copy; 2026</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESIGN 3 -->
+    <div class="concept-column">
+      <div class="concept-title">
+        <span>Concept 3: Cambridge Stone & Forest Green</span>
+        <span class="tag">Press Guild</span>
+      </div>
+      <div class="preview-canvas canvas-concept3">
+        <div class="login-card card-concept3">
+          <div class="card-brand">
+            <div class="brand-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+            </div>
+            <div>
+              <span class="brand-badge">Veridica Governance</span>
+            </div>
+            <h2 class="brand-title">Veridica Academic</h2>
+            <p class="brand-sub">Institutional Super Admin Vault</p>
+          </div>
+
+          <form onsubmit="return false;">
+            <div class="form-group">
+              <label class="form-label">Admin Email Address</label>
+              <input type="email" class="form-input" value="admin@veridica.com" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Account Password</label>
+              <input type="password" class="form-input" value="password123" readonly>
+            </div>
+            <div class="form-group">
+              <div class="form-label">
+                <span>TOTP 2FA Authenticator</span>
+                <span style="font-size:9.5px; opacity:0.65; text-transform:none;">(Required)</span>
+              </div>
+              <input type="text" class="form-input totp-input" value="582 914" readonly>
+            </div>
+
+            <button class="btn-submit" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Authorize & Sign In
+            </button>
+          </form>
+
+          <div class="compliance-footer">
+            <div>256-bit SSL Encrypted • Oxford Standard</div>
+            <p>Veridica Academic Publishing Security &copy; 2026</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

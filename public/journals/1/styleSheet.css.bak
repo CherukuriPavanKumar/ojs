@@ -1,0 +1,49 @@
+/* ==========================================================================
+   VERIDICA PUBLICATION - MINIMAL BRANDING STYLESHEET
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+
+:root {
+    --veridica-navy: #002850;
+    --veridica-blue: #003366;
+    --veridica-gold: #B8892B;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Header Banner & Logo */
+.pkp_structure_head {
+    background: linear-gradient(135deg, #001F3F 0%, #003366 100%) !important;
+    border-bottom: 3px solid var(--veridica-gold) !important;
+}
+
+.pkp_site_name .is_img img {
+    max-height: 70px !important;
+    width: auto !important;
+}
+
+.pkp_site_name a.is_text {
+    color: #FFFFFF !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+}
+
+/* Navigation Menus */
+.pkp_navigation_primary > li > a,
+.pkp_navigation_user > li > a {
+    color: #FFFFFF !important;
+}
+
+.pkp_navigation_user > li > a:hover {
+    color: var(--veridica-gold) !important;
+}
+
+.pkp_structure_footer_wrapper {
+    background: #001A33 !important;
+    border-top: 3px solid var(--veridica-gold) !important;
+    color: #94A3B8 !important;
+}
