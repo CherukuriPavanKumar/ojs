@@ -1,177 +1,234 @@
 {**
  * templates/mfaSetup.tpl
  *
- * MFA Setup page — shown on first Super Admin login.
+ * SAGE / Scopus Academic MFA Setup page — shown on first Super Admin login.
  * Displays a QR code for the admin to scan with their authenticator app.
  *}
 {include file="layouts/backend.tpl"}
 {block name="page"}
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
 <style>
-.mfa-wrap {
-    max-width: 480px;
-    margin: 60px auto;
-    background: #1e2433;
-    border: 1px solid #2e3650;
-    border-radius: 16px;
-    padding: 48px 40px;
-    text-align: center;
-    box-shadow: 0 8px 48px rgba(0,0,0,0.4);
-}
-.mfa-logo {
-    width: 56px;
-    height: 56px;
-    background: linear-gradient(135deg, #6c63ff, #3b82f6);
-    border-radius: 14px;
+{literal}
+.mfa-container {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 24px;
+    padding: 40px 20px;
+    background: #F8F9FA;
 }
-.mfa-title {
-    font-size: 22px;
+.mfa-card {
+    max-width: 500px;
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-top: 4px solid #003366;
+    border-radius: 8px;
+    padding: 40px 36px;
+    text-align: center;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.06), 0 8px 10px -6px rgba(0,0,0,0.04);
+}
+.mfa-emblem {
+    width: 52px;
+    height: 52px;
+    background: #003366;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: #C9A84C;
+}
+.mfa-badge {
+    display: inline-block;
+    background: #EFF6FF;
+    color: #1E40AF;
+    border: 1px solid #BFDBFE;
+    font-size: 11px;
     font-weight: 700;
-    color: #f1f5f9;
+    letter-spacing: 0.05em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
     margin-bottom: 8px;
 }
+.mfa-title {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0F172A;
+    margin: 0 0 6px 0;
+}
 .mfa-subtitle {
-    font-size: 14px;
-    color: #8b96a7;
-    margin-bottom: 28px;
-    line-height: 1.6;
+    font-size: 13px;
+    color: #64748B;
+    margin-bottom: 24px;
+    line-height: 1.5;
 }
 .mfa-steps {
     text-align: left;
-    background: #151b2d;
-    border-radius: 10px;
-    padding: 20px 24px;
-    margin-bottom: 24px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.6;
+}
+.mfa-steps ol {
+    margin: 0;
+    padding-left: 20px;
 }
 .mfa-steps li {
-    color: #c9d4e3;
-    font-size: 13.5px;
-    margin-bottom: 10px;
-    line-height: 1.5;
+    margin-bottom: 6px;
 }
 .mfa-steps li:last-child { margin-bottom: 0; }
 .mfa-qr {
-    background: #fff;
-    border-radius: 12px;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
     padding: 16px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     min-width: 200px;
     min-height: 200px;
 }
 .manual-secret {
-    background: #151b2d;
-    border: 1px dashed #3b4568;
-    border-radius: 8px;
+    background: #F1F5F9;
+    border: 1px dashed #94A3B8;
+    border-radius: 6px;
     padding: 10px 14px;
-    font-family: monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 13px;
-    color: #6c63ff;
+    font-weight: 600;
+    color: #003366;
     letter-spacing: 1px;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     word-break: break-all;
+    user-select: all;
 }
 .mfa-input {
     width: 100%;
-    padding: 14px 16px;
-    background: #151b2d;
-    border: 1px solid #2e3650;
-    border-radius: 10px;
-    color: #f1f5f9;
+    padding: 12px 16px;
+    background: #FFFFFF;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 6px;
+    color: #0F172A;
     font-size: 22px;
+    font-weight: 700;
     letter-spacing: 8px;
     text-align: center;
     margin-bottom: 16px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
     box-sizing: border-box;
 }
-.mfa-input:focus { border-color: #6c63ff; }
+.mfa-input:focus {
+    border-color: #003366;
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.15);
+}
 .mfa-btn {
     width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, #6c63ff, #3b82f6);
-    border: none;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 600;
+    padding: 12px;
+    background: #003366;
+    border: 1px solid #002244;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: background 0.18s;
 }
-.mfa-btn:hover { opacity: 0.88; }
+.mfa-btn:hover { background: #002244; }
+.mfa-btn:focus-visible {
+    outline: 2px solid #003366;
+    outline-offset: 2px;
+}
 .mfa-error {
-    background: rgba(239,68,68,0.1);
-    border: 1px solid rgba(239,68,68,0.35);
-    color: #f87171;
-    border-radius: 8px;
-    padding: 12px 16px;
+    background: #FEE2E2;
+    border: 1px solid #FCA5A5;
+    color: #991B1B;
+    border-radius: 6px;
+    padding: 10px 14px;
     font-size: 13px;
     margin-bottom: 16px;
+    text-align: left;
 }
+{/literal}
 </style>
 
-<div class="mfa-wrap">
-    <div class="mfa-logo">🔐</div>
-    <div class="mfa-title">Set Up Two-Factor Authentication</div>
-    <div class="mfa-subtitle">
-        Protect your Super Admin account with an authenticator app.<br>
-        This only needs to be done once.
+<div class="mfa-container">
+    <div class="mfa-card">
+        <div class="mfa-emblem">
+            <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        </div>
+        <span class="mfa-badge">Institutional Security</span>
+        <h1 class="mfa-title">Set Up Multi-Factor Authentication</h1>
+        <p class="mfa-subtitle">
+            Mandatory two-factor security for Super Admin cross-journal governance.<br>
+            Please scan this QR code with your authenticator app.
+        </p>
+
+        <div class="mfa-steps">
+            <ol>
+                <li>Open <strong>Google Authenticator</strong>, <strong>Authy</strong>, or <strong>1Password</strong>.</li>
+                <li>Scan the QR code below or enter the manual key.</li>
+                <li>Enter the 6-digit verification code generated by the app.</li>
+            </ol>
+        </div>
+
+        <div class="mfa-qr" id="qrcode-container" aria-label="QR Code for TOTP Authenticator"></div>
+
+        <div style="color: #64748B; font-size: 12px; margin-bottom: 6px;">Manual Secret Key:</div>
+        <div class="manual-secret" title="Click to select all">{$manualSecret|escape}</div>
+
+        {if $error}
+            <div class="mfa-error" role="alert">{$error|escape}</div>
+        {/if}
+
+        <form method="post" action="{$confirmUrl|escape}">
+            {csrf}
+            <input
+                class="mfa-input"
+                type="text"
+                name="code"
+                id="mfa-code"
+                maxlength="6"
+                placeholder="000000"
+                autocomplete="one-time-code"
+                inputmode="numeric"
+                aria-label="6-digit Authenticator Code"
+                autofocus
+                required
+            />
+            <button class="mfa-btn" type="submit">Verify &amp; Activate MFA</button>
+        </form>
     </div>
-
-    <ol class="mfa-steps">
-        <li>Install <strong>Google Authenticator</strong>, <strong>Authy</strong>, or any TOTP app on your phone.</li>
-        <li>Scan the QR code below, or enter the secret key manually.</li>
-        <li>Enter the 6-digit code shown in your app to confirm setup.</li>
-    </ol>
-
-    <div class="mfa-qr" id="qrcode-container"></div>
-
-    <div style="color:#8b96a7;font-size:12px;margin-bottom:8px;">Can't scan? Enter this key manually:</div>
-    <div class="manual-secret">{$manualSecret|escape}</div>
-
-    {if $error}
-        <div class="mfa-error">{$error|escape}</div>
-    {/if}
-
-    <form method="post" action="{$confirmUrl|escape}">
-        {csrf}
-        <input
-            class="mfa-input"
-            type="text"
-            name="code"
-            id="mfa-code"
-            maxlength="6"
-            placeholder="000000"
-            autocomplete="one-time-code"
-            inputmode="numeric"
-            autofocus
-            required
-        />
-        <button class="mfa-btn" type="submit">Confirm &amp; Enable MFA</button>
-    </form>
 </div>
 
 <script src="{$pluginUrl|escape}/public/js/qrcode.min.js"></script>
 <script>
+{literal}
 (function() {
-    var otpUri = {$otpAuthUri|json_encode};
+    var otpUri = {/literal}{$otpAuthUri|json_encode}{literal};
     new QRCode(document.getElementById('qrcode-container'), {
         text: otpUri,
         width: 200,
         height: 200,
-        colorDark: '#000000',
+        colorDark: '#003366',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.M
     });
 })();
+{/literal}
 </script>
 
 {/block}

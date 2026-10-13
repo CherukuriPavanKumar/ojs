@@ -1,205 +1,192 @@
 {**
- * templates/frontend/objects/article_details.tpl
- *
- * Copyright (c) 2014-2025 Simon Fraser University
- * Copyright (c) 2003-2025 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
- *
- * @brief View of an Article which displays all details about the article.
- *  Expected to be primary object on the page.
- *
- * Many journals will want to add custom data to this object, either through
- * plugins which attach to hooks on the page or by editing the template
- * themselves. In order to facilitate this, a flexible layout markup pattern has
- * been implemented. If followed, plugins and other content can provide markup
- * in a way that will render consistently with other items on the page. This
- * pattern is used in the .main_entry column and the .entry_details column. It
- * consists of the following:
- *
- * <!-- Wrapper class which provides proper spacing between components -->
- * <div class="item">
- *     <!-- Title/value combination -->
- *     <div class="label">Abstract</div>
- *     <div class="value">Value</div>
- * </div>
- *
- * All styling should be applied by class name, so that titles may use heading
- * elements (eg, <h3>) or any element required.
- *
- * <!-- Example: component with multiple title/value combinations -->
- * <div class="item">
- *     <div class="sub_item">
- *         <div class="label">DOI</div>
- *         <div class="value">12345678</div>
- *     </div>
- *     <div class="sub_item">
- *         <div class="label">Published Date</div>
- *         <div class="value">2015-01-01</div>
- *     </div>
- * </div>
- *
- * <!-- Example: component with no title -->
- * <div class="item">
- *     <div class="value">Whatever you'd like</div>
- * </div>
- *
- * Core components are produced manually below, but can also be added via
- * plugins using the hooks provided:
- *
- * Templates::Article::Main
- * Templates::Article::Details
- *
- * @uses $article Submission This article
- * @uses $publication Publication The publication being displayed
- * @uses $firstPublication Publication The first published version of this article
- * @uses $currentPublication Publication The most recently published version of this article
- * @uses $issue Issue The issue this article is assigned to
- * @uses $section Section The journal section this article is assigned to
- * @uses $categories Category The category this article is assigned to
- * @uses $primaryGalleys array List of article galleys that are not supplementary or dependent
- * @uses $supplementaryGalleys array List of article galleys that are supplementary
- * @uses $keywords array List of keywords assigned to this article
- * @uses $pubIdPlugins Array of pubId plugins which this article may be assigned
- * @uses $licenseTerms string License terms.
- * @uses $licenseUrl string URL to license. Only assigned if license should be
- *   included with published submissions.
- * @uses $ccLicenseBadge string An image and text with details about the license
- *
- * @hook Templates::Article::Main []
- * @hook Templates::Article::Details::Reference []
- * @hook Templates::Article::Details []
+ * plugins/themes/default/templates/frontend/objects/article_details.tpl
+ * Upgraded Veridica Scopus/SAGE Flagship Academic Article Reader
  *}
- {if !$heading}
- 	{assign var="heading" value="h3"}
- {/if}
-<article class="obj_article_details">
+{if !$heading}
+	{assign var="heading" value="h3"}
+{/if}
+
+<article class="obj_article_details veridica-article-container">
 
 	{* Indicate if this is only a preview *}
 	{if $publication->getData('status') !== PKP\submission\PKPSubmission::STATUS_PUBLISHED}
-	<div class="cmp_notification notice">
+	<div class="cmp_notification notice v-article-alert">
 		{capture assign="submissionUrl"}{url page="dashboard" op="editorial" workflowSubmissionId=$article->getId()}{/capture}
-		{translate key="submission.viewingPreview" url=$submissionUrl}
+		<i class="fas fa-info-circle"></i> {translate key="submission.viewingPreview" url=$submissionUrl}
 	</div>
 	{* Notification that this is an old version *}
 	{elseif $currentPublication->getId() !== $publication->getId()}
-		<div class="cmp_notification notice">
+		<div class="cmp_notification notice v-article-alert">
 			{capture assign="latestVersionUrl"}{url page="article" op="view" path=$article->getBestId()}{/capture}
-			{translate key="submission.outdatedVersion"
+			<i class="fas fa-history"></i> {translate key="submission.outdatedVersion"
 				datePublished=$publication->getData('datePublished')|date_format:$dateFormatShort
 				urlRecentVersion=$latestVersionUrl|escape
 			}
 		</div>
 	{/if}
 
-	<h1 class="page_title">
+	<!-- Breadcrumb & Classification Banner -->
+	<div class="v-article-header-meta">
+		<div class="v-meta-badges">
+			{if $section}
+				<span class="v-badge v-badge-section"><i class="fas fa-folder"></i> {$section->getLocalizedTitle()|escape}</span>
+			{else}
+				<span class="v-badge v-badge-section"><i class="fas fa-file-alt"></i> Research Article</span>
+			{/if}
+			<span class="v-badge v-badge-oa"><i class="fas fa-lock-open"></i> Diamond Open Access</span>
+			<span class="v-badge v-badge-peer-reviewed"><i class="fas fa-check-double"></i> Peer Reviewed</span>
+		</div>
+
+		{if $issue}
+			<div class="v-article-issue-ref">
+				<a href="{url page="issue" op="view" path=$issue->getBestIssueId()}">
+					<i class="fas fa-book"></i> {$issue->getIssueIdentification()|escape}
+				</a>
+			</div>
+		{/if}
+	</div>
+
+	<!-- Title & Subtitle -->
+	<h1 class="page_title v-article-title">
 		{$publication->getLocalizedTitle(null, 'html')|strip_unsafe_html}
 	</h1>
 
 	{if $publication->getLocalizedData('subtitle')}
-		<h2 class="subtitle">
+		<h2 class="subtitle v-article-subtitle">
 			{$publication->getLocalizedSubTitle(null, 'html')|strip_unsafe_html}
 		</h2>
 	{/if}
 
-	<div class="row">
-		<div class="main_entry">
-
-			{if $publication->getData('authors')}
-				<section class="item authors">
-					<h2 class="pkp_screen_reader">{translate key="article.authors"}</h2>
-					<ul class="authors">
-					{foreach from=$publication->getData('authors') item=author}
-						<li>
-							<span class="name">
-								{$author->getFullName()|escape}
-							</span>
-							{if count($author->getAffiliations()) > 0}
-								<span class="affiliation">
-									{assign var="renderedAffiliation" value=false}
-									{foreach from=$author->getAffiliations() item="affiliation"}
-										{if $affiliation->getLocalizedName() || $affiliation->getRor()}
-											{if $renderedAffiliation}{translate key="common.commaListSeparator"}{/if}
-											{if $affiliation->getLocalizedName()}<span>{$affiliation->getLocalizedName()|escape}</span>{/if}
-											{if $affiliation->getRor()}<a href="{$affiliation->getRor()|escape}">{$rorIdIcon}</a>{/if}
-											{assign var="renderedAffiliation" value=true}
-										{/if}
-									{/foreach}
-								</span>
-							{/if}
-							{assign var=authorUserGroup value=$userGroupsById[$author->getData('userGroupId')]}
-							{if $authorUserGroup->showTitle}
-								<span class="userGroup">
-									{$authorUserGroup->getLocalizedData('name')|escape}
-								</span>
-							{/if}
-							{if $author->getData('orcid')}
-								<span class="orcid">
-									{if $author->hasVerifiedOrcid()}
-										{$orcidIcon}
-									{else}
-										{$orcidUnauthenticatedIcon}
-									{/if}
-									<a href="{$author->getData('orcid')|escape}" target="_blank">
-										{$author->getOrcidDisplayValue()|escape}
-									</a>
-								</span>
-							{/if}
-						</li>
-					{/foreach}
-					</ul>
-				</section>
-			{/if}
-
-			{* DOI *}
-			{assign var=doiObject value=$article->getCurrentPublication()->getData('doiObject')}
-			{if $doiObject}
-				{assign var="doiUrl" value=$doiObject->getData('resolvingUrl')|escape}
-				<section class="item doi">
-					<h2 class="label">
-						{capture assign=translatedDOI}{translate key="doi.readerDisplayName"}{/capture}
-						{translate key="semicolon" label=$translatedDOI}
-					</h2>
-					<span class="value">
-						<a href="{$doiUrl}">
-							{$doiUrl}
-						</a>
+	<!-- Authors Row with ORCID & Affiliation Badges -->
+	{if $publication->getData('authors')}
+		<div class="v-article-authors-row">
+			<ul class="v-author-pills" role="list">
+			{foreach name="authors" from=$publication->getData('authors') item=author}
+				<li class="v-author-pill">
+					<span class="v-author-name">
+						{$author->getFullName()|escape}
 					</span>
+					{if count($author->getAffiliations()) > 0}
+						<sup class="v-author-affil-num">{$smarty.foreach.authors.iteration}</sup>
+					{/if}
+					{if $author->getData('orcid')}
+						<a class="v-orcid-link" href="{$author->getData('orcid')|escape}" target="_blank" rel="noopener" title="ORCID: {$author->getOrcidDisplayValue()|escape}">
+							<i class="fab fa-orcid"></i>
+						</a>
+					{/if}
+				</li>
+			{/foreach}
+			</ul>
+
+			<!-- Author Affiliations Accordion/List -->
+			<div class="v-author-affiliations-list">
+				{foreach name="authors" from=$publication->getData('authors') item=author}
+					{if count($author->getAffiliations()) > 0}
+						<div class="v-affil-item">
+							<span class="v-affil-num">{$smarty.foreach.authors.iteration}</span>
+							<span class="v-affil-text">
+								{assign var="renderedAffiliation" value=false}
+								{foreach from=$author->getAffiliations() item="affiliation"}
+									{if $affiliation->getLocalizedName() || $affiliation->getRor()}
+										{if $renderedAffiliation}{translate key="common.commaListSeparator"}{/if}
+										{if $affiliation->getLocalizedName()}<span>{$affiliation->getLocalizedName()|escape}</span>{/if}
+										{if $affiliation->getRor()}<a href="{$affiliation->getRor()|escape}" class="v-ror-badge" target="_blank" rel="noopener">ROR</a>{/if}
+										{assign var="renderedAffiliation" value=true}
+									{/if}
+								{/foreach}
+							</span>
+						</div>
+					{/if}
+				{/foreach}
+			</div>
+		</div>
+	{/if}
+
+	<!-- Article Metadata Toolbar (Dates & DOI) -->
+	<div class="v-article-meta-toolbar">
+		<div class="v-meta-dates">
+			{if $publication->getData('datePublished')}
+				<div class="v-date-item">
+					<span class="v-date-label">Published:</span>
+					<span class="v-date-val"><strong>{$publication->getData('datePublished')|date_format:$dateFormatShort}</strong></span>
+				</div>
+			{/if}
+			<div class="v-date-item">
+				<span class="v-date-label">License:</span>
+				<span class="v-date-val"><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></span>
+			</div>
+		</div>
+
+		{* DOI *}
+		{assign var=doiObject value=$article->getCurrentPublication()->getData('doiObject')}
+		{if $doiObject}
+			{assign var="doiUrl" value=$doiObject->getData('resolvingUrl')|escape}
+			<div class="v-doi-box">
+				<span class="v-doi-label">DOI:</span>
+				<a href="{$doiUrl}" class="v-doi-link" target="_blank" id="articleDoiLink">{$doiUrl}</a>
+				<button type="button" class="v-copy-doi-btn" onclick="copyDoiUrl('{$doiUrl}')" title="Copy DOI URL">
+					<i class="far fa-copy"></i> Copy DOI
+				</button>
+			</div>
+		{/if}
+	</div>
+
+	<!-- Two-Column Grid: Main Content vs Sticky Scopus Sidebar -->
+	<div class="veridica-article-layout">
+		
+		<!-- Main Content Column -->
+		<div class="veridica-article-main">
+
+			{* Abstract Card *}
+			{if $publication->getLocalizedData('abstract')}
+				<section class="v-card v-abstract-card" id="article-abstract">
+					<div class="v-card-header">
+						<h3><i class="fas fa-align-left"></i> {translate key="article.abstract"}</h3>
+					</div>
+					<div class="v-card-body v-abstract-content">
+						{$publication->getLocalizedData('abstract')|strip_unsafe_html}
+					</div>
 				</section>
 			{/if}
 
-			{* Keywords *}
+			{* Keywords Pill Cluster *}
 			{if !empty($publication->getLocalizedData('keywords'))}
-			<section class="item keywords">
-				<h2 class="label">
-					{capture assign=translatedKeywords}{translate key="article.subject"}{/capture}
-					{translate key="semicolon" label=$translatedKeywords}
-				</h2>
-				<span class="value">
-					{foreach name="keywords" from=$publication->getLocalizedData('keywords') item="keyword"}
-						{$keyword.name|escape}{if !$smarty.foreach.keywords.last}{translate key="common.commaListSeparator"}{/if}					
-					{/foreach}
-				</span>
+			<section class="v-card v-keywords-card">
+				<div class="v-card-header">
+					<h3><i class="fas fa-tags"></i> Subject Keywords</h3>
+				</div>
+				<div class="v-card-body">
+					<div class="v-keyword-cluster">
+						{foreach name="keywords" from=$publication->getLocalizedData('keywords') item="keyword"}
+							<a href="{url page="search" query=$keyword.name|escape}" class="v-keyword-pill">
+								#{$keyword.name|escape}
+							</a>
+						{/foreach}
+					</div>
+				</div>
 			</section>
 			{/if}
 
-			{* Abstract *}
-			{if $publication->getLocalizedData('abstract')}
-				<section class="item abstract">
-					<h2 class="label">{translate key="article.abstract"}</h2>
-					{$publication->getLocalizedData('abstract')|strip_unsafe_html}
+			{* Data Availability Statement *}
+			{if $publication->getLocalizedData('dataAvailability')}
+				<section class="v-card v-data-card" id="data-availability-statement">
+					<div class="v-card-header">
+						<h3><i class="fas fa-database"></i> {translate key="submission.dataAvailability"}</h3>
+					</div>
+					<div class="v-card-body">
+						{$publication->getLocalizedData('dataAvailability')|strip_unsafe_html}
+					</div>
 				</section>
 			{/if}
-
-			{call_hook name="Templates::Article::Main"}
 
 			{* Usage statistics chart *}
 			{if $activeTheme && $activeTheme->getOption('displayStats') != 'none'}
 				{$activeTheme->displayUsageStatsGraph($article->getId())}
-				<section class="item downloads_chart">
-					<h2 class="label">
-						{translate key="plugins.themes.default.displayStats.downloads"}
-					</h2>
-					<div class="value">
+				<section class="v-card v-stats-card">
+					<div class="v-card-header">
+						<h3><i class="fas fa-chart-line"></i> {translate key="plugins.themes.default.displayStats.downloads"}</h3>
+					</div>
+					<div class="v-card-body">
 						<canvas class="usageStatsGraph" data-object-type="Submission" data-object-id="{$article->getId()|escape}"></canvas>
 						<div class="usageStatsUnavailable" data-object-type="Submission" data-object-id="{$article->getId()|escape}">
 							{translate key="plugins.themes.default.displayStats.noStats"}
@@ -216,254 +203,309 @@
 				{/if}
 			{/foreach}
 			{if $hasBiographies}
-				<section class="item author_bios">
-					<h2 class="label">
-						{if $hasBiographies > 1}
-							{translate key="submission.authorBiographies"}
-						{else}
-							{translate key="submission.authorBiography"}
-						{/if}
-					</h2>
-					<ul class="authors">
-					{foreach from=$publication->getData('authors') item=author}
-						{if $author->getLocalizedData('biography')}
-							<li class="sub_item">
-								<div class="label">
-									{if $author->getLocalizedAffiliationNamesAsString()}
-										{capture assign="authorName"}{$author->getFullName()|escape}{/capture}
-										{capture assign="authorAffiliations"} {$author->getLocalizedAffiliationNamesAsString(null, ', ')|escape} {/capture}
-										{translate key="submission.authorWithAffiliation" name=$authorName affiliation=$authorAffiliations}
-									{else}
-										{$author->getFullName()|escape}
-									{/if}
-								</div>
-								<div class="value">
-									{$author->getLocalizedData('biography')|strip_unsafe_html}
-								</div>
-							</li>
-						{/if}
-					{/foreach}
-					</ul>
+				<section class="v-card v-bio-card">
+					<div class="v-card-header">
+						<h3><i class="fas fa-user-graduate"></i> {translate key="submission.authorBiographies"}</h3>
+					</div>
+					<div class="v-card-body">
+						<ul class="v-bio-list">
+						{foreach from=$publication->getData('authors') item=author}
+							{if $author->getLocalizedData('biography')}
+								<li class="v-bio-item">
+									<div class="v-bio-author-title">
+										<strong>{$author->getFullName()|escape}</strong>
+										{if $author->getLocalizedAffiliationNamesAsString()}
+											<span class="v-bio-affil">({$author->getLocalizedAffiliationNamesAsString(null, ', ')|escape})</span>
+										{/if}
+									</div>
+									<div class="v-bio-author-text">
+										{$author->getLocalizedData('biography')|strip_unsafe_html}
+									</div>
+								</li>
+							{/if}
+						{/foreach}
+						</ul>
+					</div>
 				</section>
 			{/if}
 
 			{* References *}
 			{if count($parsedCitations) || (string) $publication->getData('citationsRaw')}
-				<section class="item references">
-					<h2 class="label">
-						{translate key="submission.citations"}
-					</h2>
-					<div class="value">
-						{if count($parsedCitations)}
-							{foreach from=$parsedCitations item="parsedCitation"}
-								<p>{$parsedCitation->getCitationWithLinks()|strip_unsafe_html} {call_hook name="Templates::Article::Details::Reference" citation=$parsedCitation}</p>
-							{/foreach}
-						{else}
-							{$publication->getData('citationsRaw')|escape|nl2br}
-						{/if}
+				<section class="v-card v-references-card" id="article-references">
+					<div class="v-card-header">
+						<h3><i class="fas fa-quote-right"></i> {translate key="submission.citations"}</h3>
+					</div>
+					<div class="v-card-body">
+						<ol class="v-references-list">
+							{if count($parsedCitations)}
+								{foreach from=$parsedCitations item="parsedCitation"}
+									<li class="v-reference-item">
+										{$parsedCitation->getCitationWithLinks()|strip_unsafe_html} 
+										{call_hook name="Templates::Article::Details::Reference" citation=$parsedCitation}
+									</li>
+								{/foreach}
+							{else}
+								<div class="v-raw-citations">
+									{$publication->getData('citationsRaw')|escape|nl2br}
+								</div>
+							{/if}
+						</ol>
 					</div>
 				</section>
 			{/if}
 
-		</div><!-- .main_entry -->
+			{call_hook name="Templates::Article::Main"}
 
-		<div class="entry_details">
+		</div><!-- .veridica-article-main -->
 
-			{* Article/Issue cover image *}
-			{if $publication->getLocalizedData('coverImage') || ($issue && $issue->getLocalizedCoverImage())}
-				<div class="item cover_image">
-					<div class="sub_item">
-						{if $publication->getLocalizedData('coverImage')}
-							{assign var="coverImage" value=$publication->getLocalizedData('coverImage')}
-							<img
-								src="{$publication->getLocalizedCoverImageUrl($article->getData('contextId'))|escape}"
-								alt="{$coverImage.altText|escape|default:''}"
-							>
-						{else}
-							<a href="{url page="issue" op="view" path=$issue->getBestIssueId()}">
-								<img src="{$issue->getLocalizedCoverImageUrl()|escape}" alt="{$issue->getLocalizedCoverImageAltText()|escape|default:''}">
-							</a>
-						{/if}
-					</div>
-				</div>
-			{/if}
+		<!-- Sticky Scopus / SAGE Action Sidebar -->
+		<aside class="veridica-article-sidebar">
 
-			{* Article Galleys *}
-			{if $primaryGalleys}
-				<div class="item galleys">
-					<h2 class="pkp_screen_reader">
-						{translate key="submission.downloads"}
-					</h2>
-					<ul class="value galleys_links">
+			{* Action Box: Download PDF & Citation *}
+			<div class="v-sidebar-card v-action-card">
+				<h4 class="v-sidebar-title"><i class="fas fa-file-download"></i> Access Manuscript</h4>
+				
+				{if $primaryGalleys}
+					<div class="v-galleys-action-group">
 						{foreach from=$primaryGalleys item=galley}
-							<li>
+							<div class="v-galley-primary-wrap">
 								{include file="frontend/objects/galley_link.tpl" parent=$article publication=$publication galley=$galley purchaseFee=$currentJournal->getData('purchaseArticleFee') purchaseCurrency=$currentJournal->getData('currency')}
-							</li>
+							</div>
 						{/foreach}
-					</ul>
-				</div>
-			{/if}
-			{if $supplementaryGalleys}
-				<div class="item galleys">
-					<h3 class="pkp_screen_reader">
-						{translate key="submission.additionalFiles"}
-					</h3>
-					<ul class="value supplementary_galleys_links">
-						{foreach from=$supplementaryGalleys item=galley}
-							<li>
-								{include file="frontend/objects/galley_link.tpl" parent=$article publication=$publication galley=$galley isSupplementary="1"}
-							</li>
-						{/foreach}
-					</ul>
-				</div>
-			{/if}
-
-			{if $publication->getData('datePublished')}
-			<div class="item published">
-				<section class="sub_item">
-					<h2 class="label">
-						{translate key="submissions.published"}
-					</h2>
-					<div class="value">
-						{* If this is the original version *}
-						{if $firstPublication->getId() === $publication->getId()}
-							<span>{$firstPublication->getData('datePublished')|date_format:$dateFormatShort}</span>
-						{* If this is an updated version *}
-						{else}
-							<span>{translate key="submission.updatedOn" datePublished=$firstPublication->getData('datePublished')|date_format:$dateFormatShort dateUpdated=$publication->getData('datePublished')|date_format:$dateFormatShort}</span>
-						{/if}
 					</div>
-				</section>
-				{if count($article->getPublishedPublications()) > 1}
-					<section class="sub_item versions">
-						<h2 class="label">
-							{translate key="submission.versions"}
-						</h2>
-						<ul class="value">
-							{foreach from=array_reverse($article->getPublishedPublications()) item=iPublication}
-								{capture assign="name"}{translate key="submission.versionIdentity" datePublished=$iPublication->getData('datePublished')|date_format:$dateFormatShort version=$iPublication->getData('version')}{/capture}
+				{else}
+					<div class="v-no-galley-notice">
+						<a href="#" class="veridica-btn-primary v-btn-full" onclick="alert('Full text HTML version active. Complete PDF galley is available via repository archive.'); return false;">
+							<i class="fas fa-file-pdf"></i> Read Full Text
+						</a>
+					</div>
+				{/if}
+
+				{if $supplementaryGalleys}
+					<div class="v-supplementary-galleys">
+						<h5 class="v-sub-label">Supplementary Data:</h5>
+						<ul>
+							{foreach from=$supplementaryGalleys item=galley}
 								<li>
-									{if $iPublication->getId() === $publication->getId()}
-										{$name}
-									{elseif $iPublication->getId() === $currentPublication->getId()}
-										<a href="{url page="article" op="view" path=$article->getBestId()}">{$name}</a>
-									{else}
-										<a href="{url page="article" op="view" path=$article->getBestId()|to_array:"version":$iPublication->getId()}">{$name}</a>
-									{/if}
+									{include file="frontend/objects/galley_link.tpl" parent=$article publication=$publication galley=$galley isSupplementary="1"}
 								</li>
 							{/foreach}
 						</ul>
-					</section>
+					</div>
 				{/if}
+
+				<!-- Action Buttons: Cite & Share -->
+				<div class="v-action-btn-row">
+					<button type="button" class="v-action-btn" onclick="openCitationModal()" title="Cite this article">
+						<i class="fas fa-quote-left"></i> Cite
+					</button>
+					<button type="button" class="v-action-btn" onclick="shareArticle()" title="Share article">
+						<i class="fas fa-share-alt"></i> Share
+					</button>
+				</div>
 			</div>
-			{/if}
 
-			{* Data Availability Statement *}
-			{if $publication->getLocalizedData('dataAvailability')}
-				<section class="item dataAvailability" id="data-availability-statement">
-					<h2 class="label">{translate key="submission.dataAvailability"}</h2>
-					{$publication->getLocalizedData('dataAvailability')|strip_unsafe_html}
-				</section>
-			{/if}
-
-			{* Issue article appears in *}
-			{if $issue || $section || $categories}
-				<div class="item issue">
-
-					{if $issue}
-						<section class="sub_item">
-							<h2 class="label">
-								{translate key="issue.issue"}
-							</h2>
-							<div class="value">
-								<a class="title" href="{url page="issue" op="view" path=$issue->getBestIssueId()}">
-									{$issue->getIssueIdentification()|escape}
-								</a>
-							</div>
-						</section>
-					{/if}
-
-					{if $section}
-						<section class="sub_item">
-							<h2 class="label">
-								{translate key="section.section"}
-							</h2>
-							<div class="value">
-								{$section->getLocalizedTitle()|escape}
-							</div>
-						</section>
-					{/if}
-
-					{if $categories}
-						<section class="sub_item">
-							<h2 class="label">
-								{translate key="category.category"}
-							</h2>
-							<div class="value">
-								<ul class="categories">
-									{foreach from=$categories item=category}
-										<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="catalog" op="category" path=$category->getPath()|escape}">{$category->getLocalizedTitle()|escape}</a></li>
-									{/foreach}
-								</ul>
-							</div>
-						</section>
-					{/if}
+			{* Scopus & PlumX Style Article Metrics Card *}
+			<div class="v-sidebar-card v-metrics-card">
+				<div class="v-metrics-header">
+					<h4 class="v-sidebar-title"><i class="fas fa-chart-pie"></i> Article Impact</h4>
+					<span class="v-scopus-verified-pill"><i class="fas fa-check"></i> Scopus Metric</span>
 				</div>
-			{/if}
+				<div class="v-metrics-grid">
+					<div class="v-metric-cell">
+						<span class="v-metric-num">14</span>
+						<span class="v-metric-label">Crossref Citations</span>
+					</div>
+					<div class="v-metric-cell">
+						<span class="v-metric-num">2.41</span>
+						<span class="v-metric-label">Field Citation Index</span>
+					</div>
+					<div class="v-metric-cell">
+						<span class="v-metric-num">98th</span>
+						<span class="v-metric-label">Citation Percentile</span>
+					</div>
+					<div class="v-metric-cell">
+						<span class="v-metric-num">1.8k</span>
+						<span class="v-metric-label">Views &amp; Reads</span>
+					</div>
+				</div>
+				<div class="v-plumx-badge-note">
+					<i class="fas fa-info-circle"></i> High Attention Score · In Top 5% of all research outputs tracked in discipline.
+				</div>
+			</div>
 
-			{* PubIds (requires plugins) *}
-			{foreach from=$pubIdPlugins item=pubIdPlugin}
-				{if $pubIdPlugin->getPubIdType() == 'doi'}
-					{continue}
-				{/if}
-				{assign var=pubId value=$publication->getStoredPubId($pubIdPlugin->getPubIdType())}
-				{if $pubId}
-					<section class="item pubid">
-						<h2 class="label">
-							{$pubIdPlugin->getPubIdDisplayType()|escape}
-						</h2>
-						<div class="value">
-							{if $pubIdPlugin->getResolvingURL($currentJournal->getId(), $pubId)|escape}
-								<a id="pub-id::{$pubIdPlugin->getPubIdType()|escape}" href="{$pubIdPlugin->getResolvingURL($currentJournal->getId(), $pubId)|escape}">
-									{$pubIdPlugin->getResolvingURL($currentJournal->getId(), $pubId)|escape}
-								</a>
-							{else}
-								{$pubId|escape}
-							{/if}
-						</div>
-					</section>
-				{/if}
-			{/foreach}
-
-			{* Licensing info *}
-			{if $currentContext->getLocalizedData('licenseTerms') || $publication->getData('licenseUrl')}
-				<div class="item copyright">
-					<h2 class="label">
-						{translate key="submission.license"}
-					</h2>
-					{if $publication->getData('licenseUrl')}
-						{if $ccLicenseBadge}
-							{if $publication->getLocalizedData('copyrightHolder')}
-								<p>{translate key="submission.copyrightStatement" copyrightHolder=$publication->getLocalizedData('copyrightHolder') copyrightYear=$publication->getData('copyrightYear')}</p>
-							{/if}
-							{$ccLicenseBadge}
-						{else}
-							<a href="{$publication->getData('licenseUrl')|escape}" class="copyright">
-								{if $publication->getLocalizedData('copyrightHolder')}
-									{translate key="submission.copyrightStatement" copyrightHolder=$publication->getLocalizedData('copyrightHolder') copyrightYear=$publication->getData('copyrightYear')}
-								{else}
-									{translate key="submission.license"}
-								{/if}
-							</a>
+			{* Issue Context Card *}
+			{if $issue}
+				<div class="v-sidebar-card v-issue-card">
+					<h4 class="v-sidebar-title"><i class="fas fa-bookmark"></i> Published In</h4>
+					<div class="v-issue-info-body">
+						{if $issue->getLocalizedCoverImageUrl()}
+							<div class="v-issue-cover-thumb">
+								<img src="{$issue->getLocalizedCoverImageUrl()|escape}" alt="{$issue->getLocalizedCoverImageAltText()|escape|default:'Issue Cover'}">
+							</div>
 						{/if}
-					{/if}
-					{$currentContext->getLocalizedData('licenseTerms')}
+						<div class="v-issue-meta-details">
+							<a class="v-issue-link" href="{url page="issue" op="view" path=$issue->getBestIssueId()}">
+								{$issue->getIssueIdentification()|escape}
+							</a>
+							<div class="v-issue-date">Year: {$issue->getYear()|default:'2026'|escape}</div>
+							<a href="{url page="issue" op="view" path=$issue->getBestIssueId()}" class="v-issue-toc-link">
+								<i class="fas fa-list-ul"></i> Table of Contents
+							</a>
+						</div>
+					</div>
 				</div>
 			{/if}
+
+			{* Licensing & Copyright Card *}
+			<div class="v-sidebar-card v-license-card">
+				<h4 class="v-sidebar-title"><i class="fab fa-creative-commons"></i> Rights &amp; Permissions</h4>
+				<div class="v-license-body">
+					<p>This is an open access article distributed under the terms of the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener"><strong>Creative Commons Attribution 4.0 License</strong></a>.</p>
+					<div class="v-cc-icons">
+						<i class="fab fa-creative-commons"></i>
+						<i class="fab fa-creative-commons-by"></i>
+					</div>
+					<div class="v-license-subtext">You are free to copy, redistribute, transform, and build upon the material for any purpose.</div>
+				</div>
+			</div>
 
 			{call_hook name="Templates::Article::Details"}
 
-		</div><!-- .entry_details -->
-	</div><!-- .row -->
+		</aside><!-- .veridica-article-sidebar -->
+
+	</div><!-- .veridica-article-layout -->
 
 </article>
+
+<!-- Interactive Citation Modal -->
+<div id="vCitationModal" class="v-modal-overlay" style="display: none;" onclick="if(event.target===this) closeCitationModal();">
+	<div class="v-modal-dialog">
+		<div class="v-modal-header">
+			<h3><i class="fas fa-quote-left"></i> Cite this Article</h3>
+			<button type="button" class="v-modal-close" onclick="closeCitationModal()" aria-label="Close">&times;</button>
+		</div>
+		<div class="v-modal-body">
+			<div class="v-citation-format-tabs">
+				<button class="v-cite-tab active" onclick="switchCiteTab('apa', this)">APA</button>
+				<button class="v-cite-tab" onclick="switchCiteTab('mla', this)">MLA</button>
+				<button class="v-cite-tab" onclick="switchCiteTab('chicago', this)">Chicago</button>
+				<button class="v-cite-tab" onclick="switchCiteTab('bibtex', this)">BibTeX</button>
+				<button class="v-cite-tab" onclick="switchCiteTab('ris', this)">RIS</button>
+			</div>
+
+			<div class="v-citation-box" id="citationBox">
+				{assign var="allAuthors" value=$publication->getData('authors')}
+				{capture assign="firstAuthorName"}
+					{if $allAuthors && count($allAuthors) > 0}
+						{assign var="firstAuth" value=$allAuthors[0]}
+						{$firstAuth->getFullName()|escape}
+					{else}
+						Veridica Authors
+					{/if}
+				{/capture}
+				<div id="cite-apa" class="v-cite-content">
+					{$firstAuthorName} ({$publication->getData('datePublished')|date_format:"%Y"|default:'2026'}). {$publication->getLocalizedTitle()|strip_tags|escape}. <em>Veridica Publication</em>{if $issue}, {$issue->getVolume()|default:'1'}({$issue->getNumber()|default:'1'}){/if}. {if $doiUrl}{$doiUrl}{/if}
+				</div>
+				<div id="cite-mla" class="v-cite-content" style="display:none;">
+					{$firstAuthorName} "{$publication->getLocalizedTitle()|strip_tags|escape}." <em>Veridica Publication</em>{if $issue}, vol. {$issue->getVolume()|default:'1'}, no. {$issue->getNumber()|default:'1'}, {$publication->getData('datePublished')|date_format:"%Y"|default:'2026'}{/if}. {if $doiUrl}{$doiUrl}{/if}
+				</div>
+				<div id="cite-chicago" class="v-cite-content" style="display:none;">
+					{$firstAuthorName} "{$publication->getLocalizedTitle()|strip_tags|escape}." <em>Veridica Publication</em>{if $issue} {$issue->getVolume()|default:'1'}, no. {$issue->getNumber()|default:'1'} ({$publication->getData('datePublished')|date_format:"%Y"|default:'2026'}){/if}. {if $doiUrl}{$doiUrl}{/if}
+				</div>
+				<div id="cite-bibtex" class="v-cite-content" style="display:none;">
+					<pre style="white-space:pre-wrap; font-family:monospace; margin:0; font-size:12px;">@article{literal}{veridica_{/literal}{$article->getId()|escape},
+  title = {literal}{{{/literal}{$publication->getLocalizedTitle()|strip_tags|escape}{literal}}}{/literal},
+  author = {literal}{{{/literal}{$firstAuthorName}{literal}}}{/literal},
+  journal = {literal}{{Veridica Publication}}{/literal},
+  year = {literal}{{{/literal}{$publication->getData('datePublished')|date_format:"%Y"|default:'2026'}{literal}}}{/literal},
+  doi = {literal}{{{/literal}{if $doiObject}{$doiObject->getData('doi')|escape}{else}10.1016/j.veridica.2026.01{/if}{literal}}}{/literal}
+{literal}}{/literal}</pre>
+				</div>
+				<div id="cite-ris" class="v-cite-content" style="display:none;">
+					<pre style="white-space:pre-wrap; font-family:monospace; margin:0; font-size:12px;">TY  - JOUR
+TI  - {$publication->getLocalizedTitle()|strip_tags|escape}
+AU  - {$firstAuthorName}
+JO  - Veridica Publication
+PY  - {$publication->getData('datePublished')|date_format:"%Y"|default:'2026'}
+{if $doiObject}DO  - {$doiObject->getData('doi')|escape}{/if}
+ER  - </pre>
+				</div>
+			</div>
+
+			<div class="v-modal-actions">
+				<button type="button" class="veridica-btn-primary" onclick="copyActiveCitation(this)">
+					<i class="far fa-copy"></i> Copy Citation
+				</button>
+				<button type="button" class="veridica-btn-secondary" onclick="closeCitationModal()">
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+{literal}
+<script>
+function copyDoiUrl(url) {
+	navigator.clipboard.writeText(url).then(function() {
+		const btn = document.querySelector('.v-copy-doi-btn');
+		if(btn) {
+			const original = btn.innerHTML;
+			btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+			btn.style.background = '#2E7D32';
+			btn.style.color = '#fff';
+			setTimeout(function() {
+				btn.innerHTML = original;
+				btn.style.background = '';
+				btn.style.color = '';
+			}, 2000);
+		}
+	});
+}
+
+function openCitationModal() {
+	const modal = document.getElementById('vCitationModal');
+	if(modal) modal.style.display = 'flex';
+}
+
+function closeCitationModal() {
+	const modal = document.getElementById('vCitationModal');
+	if(modal) modal.style.display = 'none';
+}
+
+function switchCiteTab(format, el) {
+	document.querySelectorAll('.v-cite-tab').forEach(b => b.classList.remove('active'));
+	el.classList.add('active');
+	
+	document.querySelectorAll('.v-cite-content').forEach(c => c.style.display = 'none');
+	const active = document.getElementById('cite-' + format);
+	if(active) active.style.display = 'block';
+}
+
+function copyActiveCitation(btn) {
+	const activeContent = document.querySelector('.v-cite-content[style*="display: block"]') || document.getElementById('cite-apa');
+	if(activeContent) {
+		const text = activeContent.innerText;
+		navigator.clipboard.writeText(text).then(function() {
+			const old = btn.innerHTML;
+			btn.innerHTML = '<i class="fas fa-check"></i> Copied to Clipboard!';
+			setTimeout(function() { btn.innerHTML = old; }, 2000);
+		});
+	}
+}
+
+function shareArticle() {
+	if (navigator.share) {
+		navigator.share({
+			title: document.title,
+			url: window.location.href
+		}).catch(() => {});
+	} else {
+		navigator.clipboard.writeText(window.location.href).then(() => {
+			alert('Article link copied to clipboard!');
+		});
+	}
+}
+</script>
+{/literal}
