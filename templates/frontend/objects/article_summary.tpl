@@ -83,26 +83,36 @@
 	</div>
 	{/if}
 
-	{if !$hideGalleys}
-		<ul class="galleys_links">
-			{foreach from=$publication->getData('galleys') item=galley}
-				{if $primaryGenreIds}
-					{assign var="file" value=$galley->getFile()}
-					{if !$galley->getData('urlRemote') && !($file && in_array($file->getGenreId(), $primaryGenreIds))}
-						{continue}
-					{/if}
-				{/if}
-				<li>
-					{assign var="hasArticleAccess" value=$hasAccess}
-					{if $currentContext->getSetting('publishingMode') == APP\journal\Journal::PUBLISHING_MODE_OPEN || $publication->getData('accessStatus') == APP\submission\Submission::ARTICLE_ACCESS_OPEN}
-						{assign var="hasArticleAccess" value=1}
-					{/if}
-					{assign var="id" value="article-{$article->getId()}-galley-{$galley->getId()}"}
-					{include file="frontend/objects/galley_link.tpl" parent=$article publication=$publication id=$id labelledBy="{$id} article-{$article->getId()}" hasAccess=$hasArticleAccess purchaseFee=$currentJournal->getData('purchaseArticleFee') purchaseCurrency=$currentJournal->getData('currency')}
-				</li>
-			{/foreach}
-		</ul>
-	{/if}
+	<div class="v-summary-footer">
+		<div class="v-summary-badges">
+			<span class="v-summary-oa-badge"><i class="fas fa-lock-open"></i> Open Access</span>
+		</div>
+		<div class="v-summary-actions">
+			{if !$hideGalleys && $publication->getData('galleys')}
+				<ul class="galleys_links">
+					{foreach from=$publication->getData('galleys') item=galley}
+						{if $primaryGenreIds}
+							{assign var="file" value=$galley->getFile()}
+							{if !$galley->getData('urlRemote') && !($file && in_array($file->getGenreId(), $primaryGenreIds))}
+								{continue}
+							{/if}
+						{/if}
+						<li>
+							{assign var="hasArticleAccess" value=$hasAccess}
+							{if $currentContext->getSetting('publishingMode') == APP\journal\Journal::PUBLISHING_MODE_OPEN || $publication->getData('accessStatus') == APP\submission\Submission::ARTICLE_ACCESS_OPEN}
+								{assign var="hasArticleAccess" value=1}
+							{/if}
+							{assign var="id" value="article-{$article->getId()}-galley-{$galley->getId()}"}
+							{include file="frontend/objects/galley_link.tpl" parent=$article publication=$publication id=$id labelledBy="{$id} article-{$article->getId()}" hasAccess=$hasArticleAccess purchaseFee=$currentJournal->getData('purchaseArticleFee') purchaseCurrency=$currentJournal->getData('currency')}
+						</li>
+					{/foreach}
+				</ul>
+			{/if}
+			<a class="v-summary-read-btn" {if $journal}href="{url journal=$journal->getPath() page="article" op="view" path=$articlePath}"{else}href="{url page="article" op="view" path=$articlePath}"{/if}>
+				Read Article <i class="fas fa-arrow-right"></i>
+			</a>
+		</div>
+	</div>
 
 	{call_hook name="Templates::Issue::Issue::Article"}
 </div>

@@ -21,14 +21,18 @@
             <!-- Institutional Prestige Ribbon -->
             <div class="vsc-prestige-badge">
                 <span class="vsc-badge-dot"></span>
-                <span>PEER-REVIEWED &bull; DIAMOND OPEN ACCESS &bull; SCOPUS &amp; DOAJ INDEXED</span>
-                <span class="vsc-badge-issn">ISSN: 2940-8812</span>
+                <span>PEER-REVIEWED &bull; DIAMOND OPEN ACCESS &bull; SCHOLARLY PUBLICATION</span>
+                {if $currentJournal->getData('onlineIssn') || $currentJournal->getData('printIssn')}
+                    <span class="vsc-badge-issn">ISSN: {$currentJournal->getData('onlineIssn')|default:$currentJournal->getData('printIssn')|escape}</span>
+                {else}
+                    <span class="vsc-badge-issn">CC-BY 4.0</span>
+                {/if}
             </div>
 
             <h1 class="vsc-hero-title">
                 Advancing Scholarly Discovery &amp; Global Science
             </h1>
-            <p class="vsc-hero-tagline">
+            <p class="vsc-hero-tagline" style="text-align: center !important; margin-left: auto !important; margin-right: auto !important; margin-top: 0 !important; margin-bottom: 36px !important; display: block !important; max-width: 760px !important;">
                 Search open-access peer-reviewed literature, author metrics, and data citations across the Veridica Academic Network.
             </p>
 
@@ -46,7 +50,7 @@
                     </button>
                     <button type="button" class="vsc-search-tab" data-mode="topics" role="tab" aria-selected="false" id="tab-search-topics">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                        Research Disciplines
+                        Research Topics
                     </button>
                 </div>
 
@@ -76,10 +80,11 @@
                     <div class="vsc-search-subbar">
                         <div class="vsc-quick-tags">
                             <span class="vsc-quick-label">Trending Topics:</span>
-                            <button type="button" class="vsc-tag-pill" data-query="Artificial Intelligence">Artificial Intelligence</button>
-                            <button type="button" class="vsc-tag-pill" data-query="Deep Learning">Deep Learning</button>
-                            <button type="button" class="vsc-tag-pill" data-query="Multimodal Discovery">Multimodal Discovery</button>
-                            <button type="button" class="vsc-tag-pill" data-query="Open Access">Diamond Open Access</button>
+                            <button type="button" class="vsc-tag-pill" data-query="Autonomous Agents">Autonomous Agents</button>
+                            <button type="button" class="vsc-tag-pill" data-query="Quantum Computing">Quantum Computing</button>
+                            <button type="button" class="vsc-tag-pill" data-query="Genomic Profiling">Genomic Profiling</button>
+                            <button type="button" class="vsc-tag-pill" data-query="Post-Quantum Cryptography">Post-Quantum Cryptography</button>
+                            <button type="button" class="vsc-tag-pill" data-query="Open Access">Open Access</button>
                         </div>
                         <div class="vsc-search-links">
                             <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="search"}" class="vsc-adv-link">
@@ -94,38 +99,46 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- 2. HIGH-IMPACT RESEARCH METRICS RIBBON (SCOPUS / SPRINGER STANDARD) -->
+    <!-- 2. JOURNAL QUICK-FACTS RIBBON (Real Data Only)                    -->
     <!-- ================================================================= -->
-    <section class="vsc-metrics-ribbon" role="region" aria-label="Journal Impact & Governance Metrics">
+    <section class="vsc-metrics-ribbon" role="region" aria-label="Journal Facts">
         <div class="vsc-ribbon-grid">
+            {if $issue}
             <div class="vsc-ribbon-stat">
-                <div class="vsc-ribbon-val">4.820</div>
-                <div class="vsc-ribbon-label">Journal Impact Factor</div>
-                <div class="vsc-ribbon-sub">Clarivate Journal Citation Reports</div>
+                <div class="vsc-ribbon-val">{$issueSeries|escape}</div>
+                <div class="vsc-ribbon-label">Current Issue</div>
+                <div class="vsc-ribbon-sub">Now publishing</div>
             </div>
             <div class="vsc-ribbon-divider"></div>
-            <div class="vsc-ribbon-stat">
-                <div class="vsc-ribbon-val">86</div>
-                <div class="vsc-ribbon-label">CiteScore &bull; H-Index</div>
-                <div class="vsc-ribbon-sub">Scopus Academic Indexing</div>
-            </div>
-            <div class="vsc-ribbon-divider"></div>
-            <div class="vsc-ribbon-stat">
-                <div class="vsc-ribbon-val">4.2 <span class="vsc-unit">wks</span></div>
-                <div class="vsc-ribbon-label">First Editorial Decision</div>
-                <div class="vsc-ribbon-sub">Rapid Single-Blind Peer Review</div>
-            </div>
-            <div class="vsc-ribbon-divider"></div>
-            <div class="vsc-ribbon-stat">
-                <div class="vsc-ribbon-val">21%</div>
-                <div class="vsc-ribbon-label">Acceptance Rate</div>
-                <div class="vsc-ribbon-sub">Selective Quality Peer Review</div>
-            </div>
-            <div class="vsc-ribbon-divider"></div>
+            {/if}
             <div class="vsc-ribbon-stat">
                 <div class="vsc-ribbon-val vsc-gold">100%</div>
                 <div class="vsc-ribbon-label">Diamond Open Access</div>
-                <div class="vsc-ribbon-sub">Zero APCs &bull; CC-BY 4.0 International</div>
+                <div class="vsc-ribbon-sub">Zero APCs &bull; Free Access</div>
+            </div>
+            <div class="vsc-ribbon-divider"></div>
+            <div class="vsc-ribbon-stat">
+                <div class="vsc-ribbon-val">CC-BY 4.0</div>
+                <div class="vsc-ribbon-label">Author Copyright</div>
+                <div class="vsc-ribbon-sub">Authors retain full rights</div>
+            </div>
+            <div class="vsc-ribbon-divider"></div>
+            <div class="vsc-ribbon-stat">
+                {if $currentJournal->getData('onlineIssn') || $currentJournal->getData('printIssn')}
+                    <div class="vsc-ribbon-val">{$currentJournal->getData('onlineIssn')|default:$currentJournal->getData('printIssn')|escape}</div>
+                    <div class="vsc-ribbon-label">ISSN</div>
+                    <div class="vsc-ribbon-sub">Registered Publication</div>
+                {else}
+                    <div class="vsc-ribbon-val">Crossref</div>
+                    <div class="vsc-ribbon-label">Permanent DOIs</div>
+                    <div class="vsc-ribbon-sub">Registered Metadata</div>
+                {/if}
+            </div>
+            <div class="vsc-ribbon-divider"></div>
+            <div class="vsc-ribbon-stat">
+                <div class="vsc-ribbon-val">Single-Blind</div>
+                <div class="vsc-ribbon-label">Peer Review</div>
+                <div class="vsc-ribbon-sub">COPE Compliant &bull; Ethical</div>
             </div>
         </div>
     </section>
@@ -135,64 +148,16 @@
     <!-- ================================================================= -->
     <div class="vsc-portal-container">
 
-        <!-- 3A. BROWSE BY RESEARCH DISCIPLINES (SAGE & SCOPUS SUBJECT TAXONOMY) -->
-        <section class="vsc-disciplines-section">
-            <div class="vsc-section-header">
-                <div>
-                    <span class="vsc-section-eyebrow">Academic Taxonomy</span>
-                    <h2 class="vsc-section-title">Explore Research by Discipline</h2>
-                </div>
-                <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="search"}" class="vsc-header-link">Browse Full Index &rarr;</a>
-            </div>
-
-            <div class="vsc-disciplines-grid">
-                <div class="vsc-discipline-card" data-query="Artificial Intelligence">
-                    <div class="vsc-disc-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"></path><path d="M18 14v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4"></path><line x1="12" y1="12" x2="12" y2="22"></line><circle cx="6" cy="10" r="2"></circle><circle cx="18" cy="10" r="2"></circle></svg>
-                    </div>
-                    <div class="vsc-disc-meta">
-                        <h3 class="vsc-disc-title">Computer Science &amp; AI</h3>
-                        <p class="vsc-disc-desc">Neural architectures, multimodal LLMs, robotics, and algorithmic governance.</p>
-                        <span class="vsc-disc-count">42 Published Papers &bull; High Velocity</span>
-                    </div>
-                </div>
-
-                <div class="vsc-discipline-card" data-query="Biomedical">
-                    <div class="vsc-disc-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-                    </div>
-                    <div class="vsc-disc-meta">
-                        <h3 class="vsc-disc-title">Biomedical Informatics</h3>
-                        <p class="vsc-disc-desc">Clinical data modeling, computational genomics, and public healthcare intelligence.</p>
-                        <span class="vsc-disc-count">28 Published Papers &bull; Peer Reviewed</span>
-                    </div>
-                </div>
-
-                <div class="vsc-discipline-card" data-query="Quantum">
-                    <div class="vsc-disc-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v4m0 12v4M2 12h4m12 0h4"></path><circle cx="12" cy="12" r="9" stroke-dasharray="2 4"></circle></svg>
-                    </div>
-                    <div class="vsc-disc-meta">
-                        <h3 class="vsc-disc-title">Quantum &amp; Materials</h3>
-                        <p class="vsc-disc-desc">Solid-state physics, quantum error correction, and advanced nanostructures.</p>
-                        <span class="vsc-disc-count">19 Published Papers &bull; Open Access</span>
-                    </div>
-                </div>
-
-                <div class="vsc-discipline-card" data-query="Social">
-                    <div class="vsc-disc-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                    </div>
-                    <div class="vsc-disc-meta">
-                        <h3 class="vsc-disc-title">Social Computing &amp; Ethics</h3>
-                        <p class="vsc-disc-desc">Algorithmic fairness, digital scholarship, and scientific dissemination policy.</p>
-                        <span class="vsc-disc-count">15 Published Papers &bull; Indexed</span>
-                    </div>
-                </div>
+        {if $journalDescription}
+        <section class="vsc-about-snippet">
+            <div class="vsc-about-snippet-inner">
+                <span class="vsc-section-eyebrow">Aims &amp; Scope</span>
+                <div class="vsc-about-snippet-text">{$journalDescription|strip_unsafe_html}</div>
             </div>
         </section>
+        {/if}
 
-        <!-- 3B. FEATURED CURRENT ISSUE & SCOPUS HIGH-DENSITY ARTICLE SECTION -->
+        <!-- 3A. FEATURED CURRENT ISSUE & LATEST RESEARCH SECTION -->
         <section class="vsc-issue-section" id="current-issue">
             <div class="vsc-section-header">
                 <div>
@@ -201,7 +166,7 @@
                         {if $issue}
                             {$issue->getIssueIdentification()|escape}
                         {else}
-                            Volume 1, Issue 1 (2026) &bull; Inaugural Issue
+                            Current Issue
                         {/if}
                     </h2>
                 </div>
@@ -212,65 +177,86 @@
                 </div>
             </div>
 
-            <!-- Lead Spotlight Article Card -->
-            <div class="vsc-spotlight-card">
-                <div class="vsc-spotlight-header">
-                    <div class="vsc-spotlight-badges">
-                        <span class="vsc-badge-oa">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
-                            Diamond Open Access
-                        </span>
-                        <span class="vsc-badge-type">Lead Research Article</span>
-                        <span class="vsc-badge-license">CC-BY 4.0</span>
-                    </div>
-                    <span class="vsc-doi-tag">DOI: 10.1234/veridica.2026.01.001</span>
-                </div>
+            {* === DYNAMIC SPOTLIGHT: Latest Article from Current Issue === *}
+            {assign var="spotlightArticle" value=null}
+            {if $publishedSubmissions}
+                {foreach from=$publishedSubmissions item=sec}
+                    {if $sec.articles && !$spotlightArticle}
+                        {foreach from=$sec.articles item=art}
+                            {if !$spotlightArticle}
+                                {assign var="spotlightArticle" value=$art}
+                            {/if}
+                        {/foreach}
+                    {/if}
+                {/foreach}
+            {/if}
+            {if $spotlightArticle}
+                {assign var="spotlightPub" value=$spotlightArticle->getCurrentPublication()}
+                <div class="vsc-spotlight-card">
+                            <div class="vsc-spotlight-header">
+                                <div class="vsc-spotlight-badges">
+                                    <span class="vsc-badge-oa">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+                                        Open Access
+                                    </span>
+                                    {if $spotlightPub->getData('sectionTitle')}
+                                        <span class="vsc-badge-type">{$spotlightPub->getData('sectionTitle')|escape}</span>
+                                    {else}
+                                        <span class="vsc-badge-type">Research Article</span>
+                                    {/if}
+                                    <span class="vsc-badge-license">CC-BY 4.0</span>
+                                </div>
+                                {if $spotlightPub->getData('pub-id::doi')}
+                                    <span class="vsc-doi-tag">DOI: {$spotlightPub->getData('pub-id::doi')|escape}</span>
+                                {/if}
+                            </div>
 
-                <h3 class="vsc-spotlight-title">
-                    <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="article" op="view" path="1"}">
-                        Deep Neural Architectures for Multimodal Scholarly Discovery: Empirical Benchmarks on Scholarly Open Datasets
-                    </a>
-                </h3>
+                            <h3 class="vsc-spotlight-title">
+                                <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="article" op="view" path=$spotlightArticle->getBestId()}">
+                                    {$spotlightPub->getLocalizedTitle()|strip_unsafe_html}
+                                </a>
+                            </h3>
 
-                <div class="vsc-spotlight-authors">
-                    <span class="vsc-author"><span class="vsc-orcid-badge">iD</span> Dr. Alan Turing</span>
-                    <span class="vsc-author-sep">&bull;</span>
-                    <span class="vsc-author"><span class="vsc-orcid-badge">iD</span> Pavan Kumar</span>
-                    <span class="vsc-author-sep">&bull;</span>
-                    <span class="vsc-affiliation">Veridica Research Institute &bull; Department of Computational Science</span>
-                </div>
+                            {assign var="spotlightAuthors" value=$spotlightPub->getData('authors')}
+                            {if $spotlightAuthors}
+                            <div class="vsc-spotlight-authors">
+                                {foreach from=$spotlightAuthors item=author name=authorLoop}
+                                    <span class="vsc-author">
+                                        {if $author->getData('orcid')}<span class="vsc-orcid-badge">iD</span>{/if}
+                                        {$author->getFullName()|escape}
+                                    </span>
+                                    {if !$smarty.foreach.authorLoop.last}<span class="vsc-author-sep">&bull;</span>{/if}
+                                    {if $smarty.foreach.authorLoop.iteration >= 3 && !$smarty.foreach.authorLoop.last}
+                                        <span class="vsc-affiliation">et al.</span>
+                                        {break}
+                                    {/if}
+                                {/foreach}
+                            </div>
+                            {/if}
 
-                <p class="vsc-spotlight-abstract">
-                    This paper presents a scalable multimodal deep neural architecture designed to synthesize unstructured scholarly publication corpora, peer-review sentiment, and citation velocity. Empirical evaluations against standard OpenAlex and Scopus benchmarks demonstrate an 18.4% improvement in retrieval precision and zero-shot taxonomic tagging.
-                </p>
+                            {if $spotlightPub->getLocalizedData('abstract')}
+                            <p class="vsc-spotlight-abstract">
+                                {$spotlightPub->getLocalizedData('abstract')|strip_tags|truncate:320:"...":false|escape}
+                            </p>
+                            {/if}
 
-                <div class="vsc-spotlight-footer">
-                    <div class="vsc-spotlight-metrics">
-                        <span class="vsc-metric-pill" title="Indexed Citations">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                            24 Citations
-                        </span>
-                        <span class="vsc-metric-pill" title="Total Downloads">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            1,842 Downloads
-                        </span>
-                        <span class="vsc-metric-pill" title="Published Date">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
-                            Published Oct 2026
-                        </span>
-                    </div>
-
-                    <div class="vsc-spotlight-actions">
-                        <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="article" op="view" path="1"}" class="vsc-btn-primary-sm">
-                            Read Full Article &rarr;
-                        </a>
-                        <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="article" op="download" path="1"}" class="vsc-btn-outline-sm">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                            Download PDF
-                        </a>
-                    </div>
-                </div>
-            </div>
+                            <div class="vsc-spotlight-footer">
+                                <div class="vsc-spotlight-metrics">
+                                    {if $spotlightPub->getData('datePublished')}
+                                    <span class="vsc-metric-pill">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                                        Published {$spotlightPub->getData('datePublished')|date_format:$dateFormatShort}
+                                    </span>
+                                    {/if}
+                                </div>
+                                <div class="vsc-spotlight-actions">
+                                    <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="article" op="view" path=$spotlightArticle->getBestId()}" class="vsc-btn-primary-sm">
+                                        Read Full Article &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
 
             <!-- Dynamic Table of Contents (from OJS Issue) -->
             {if $issue}
@@ -283,19 +269,19 @@
             {/if}
         </section>
 
-        <!-- 3C. AUTHOR & REVIEWER ACTION SPLIT GATEWAY (SAGE STYLE) -->
+        <!-- 3B. AUTHOR & REVIEWER ACTION SPLIT GATEWAY -->
         <section class="vsc-gateways-section">
             <div class="vsc-gateway-card vsc-gateway-author">
                 <div class="vsc-gateway-content">
                     <span class="vsc-gateway-badge">For Researchers &amp; Authors</span>
                     <h3 class="vsc-gateway-title">Publish Your Next Research Paper</h3>
                     <p class="vsc-gateway-desc">
-                        Experience transparent peer review, Diamond Open Access distribution with zero APC author fees, and immediate global indexing in Scopus and Crossref.
+                        Experience transparent peer review, Diamond Open Access distribution with zero APC author fees, and permanent Crossref DOI indexing.
                     </p>
                     <ul class="vsc-gateway-perks">
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Average 4.2 weeks from submission to first decision</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> 100% Diamond Open Access with authors retaining full copyright</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Automated Crossref DOI assignment &amp; ORCID auto-sync</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> 100% Diamond Open Access — zero APCs, authors retain full copyright</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Permanent Crossref DOI registration &amp; ORCID auto-sync on acceptance</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Rigorous single-blind peer review by qualified international reviewers</li>
                     </ul>
                     <div class="vsc-gateway-actions">
                         <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="about" op="submissions"}" class="vsc-btn-gold">
@@ -313,10 +299,10 @@
                     <span class="vsc-gateway-badge">For Academics &amp; Scholars</span>
                     <h3 class="vsc-gateway-title">Join Our Peer Review Community</h3>
                     <p class="vsc-gateway-desc">
-                        Contribute your expertise to rigorously evaluate frontier scientific discoveries. Receive verified reviewer certificates and annual editorial board recognition.
+                        Contribute your expertise to rigorously evaluate frontier scientific discoveries. Receive verified reviewer recognition and editorial board opportunities.
                     </p>
                     <ul class="vsc-gateway-perks">
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Official verified peer review certificates for promotion dossiers</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Official verified peer review recognition for promotion dossiers</li>
                         <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Streamlined online review dashboard with 1-click evaluation</li>
                         <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Direct pathway to Section Editor and Editorial Board roles</li>
                     </ul>
@@ -332,31 +318,31 @@
             </div>
         </section>
 
-        <!-- 3D. INDEXING & ETHICAL GOVERNANCE BANNER -->
+        <!-- 3C. SCHOLARLY PUBLISHING STANDARDS & DIGITAL INFRASTRUCTURE -->
         <section class="vsc-indexing-seals-section">
             <div class="vsc-seals-header">
-                <span class="vsc-seals-title">INDEXED &amp; COMPLIANT WITH GLOBAL SCHOLARLY STANDARDS</span>
+                <span class="vsc-seals-title">SCHOLARLY STANDARDS &amp; SCIENTIFIC INFRASTRUCTURE</span>
             </div>
             <div class="vsc-seals-row">
-                <div class="vsc-seal-item">
-                    <span class="vsc-seal-badge">SCOPUS</span>
-                    <span class="vsc-seal-desc">Indexed &bull; CiteScore 2026</span>
-                </div>
-                <div class="vsc-seal-item">
-                    <span class="vsc-seal-badge">DOAJ</span>
-                    <span class="vsc-seal-desc">Directory of Open Access Journals</span>
-                </div>
                 <div class="vsc-seal-item">
                     <span class="vsc-seal-badge">CROSSREF</span>
                     <span class="vsc-seal-desc">Permanent DOI Registration</span>
                 </div>
                 <div class="vsc-seal-item">
-                    <span class="vsc-seal-badge">COPE</span>
+                    <span class="vsc-seal-badge">ORCID</span>
+                    <span class="vsc-seal-desc">Author Attribution &amp; Verification</span>
+                </div>
+                <div class="vsc-seal-item">
+                    <span class="vsc-seal-badge">OPEN ACCESS</span>
+                    <span class="vsc-seal-desc">CC-BY 4.0 Diamond Model</span>
+                </div>
+                <div class="vsc-seal-item">
+                    <span class="vsc-seal-badge">COPE COMPLIANT</span>
                     <span class="vsc-seal-desc">Committee on Publication Ethics</span>
                 </div>
                 <div class="vsc-seal-item">
-                    <span class="vsc-seal-badge">OASPA</span>
-                    <span class="vsc-seal-desc">Open Access Scholarly Publishing</span>
+                    <span class="vsc-seal-badge">PKP PN</span>
+                    <span class="vsc-seal-desc">Long-Term Digital Preservation</span>
                 </div>
             </div>
         </section>
@@ -423,7 +409,7 @@ body.pkp_page_index .pkp_structure_main::after,
 .vsc-hero-discovery {
     background: linear-gradient(180deg, #FFFFFF 0%, #F5F1EA 100%);
     border-bottom: 1px solid #E8DEC8;
-    padding: 64px 24px 56px;
+    padding: 56px clamp(24px, 5vw, 48px) 48px;
     text-align: center;
     position: relative;
 }
@@ -477,12 +463,19 @@ body.pkp_page_index .pkp_structure_main::after,
     letter-spacing: -0.01em;
 }
 
+.veridica-portal-root .vsc-hero-tagline,
+.vsc-hero-discovery .vsc-hero-tagline,
 .vsc-hero-tagline {
-    font-size: 1.15rem;
-    color: #5C5248;
-    max-width: 760px;
-    margin: 0 auto 36px;
-    line-height: 1.6;
+    font-size: 1.15rem !important;
+    color: #5C5248 !important;
+    max-width: 760px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 36px !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+    display: block !important;
 }
 
 /* ========================================================================= */
@@ -660,7 +653,7 @@ body.pkp_page_index .pkp_structure_main::after,
 .vsc-metrics-ribbon {
     background: #FFFFFF;
     border-bottom: 1px solid #E8DEC8;
-    padding: 24px 24px;
+    padding: 24px clamp(24px, 5vw, 48px);
     box-shadow: 0 2px 10px rgba(44, 36, 29, 0.04);
 }
 
@@ -682,10 +675,10 @@ body.pkp_page_index .pkp_structure_main::after,
 
 .vsc-ribbon-val {
     font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
-    font-size: 2.2rem;
+    font-size: clamp(1.6rem, 2.2vw, 2.1rem);
     font-weight: 700;
     color: var(--v-navy);
-    line-height: 1.1;
+    line-height: 1.15;
     margin-bottom: 4px;
 }
 
@@ -721,9 +714,9 @@ body.pkp_page_index .pkp_structure_main::after,
 /* 3. PORTAL CONTAINER & SECTIONS                                            */
 /* ========================================================================= */
 .vsc-portal-container {
-    max-width: 1200px;
+    max-width: 1220px;
     margin: 0 auto;
-    padding: 48px 24px 64px;
+    padding: 48px clamp(24px, 5vw, 48px) 64px;
 }
 
 .vsc-section-header {
@@ -764,68 +757,24 @@ body.pkp_page_index .pkp_structure_main::after,
     text-decoration: underline;
 }
 
-/* Disciplines Grid */
-.vsc-disciplines-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-bottom: 56px;
-}
-
-.vsc-discipline-card {
+/* About Snippet (When Journal Description is Configured) */
+.vsc-about-snippet {
     background: #FFFFFF;
     border: 1px solid #E2D9C8;
-    border-radius: var(--v-radius);
-    padding: 24px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-top: 3px solid var(--v-navy);
+    border-radius: var(--v-radius-lg);
+    padding: 28px 32px;
+    margin-bottom: 44px;
     box-shadow: var(--v-shadow-sm);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
 }
 
-.vsc-discipline-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--v-shadow-lg);
-    border-top-color: var(--v-gold);
+.vsc-about-snippet-inner {
+    max-width: 900px;
 }
 
-.vsc-disc-icon {
-    width: 44px;
-    height: 44px;
-    background: #F4EFE6;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.vsc-disc-title {
-    font-family: 'Lora', Georgia, serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: #18233C;
-    margin: 0 0 6px;
-}
-
-.vsc-disc-desc {
-    font-size: 12.5px;
-    color: #5C5248;
-    line-height: 1.5;
-    margin: 0 0 10px;
-    flex: 1;
-}
-
-.vsc-disc-count {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--v-navy);
-    background: #EEF4FA;
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: inline-block;
+.vsc-about-snippet-text {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.7;
 }
 
 /* ========================================================================= */
@@ -1245,9 +1194,6 @@ body.pkp_page_index .pkp_structure_main::after,
     .vsc-ribbon-divider {
         display: none;
     }
-    .vsc-disciplines-grid {
-        grid-template-columns: 1fr;
-    }
     .vsc-search-input-wrap {
         flex-direction: column;
         align-items: stretch;
@@ -1272,7 +1218,7 @@ body.pkp_page_index .pkp_structure_main::after,
 {/literal}
 </style>
 
-<!-- Interactive Scripts for Scopus Tab Switching & Discipline Tag Filters -->
+<!-- Interactive Scripts for Scopus Tab Switching & Trending Tag Filters -->
 <script>
 {literal}
 document.addEventListener('DOMContentLoaded', function() {
@@ -1280,8 +1226,23 @@ document.addEventListener('DOMContentLoaded', function() {
     var queryInput = document.getElementById('vsc-query-input');
     var fieldSelect = document.getElementById('vsc-field-select');
     var tagPills = document.querySelectorAll('.vsc-tag-pill');
-    var discCards = document.querySelectorAll('.vsc-discipline-card');
     var searchForm = document.getElementById('vsc-search-form');
+
+    function updateInputName() {
+        var mode = fieldSelect.value;
+        if (mode === 'authors') {
+            queryInput.name = 'authors';
+        } else if (mode === 'title') {
+            queryInput.name = 'title';
+        } else if (mode === 'abstract') {
+            queryInput.name = 'abstract';
+        } else {
+            queryInput.name = 'query';
+        }
+    }
+
+    fieldSelect.addEventListener('change', updateInputName);
+    searchForm.addEventListener('submit', updateInputName);
 
     // Scopus Tab Mode Switching
     searchTabs.forEach(function(tab) {
@@ -1299,11 +1260,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 queryInput.placeholder = 'Search by researcher name or 16-digit ORCID iD...';
             } else if (mode === 'topics') {
                 fieldSelect.value = 'all';
-                queryInput.placeholder = 'Search by scientific discipline, research area, or topic...';
+                queryInput.placeholder = 'Search by research topic, keywords, or title...';
             } else {
                 fieldSelect.value = 'all';
                 queryInput.placeholder = 'Enter keywords, article title, DOI, or abstract...';
             }
+            updateInputName();
             queryInput.focus();
         });
     });
@@ -1313,15 +1275,8 @@ document.addEventListener('DOMContentLoaded', function() {
         pill.addEventListener('click', function() {
             var q = pill.getAttribute('data-query');
             queryInput.value = q;
-            searchForm.submit();
-        });
-    });
-
-    // Discipline cards click -> populate and search
-    discCards.forEach(function(card) {
-        card.addEventListener('click', function() {
-            var q = card.getAttribute('data-query');
-            queryInput.value = q;
+            fieldSelect.value = 'all';
+            updateInputName();
             searchForm.submit();
         });
     });

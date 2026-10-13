@@ -78,7 +78,17 @@
 			{/foreach}
 			</ul>
 
-			<!-- Author Affiliations Accordion/List -->
+			<!-- Author Affiliations List -->
+			{assign var="hasAnyAffiliation" value=false}
+			{if $publication->getData('authors')}
+				{foreach from=$publication->getData('authors') item=authCheck}
+					{if count($authCheck->getAffiliations()) > 0}
+						{assign var="hasAnyAffiliation" value=true}
+					{/if}
+				{/foreach}
+			{/if}
+
+			{if $hasAnyAffiliation}
 			<div class="v-author-affiliations-list">
 				{foreach name="authors" from=$publication->getData('authors') item=author}
 					{if count($author->getAffiliations()) > 0}
@@ -99,6 +109,7 @@
 					{/if}
 				{/foreach}
 			</div>
+			{/if}
 		</div>
 	{/if}
 
@@ -395,14 +406,17 @@
 			</div>
 
 			<div class="v-citation-box" id="citationBox">
-				{assign var="allAuthors" value=$publication->getData('authors')}
 				{capture assign="firstAuthorName"}
-					{if $allAuthors && count($allAuthors) > 0}
-						{assign var="firstAuth" value=$allAuthors[0]}
-						{$firstAuth->getFullName()|escape}
-					{else}
-						Veridica Authors
+					{assign var="firstAuthorFound" value=false}
+					{if $publication->getData('authors')}
+						{foreach from=$publication->getData('authors') item="authItem"}
+							{if !$firstAuthorFound}
+								{$authItem->getFullName()|escape}
+								{assign var="firstAuthorFound" value=true}
+							{/if}
+						{/foreach}
 					{/if}
+					{if !$firstAuthorFound}Veridica Authors{/if}
 				{/capture}
 				<div id="cite-apa" class="v-cite-content">
 					{$firstAuthorName} ({$publication->getData('datePublished')|date_format:"%Y"|default:'2026'}). {$publication->getLocalizedTitle()|strip_tags|escape}. <em>Veridica Publication</em>{if $issue}, {$issue->getVolume()|default:'1'}({$issue->getNumber()|default:'1'}){/if}. {if $doiUrl}{$doiUrl}{/if}

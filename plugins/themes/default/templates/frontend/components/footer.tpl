@@ -22,14 +22,13 @@
 	<!-- Top Indexing & Trust Seals Bar -->
 	<div class="v-footer-trust-strip">
 		<div class="v-footer-trust-inner">
-			<span class="v-trust-title"><i class="fas fa-certificate"></i> INDEXED &amp; ARCHIVED IN</span>
+			<span class="v-trust-title"><i class="fas fa-certificate"></i> SCHOLARLY STANDARDS &amp; INFRASTRUCTURE</span>
 			<div class="v-trust-badges">
-				<div class="v-seal-badge"><i class="fas fa-layer-group"></i> SCOPUS <span>Indexed</span></div>
-				<div class="v-seal-badge"><i class="fas fa-lock-open"></i> DOAJ <span>Seal</span></div>
 				<div class="v-seal-badge"><i class="fas fa-fingerprint"></i> CROSSREF <span>Member</span></div>
+				<div class="v-seal-badge"><i class="fab fa-orcid"></i> ORCID <span>Integrated</span></div>
+				<div class="v-seal-badge"><i class="fas fa-lock-open"></i> OPEN ACCESS <span>Diamond</span></div>
 				<div class="v-seal-badge"><i class="fas fa-balance-scale"></i> COPE <span>Integrity</span></div>
-				<div class="v-seal-badge"><i class="fas fa-globe"></i> OASPA <span>Compliant</span></div>
-				<div class="v-seal-badge"><i class="fas fa-archive"></i> CLOCKSS <span>Archived</span></div>
+				<div class="v-seal-badge"><i class="fas fa-archive"></i> PKP PN <span>Preservation</span></div>
 			</div>
 		</div>
 	</div>
@@ -40,23 +39,24 @@
 			<div class="v-footer-brand-header">
 				<div class="v-brand-icon"><i class="fas fa-scroll"></i></div>
 				<div>
-					<h3>VERIDICA</h3>
-					<div class="v-brand-tagline">JOURNAL OF MULTIDISCIPLINARY RESEARCH</div>
+					<h3>{$currentJournal->getLocalizedName()|escape}</h3>
+					<div class="v-brand-tagline">SCHOLARLY PEER-REVIEWED PUBLICATION</div>
 				</div>
 			</div>
-			<p>An international, high-impact Diamond Open Access journal dedicated to the rigorous, rapid dissemination of peer-reviewed breakthroughs across AI, biomedical sciences, quantum technologies, and societal systems.</p>
+			<p>An international Diamond Open Access journal dedicated to the rigorous, rapid dissemination of peer-reviewed research across frontier science and scholarly inquiry.</p>
 			
+			{if $currentJournal->getData('onlineIssn') || $currentJournal->getData('printIssn')}
 			<div class="v-issn-pill-group">
-				<span class="v-issn-pill"><i class="fas fa-barcode"></i> e-ISSN: <strong>2984-712X</strong></span>
-				<span class="v-issn-pill"><i class="fas fa-book-open"></i> p-ISSN: <strong>2984-7111</strong></span>
+				{if $currentJournal->getData('onlineIssn')}<span class="v-issn-pill"><i class="fas fa-barcode"></i> e-ISSN: <strong>{$currentJournal->getData('onlineIssn')|escape}</strong></span>{/if}
+				{if $currentJournal->getData('printIssn')}<span class="v-issn-pill"><i class="fas fa-book-open"></i> p-ISSN: <strong>{$currentJournal->getData('printIssn')|escape}</strong></span>{/if}
 			</div>
+			{/if}
 
 			<div class="v-social-icons">
-				<a href="#" aria-label="X / Twitter" title="X / Twitter"><i class="fab fa-x-twitter"></i></a>
-				<a href="#" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-				<a href="#" aria-label="ResearchGate" title="ResearchGate"><i class="fab fa-researchgate"></i></a>
-				<a href="#" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
-				<a href="#" aria-label="ORCID" title="ORCID"><i class="fab fa-orcid"></i></a>
+				<a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="about" op="submissions"}" aria-label="Submissions" title="Submissions"><i class="fas fa-upload"></i></a>
+				<a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="issue" op="current"}" aria-label="Current Issue" title="Current Issue"><i class="fas fa-book"></i></a>
+				<a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="search"}" aria-label="Search" title="Search"><i class="fas fa-search"></i></a>
+				<a href="https://orcid.org" target="_blank" rel="noopener" aria-label="ORCID" title="ORCID"><i class="fab fa-orcid"></i></a>
 			</div>
 		</div>
 
@@ -66,9 +66,8 @@
 				<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="issue" op="current"}"><i class="fas fa-chevron-right"></i> Current Issue</a></li>
 				<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="issue" op="archive"}"><i class="fas fa-chevron-right"></i> Past Issue Archive</a></li>
 				<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="search"}"><i class="fas fa-chevron-right"></i> Advanced Search Console</a></li>
-				<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="catalog" op="category" path="artificial-intelligence"}"><i class="fas fa-chevron-right"></i> Artificial Intelligence &amp; ML</a></li>
-				<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="catalog" op="category" path="biomedical"}"><i class="fas fa-chevron-right"></i> Biomedical Informatics</a></li>
-				<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="catalog" op="category" path="quantum"}"><i class="fas fa-chevron-right"></i> Quantum Computing</a></li>
+				<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="about" op="submissions"}"><i class="fas fa-chevron-right"></i> Submit Manuscript</a></li>
+				<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="about"}"><i class="fas fa-chevron-right"></i> About {$currentJournal->getLocalizedName()|escape}</a></li>
 			</ul>
 		</div>
 
@@ -93,7 +92,9 @@
 				<li><a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="about" op="contact"}"><i class="fas fa-chevron-right"></i> Contact Editorial Office</a></li>
 			</ul>
 			<div class="v-footer-contact-snippet">
-				<div class="v-contact-line"><i class="fas fa-envelope"></i> <span>editorial@veridica.org</span></div>
+				{if $currentJournal->getData('contactEmail')}
+				<div class="v-contact-line"><i class="fas fa-envelope"></i> <span>{$currentJournal->getData('contactEmail')|escape}</span></div>
+				{/if}
 				<div class="v-contact-line"><i class="fas fa-clock"></i> <span>Response time: &le; 48 hrs</span></div>
 			</div>
 		</div>
