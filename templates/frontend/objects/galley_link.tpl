@@ -74,7 +74,14 @@
 		</span>
 	{/if}
 
-	{$galley->getGalleyLabel()|escape}
+	{if $type == 'pdf'}
+		<i class="far fa-file-pdf" aria-hidden="true"></i>
+	{elseif $galley->getGalleyLabel()|lower == 'html' || $type == 'html'}
+		<i class="fas fa-file-code" aria-hidden="true"></i>
+	{else}
+		<i class="far fa-file-alt" aria-hidden="true"></i>
+	{/if}
+	<span>{$galley->getGalleyLabel()|escape}</span>
 
 	{if $restricted && $purchaseFee && $purchaseCurrency}
 		<span class="purchase_cost">

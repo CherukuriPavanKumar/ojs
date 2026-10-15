@@ -165,14 +165,14 @@
 				<h4 class="v-side-title"><i class="fas fa-file-download"></i> Manuscript Templates</h4>
 				<p>Use our official templates to ensure compliance with typesetting specifications:</p>
 				<div class="v-template-btn-group">
-					<a href="#" class="v-tpl-btn" onclick="alert('Downloading Veridica Microsoft Word Template (.docx)'); return false;">
+					<a href="{$baseUrl}/public/journals/1/veridica_manuscript_template.docx" class="v-tpl-btn" download="veridica_manuscript_template.docx">
 						<i class="fas fa-file-word"></i> Microsoft Word Template (.docx)
 					</a>
-					<a href="#" class="v-tpl-btn" onclick="alert('Opening Veridica LaTeX Template on Overleaf'); return false;">
-						<i class="fas fa-file-code"></i> LaTeX / Overleaf Starter Pack
+					<a href="{$baseUrl}/public/journals/1/veridica_latex_template.zip" class="v-tpl-btn" download="veridica_latex_template.zip">
+						<i class="fas fa-file-code"></i> LaTeX / Overleaf Starter Pack (.zip)
 					</a>
-					<a href="#" class="v-tpl-btn" onclick="alert('Downloading Veridica EndNote / Zotero Citation Style (.ens / .csl)'); return false;">
-						<i class="fas fa-quote-right"></i> Zotero / CSL Citation Style
+					<a href="{$baseUrl}/public/journals/1/veridica_citation_style.csl" class="v-tpl-btn" download="veridica_citation_style.csl">
+						<i class="fas fa-quote-right"></i> Zotero / CSL Citation Style (.csl)
 					</a>
 				</div>
 			</div>

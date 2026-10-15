@@ -47,7 +47,7 @@
 			<div class="v-eic-contact-row">
 				<span><i class="fas fa-envelope"></i> eic@veridica.org</span>
 				<span class="v-sep">&bull;</span>
-				<span><i class="fas fa-fingerprint"></i> Scopus Author ID: 57201948201</span>
+				<span><i class="fab fa-orcid" style="color:#A6CE39;"></i> Verified ORCID: 0009-0004-9281-4421</span>
 			</div>
 		</div>
 	</div>

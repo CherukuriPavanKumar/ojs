@@ -23,15 +23,41 @@
 {/capture}
 {include file="frontend/components/header.tpl" pageTitleTranslated=$pageTitle}
 
-<div class="page page_issue_archive">
+<div class="page page_issue_archive veridica-inner-page">
 	{include file="frontend/components/breadcrumbs.tpl" currentTitle=$pageTitle}
-	<h1>
-		{$pageTitle|escape}
-	</h1>
+
+	<!-- Hero Header -->
+	<div class="v-inner-hero">
+		<div class="v-hero-badge"><i class="fas fa-archive"></i> JOURNAL ARCHIVE</div>
+		<h1 class="v-hero-title">Volume &amp; Issue Archive</h1>
+		<p class="v-hero-subtitle">
+			Comprehensive repository of all published volumes, issues, and peer-reviewed articles. Every manuscript is freely accessible under Diamond Open Access (CC BY 4.0) with persistent Crossref DOIs.
+		</p>
+	</div>
+
+	<!-- Trust & Indexing Ribbon -->
+	<div class="v-archive-stats-bar">
+		<div class="v-arch-stat-item">
+			<i class="fas fa-layer-group"></i>
+			<span><strong>Continuous Publication</strong> &bull; Quarterly Volumes</span>
+		</div>
+		<div class="v-arch-stat-item">
+			<i class="fas fa-lock-open"></i>
+			<span><strong>100% Diamond Open Access</strong> &bull; Free Worldwide</span>
+		</div>
+		<div class="v-arch-stat-item">
+			<i class="fas fa-fingerprint"></i>
+			<span><strong>Crossref DOIs</strong> &bull; Permanent Preservation</span>
+		</div>
+	</div>
 
 	{* No issues have been published *}
 	{if empty($issues)}
-		<p>{translate key="current.noCurrentIssueDesc"}</p>
+		<div class="v-no-galley-notice" style="padding: 36px 20px; margin: 32px 0;">
+			<i class="fas fa-hourglass-start" style="font-size: 32px; color: var(--v-accent); margin-bottom: 12px; display: inline-block;"></i>
+			<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; color: var(--v-navy); margin: 0 0 6px 0;">{translate key="current.noCurrentIssueDesc"}</h3>
+			<p style="color: #64748B; margin: 0;">Manuscripts currently accepted are undergoing production typesetting.</p>
+		</div>
 
 	{* List issues *}
 	{else}

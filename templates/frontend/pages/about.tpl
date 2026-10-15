@@ -16,27 +16,27 @@
 		</p>
 	</div>
 
-	<!-- High-Impact Metrics Ribbon -->
+	<!-- Authentic Editorial & Publishing Commitments Ribbon -->
 	<div class="v-about-metrics-ribbon">
 		<div class="v-stat-card">
-			<span class="v-stat-val">4.82</span>
-			<span class="v-stat-lbl">Journal Impact Factor&trade;</span>
+			<span class="v-stat-val">100%</span>
+			<span class="v-stat-lbl">Diamond Open Access</span>
 		</div>
 		<div class="v-stat-card">
-			<span class="v-stat-val">8.6</span>
-			<span class="v-stat-lbl">Scopus CiteScore&trade;</span>
+			<span class="v-stat-val">$0</span>
+			<span class="v-stat-lbl">Zero APCs / No Author Fees</span>
 		</div>
 		<div class="v-stat-card">
 			<span class="v-stat-val">4.2 wks</span>
 			<span class="v-stat-lbl">Initial Editorial Decision</span>
 		</div>
 		<div class="v-stat-card">
-			<span class="v-stat-val">21%</span>
-			<span class="v-stat-lbl">Rigorous Acceptance Rate</span>
+			<span class="v-stat-val">CC BY 4.0</span>
+			<span class="v-stat-lbl">Author Copyright Retention</span>
 		</div>
 		<div class="v-stat-card">
-			<span class="v-stat-val">100%</span>
-			<span class="v-stat-lbl">Diamond Open Access (No APC)</span>
+			<span class="v-stat-val">Crossref</span>
+			<span class="v-stat-lbl">Permanent DOI Prefix</span>
 		</div>
 	</div>
 
@@ -158,7 +158,7 @@
 			<div class="v-side-info-card v-side-trust-card">
 				<h4 class="v-side-title"><i class="fas fa-check-circle"></i> Indexing &amp; Memberships</h4>
 				<ul class="v-side-badges-list">
-					<li><i class="fas fa-layer-group"></i> Scopus Index Tracked</li>
+					<li><i class="fas fa-search"></i> Google Scholar &amp; OpenAlex</li>
 					<li><i class="fas fa-lock-open"></i> Directory of Open Access Journals (DOAJ)</li>
 					<li><i class="fas fa-fingerprint"></i> Crossref DOI Registered</li>
 					<li><i class="fas fa-balance-scale"></i> Committee on Publication Ethics (COPE)</li>

@@ -161,10 +161,10 @@
         <section class="vsc-issue-section" id="current-issue">
             <div class="vsc-section-header">
                 <div>
-                    <span class="vsc-section-eyebrow">Current Issue</span>
+                    <span class="vsc-section-eyebrow">Latest Volume &amp; Issue</span>
                     <h2 class="vsc-section-title">
                         {if $issue}
-                            {$issue->getIssueIdentification()|escape}
+                            {$issueSeries|escape|default:$issue->getIssueIdentification()|escape}
                         {else}
                             Current Issue
                         {/if}
@@ -172,99 +172,66 @@
                 </div>
                 <div class="vsc-header-actions">
                     <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="issue" op="archive"}" class="vsc-btn-outline-sm">
-                        View Past Issues Archive
+                        <i class="fas fa-archive"></i> View Past Issues Archive
                     </a>
                 </div>
             </div>
 
-            {* === DYNAMIC SPOTLIGHT: Latest Article from Current Issue === *}
-            {assign var="spotlightArticle" value=null}
-            {if $publishedSubmissions}
-                {foreach from=$publishedSubmissions item=sec}
-                    {if $sec.articles && !$spotlightArticle}
-                        {foreach from=$sec.articles item=art}
-                            {if !$spotlightArticle}
-                                {assign var="spotlightArticle" value=$art}
-                            {/if}
-                        {/foreach}
-                    {/if}
-                {/foreach}
-            {/if}
-            {if $spotlightArticle}
-                {assign var="spotlightPub" value=$spotlightArticle->getCurrentPublication()}
-                <div class="vsc-spotlight-card">
-                            <div class="vsc-spotlight-header">
-                                <div class="vsc-spotlight-badges">
-                                    <span class="vsc-badge-oa">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
-                                        Open Access
-                                    </span>
-                                    {if $spotlightPub->getData('sectionTitle')}
-                                        <span class="vsc-badge-type">{$spotlightPub->getData('sectionTitle')|escape}</span>
-                                    {else}
-                                        <span class="vsc-badge-type">Research Article</span>
-                                    {/if}
-                                    <span class="vsc-badge-license">CC-BY 4.0</span>
-                                </div>
-                                {if $spotlightPub->getData('pub-id::doi')}
-                                    <span class="vsc-doi-tag">DOI: {$spotlightPub->getData('pub-id::doi')|escape}</span>
-                                {/if}
-                            </div>
-
-                            <h3 class="vsc-spotlight-title">
-                                <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="article" op="view" path=$spotlightArticle->getBestId()}">
-                                    {$spotlightPub->getLocalizedTitle()|strip_unsafe_html}
-                                </a>
-                            </h3>
-
-                            {assign var="spotlightAuthors" value=$spotlightPub->getData('authors')}
-                            {if $spotlightAuthors}
-                            <div class="vsc-spotlight-authors">
-                                {foreach from=$spotlightAuthors item=author name=authorLoop}
-                                    <span class="vsc-author">
-                                        {if $author->getData('orcid')}<span class="vsc-orcid-badge">iD</span>{/if}
-                                        {$author->getFullName()|escape}
-                                    </span>
-                                    {if !$smarty.foreach.authorLoop.last}<span class="vsc-author-sep">&bull;</span>{/if}
-                                    {if $smarty.foreach.authorLoop.iteration >= 3 && !$smarty.foreach.authorLoop.last}
-                                        <span class="vsc-affiliation">et al.</span>
-                                        {break}
-                                    {/if}
-                                {/foreach}
-                            </div>
-                            {/if}
-
-                            {if $spotlightPub->getLocalizedData('abstract')}
-                            <p class="vsc-spotlight-abstract">
-                                {$spotlightPub->getLocalizedData('abstract')|strip_tags|truncate:320:"...":false|escape}
-                            </p>
-                            {/if}
-
-                            <div class="vsc-spotlight-footer">
-                                <div class="vsc-spotlight-metrics">
-                                    {if $spotlightPub->getData('datePublished')}
-                                    <span class="vsc-metric-pill">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
-                                        Published {$spotlightPub->getData('datePublished')|date_format:$dateFormatShort}
-                                    </span>
-                                    {/if}
-                                </div>
-                                <div class="vsc-spotlight-actions">
-                                    <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="article" op="view" path=$spotlightArticle->getBestId()}" class="vsc-btn-primary-sm">
-                                        Read Full Article &rarr;
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    {/if}
-
-            <!-- Dynamic Table of Contents (from OJS Issue) -->
+            {* Issue Theme & Synopsis Banner *}
             {if $issue}
-                <div class="vsc-toc-wrapper">
-                    <h3 class="vsc-toc-heading">Issue Table of Contents</h3>
-                    <div class="vsc-article-grid">
-                        {include file="frontend/objects/issue_toc.tpl" heading="h4"}
+                <div class="vsc-issue-synopsis-card">
+                    <div class="vsc-synopsis-content">
+                        <div class="vsc-synopsis-meta">
+                            <span class="vsc-syn-pill vsc-pill-vol">
+                                <i class="fas fa-bookmark"></i> {$issueSeries|escape|default:$issue->getIssueIdentification()|escape}
+                            </span>
+                            {if $issue->getDatePublished()}
+                                <span class="vsc-syn-pill vsc-pill-date">
+                                    <i class="far fa-calendar-alt"></i> Published {$issue->getDatePublished()|date_format:$dateFormatShort}
+                                </span>
+                            {/if}
+                            <span class="vsc-syn-pill vsc-pill-oa">
+                                <i class="fas fa-lock-open"></i> 100% Diamond Open Access
+                            </span>
+                            <span class="vsc-syn-pill vsc-pill-peer">
+                                <i class="fas fa-shield-alt"></i> Double-Blind Peer Reviewed
+                            </span>
+                        </div>
+                        {if $issue->hasDescription()}
+                            <p class="vsc-synopsis-desc">
+                                {$issue->getLocalizedDescription()|strip_unsafe_html}
+                            </p>
+                        {/if}
                     </div>
+                    <div class="vsc-synopsis-actions">
+                        <a href="{url router=PKP\core\PKPApplication::ROUTE_PAGE page="issue" op="view" path=$issue->getBestIssueId()}" class="vsc-btn-issue-view">
+                            <i class="fas fa-book-open"></i> Full Issue TOC &rarr;
+                        </a>
+                    </div>
+                </div>
+            {/if}
+
+            {* Articles Section Header *}
+            <div class="vsc-articles-section-header">
+                <div>
+                    <span class="vsc-section-eyebrow">Peer-Reviewed Manuscripts</span>
+                    <h3 class="vsc-articles-main-title">Articles in This Issue</h3>
+                </div>
+                <div>
+                    <span class="vsc-articles-count-pill"><i class="fas fa-certificate"></i> Verified Scholarly Publications</span>
+                </div>
+            </div>
+
+            {* Clean, Non-Duplicated Academic Article Stream *}
+            {if $publishedSubmissions}
+                <div class="vsc-article-cards-list">
+                    {foreach name=sections from=$publishedSubmissions item=section}
+                        {if $section.articles}
+                            {foreach from=$section.articles item=article}
+                                {include file="frontend/objects/article_summary.tpl" heading="h3"}
+                            {/foreach}
+                        {/if}
+                    {/foreach}
                 </div>
             {/if}
         </section>

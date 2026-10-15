@@ -2921,4 +2921,566 @@ body.pkp_page_issue .pkp_structure_main::after {
     color: #94A3B8 !important;
 }
 
+/* ==========================================================================
+   SCOPUS / SAGE FLAGSHIP ISSUE ARCHIVE ENHANCEMENTS
+   ========================================================================== */
+.v-archive-stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 16px;
+    background: #FFF;
+    border: 1px solid var(--v-border);
+    border-radius: 12px;
+    padding: 16px 24px;
+    margin: 24px 0 36px 0;
+    box-shadow: var(--v-shadow-sm);
+}
+.v-arch-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    color: #475569;
+}
+.v-arch-stat-item i {
+    font-size: 16px;
+    color: var(--v-accent);
+}
+.v-issue-card-enhanced {
+    background: #FFF !important;
+    border: 1px solid var(--v-border) !important;
+    border-radius: 14px !important;
+    padding: 26px !important;
+    box-shadow: var(--v-shadow-sm) !important;
+    transition: all 0.25s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+.v-issue-card-enhanced:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: var(--v-shadow) !important;
+    border-color: var(--v-border-gold) !important;
+}
+.v-issue-card-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #F1F5F9;
+}
+.v-issue-meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+.v-issue-vol-badge {
+    background: #EFF6FF;
+    color: #1E40AF;
+    border: 1px solid #BFDBFE;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.v-issue-date-badge {
+    background: #F8FAFC;
+    color: #64748B;
+    border: 1px solid #E2E8F0;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.v-issue-oa-badge {
+    background: #ECFDF5;
+    color: #059669;
+    border: 1px solid #A7F3D0;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.v-issue-doi-badge {
+    font-size: 11.5px;
+    color: #64748B;
+    font-family: monospace;
+    background: #F8FAFC;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid #E2E8F0;
+}
+.v-issue-card-body-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+.v-issue-cover-link {
+    flex-shrink: 0;
+    width: 100px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    display: block;
+    transition: transform 0.2s ease;
+}
+.v-issue-cover-link:hover {
+    transform: scale(1.03);
+}
+.v-issue-cover-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.v-issue-card-main-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+.v-issue-title-heading {
+    font-family: 'Cormorant Garamond', 'Lora', serif !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: var(--v-navy) !important;
+    margin: 0 0 10px 0 !important;
+    line-height: 1.35 !important;
+}
+.v-issue-title-heading a {
+    color: var(--v-navy) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease;
+}
+.v-issue-title-heading a:hover {
+    color: var(--v-accent) !important;
+}
+.v-issue-description-text {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #475569;
+    margin-bottom: 16px;
+}
+.v-issue-footer-actions {
+    margin-top: auto;
+    padding-top: 10px;
+}
+.v-issue-view-btn {
+    background: linear-gradient(135deg, var(--v-navy) 0%, #1E3A5F 100%);
+    color: #FFF !important;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(10,35,66,0.15);
+}
+.v-issue-view-btn:hover {
+    background: linear-gradient(135deg, #1E3A5F 0%, #0A2342 100%);
+    color: #FFF !important;
+    transform: translateX(3px);
+    box-shadow: 0 4px 12px rgba(10,35,66,0.25);
+}
+
+/* ==========================================================================
+   HOMEPAGE ISSUE SYNOPSIS & ACADEMIC ARTICLE CARDS
+   ========================================================================== */
+.vsc-issue-synopsis-card {
+    background: #FFF !important;
+    border: 1px solid var(--v-border) !important;
+    border-left: 4px solid var(--v-gold) !important;
+    border-radius: 12px !important;
+    padding: 22px 28px !important;
+    margin: 18px 0 28px 0 !important;
+    box-shadow: var(--v-shadow-sm) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 24px !important;
+}
+.vsc-synopsis-content {
+    flex: 1 !important;
+}
+.vsc-synopsis-meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+}
+.vsc-syn-pill {
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    padding: 3px 9px !important;
+    border-radius: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+.vsc-pill-vol {
+    background: #EFF6FF !important;
+    color: #1E40AF !important;
+    border: 1px solid #BFDBFE !important;
+    font-weight: 700 !important;
+}
+.vsc-pill-date {
+    background: #F8FAFC !important;
+    color: #475569 !important;
+    border: 1px solid #E2E8F0 !important;
+}
+.vsc-pill-oa {
+    background: #ECFDF5 !important;
+    color: #059669 !important;
+    border: 1px solid #A7F3D0 !important;
+    font-weight: 700 !important;
+}
+.vsc-pill-peer {
+    background: #F8FAFC !important;
+    color: var(--v-navy) !important;
+    border: 1px solid #E2E8F0 !important;
+}
+.vsc-synopsis-desc {
+    font-size: 14.5px !important;
+    line-height: 1.65 !important;
+    color: #334155 !important;
+    margin: 0 !important;
+}
+.vsc-synopsis-actions {
+    flex-shrink: 0 !important;
+}
+.vsc-btn-issue-view {
+    background: linear-gradient(135deg, var(--v-navy) 0%, #1E3A5F 100%) !important;
+    color: #FFF !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 9px 18px !important;
+    border-radius: 7px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 6px rgba(10,35,66,0.15) !important;
+    white-space: nowrap !important;
+}
+.vsc-btn-issue-view:hover {
+    background: linear-gradient(135deg, #1E3A5F 0%, #0A2342 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(10,35,66,0.25) !important;
+}
+
+/* Articles Section Header */
+.vsc-articles-section-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    margin: 28px 0 18px 0 !important;
+    padding-bottom: 12px !important;
+    border-bottom: 2px solid var(--v-gold) !important;
+}
+.vsc-articles-main-title {
+    font-family: 'Cormorant Garamond', 'Lora', serif !important;
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    color: var(--v-navy) !important;
+    margin: 4px 0 0 0 !important;
+}
+.vsc-articles-count-pill {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #059669 !important;
+    background: #ECFDF5 !important;
+    border: 1px solid #A7F3D0 !important;
+    padding: 4px 10px !important;
+    border-radius: 20px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+
+/* Academic Article Card (Nature/SAGE Style) */
+.vsc-article-cards-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    margin-bottom: 48px !important;
+}
+.v-academic-card {
+    background: #FFF !important;
+    border: 1px solid var(--v-border) !important;
+    border-radius: 12px !important;
+    padding: 26px 30px !important;
+    box-shadow: var(--v-shadow-sm) !important;
+    transition: all 0.25s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+.v-academic-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(10,35,66,0.09) !important;
+    border-color: var(--v-border-gold) !important;
+}
+.v-art-topbar {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+.v-art-badges-group {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+}
+.v-art-pill {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+    padding: 3px 9px !important;
+    border-radius: 4px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    text-transform: uppercase !important;
+}
+.v-pill-type {
+    background: #F1F5F9 !important;
+    color: #334155 !important;
+    border: 1px solid #E2E8F0 !important;
+}
+.v-pill-oa {
+    background: #ECFDF5 !important;
+    color: #059669 !important;
+    border: 1px solid #A7F3D0 !important;
+}
+.v-pill-doi {
+    background: #F8FAFC !important;
+    color: #64748B !important;
+    border: 1px solid #E2E8F0 !important;
+    font-family: monospace !important;
+    font-size: 11px !important;
+    text-transform: none !important;
+}
+.v-art-meta-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    font-size: 12.5px !important;
+    color: #64748B !important;
+}
+.v-art-pages-tag {
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+}
+.v-art-date-tag {
+    color: #64748B !important;
+    font-weight: 500 !important;
+}
+.v-art-title {
+    margin: 2px 0 0 0 !important;
+    font-family: 'Cormorant Garamond', 'Lora', serif !important;
+    font-size: 23px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    border: none !important;
+    padding: 0 !important;
+}
+.v-art-title a {
+    color: var(--v-navy) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+}
+.v-art-title a:hover {
+    color: var(--v-accent) !important;
+}
+.v-art-authors-row {
+    font-size: 14px !important;
+    color: var(--v-navy) !important;
+    font-weight: 500 !important;
+}
+.v-author-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+.v-author-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+.v-author-name {
+    color: var(--v-navy) !important;
+    font-weight: 600 !important;
+}
+.v-orcid-badge {
+    color: #A6CE39 !important;
+    font-size: 13px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+}
+.v-author-sep {
+    color: #94A3B8 !important;
+}
+.v-art-abstract {
+    font-size: 14.5px !important;
+    line-height: 1.65 !important;
+    color: #475569 !important;
+    margin: 2px 0 !important;
+}
+.v-art-keywords {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin: 2px 0 !important;
+}
+.v-kw-pill {
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    color: #475569 !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+}
+.v-art-footer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    margin-top: 6px !important;
+    padding-top: 14px !important;
+    border-top: 1px solid #F1F5F9 !important;
+}
+.v-art-license-note {
+    font-size: 12px !important;
+    color: #64748B !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+.v-art-footer-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+.v-galley-btn-group {
+    display: flex !important;
+    gap: 8px !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.v-galley-btn-group > li {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Galley Link Badges Override */
+.obj_article_summary .obj_galley_link {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    padding: 6px 14px !important;
+    border-radius: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+.obj_article_summary .obj_galley_link.pdf {
+    background: #FEF2F2 !important;
+    color: #B91C1C !important;
+    border: 1px solid #FECACA !important;
+    box-shadow: none !important;
+}
+.obj_article_summary .obj_galley_link.pdf:hover {
+    background: #B91C1C !important;
+    color: #FFF !important;
+    border-color: #B91C1C !important;
+    transform: translateY(-1px) !important;
+}
+.obj_article_summary .obj_galley_link.file {
+    background: #EFF6FF !important;
+    color: #1D4ED8 !important;
+    border: 1px solid #BFDBFE !important;
+    box-shadow: none !important;
+}
+.obj_article_summary .obj_galley_link.file:hover {
+    background: #1D4ED8 !important;
+    color: #FFF !important;
+    border-color: #1D4ED8 !important;
+    transform: translateY(-1px) !important;
+}
+
+.v-art-read-btn {
+    background: linear-gradient(135deg, var(--v-navy) 0%, #1E3A5F 100%) !important;
+    color: #FFF !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    padding: 6px 16px !important;
+    border-radius: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 6px rgba(10,35,66,0.12) !important;
+}
+.v-art-read-btn:hover {
+    background: linear-gradient(135deg, #1E3A5F 0%, #0A2342 100%) !important;
+    transform: translateX(2px) !important;
+    box-shadow: 0 4px 10px rgba(10,35,66,0.2) !important;
+}
+
+@media (max-width: 768px) {
+    .vsc-issue-synopsis-card {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding: 20px !important;
+    }
+    .vsc-btn-issue-view {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    .v-academic-card {
+        padding: 20px !important;
+    }
+    .v-art-footer {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .v-art-footer-actions {
+        width: 100% !important;
+        justify-content: space-between !important;
+    }
+}
+
+
+
 

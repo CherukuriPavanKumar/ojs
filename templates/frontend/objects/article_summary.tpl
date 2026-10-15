@@ -1,95 +1,105 @@
 {**
  * templates/frontend/objects/article_summary.tpl
- *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
- *
- * @brief View of an Article summary which is shown within a list of articles.
- *
- * @uses $article Article The article
- * @uses $authorUserGroups Traversible The set of author user groups
- * @uses $hasAccess bool Can this user access galleys for this context? The
- *       context may be an issue or an article
- * @uses $showDatePublished bool Show the date this article was published?
- * @uses $hideGalleys bool Hide the article galleys for this article?
- * @uses $primaryGenreIds array List of file genre ids for primary file types
- * @uses $heading string HTML heading element, default: h2
- *
- * @hook Templates::Issue::Issue::Article []
+ * Upgraded Veridica Scopus/SAGE Flagship Article Summary Card
  *}
 {assign var=publication value=$article->getCurrentPublication()}
-
 {assign var=articlePath value=$publication->getData('urlPath')|default:$article->getId()}
 {if !$heading}
-	{assign var="heading" value="h2"}
+	{assign var="heading" value="h3"}
 {/if}
 
 {if (!$section.hideAuthor && $publication->getData('hideAuthor') == APP\submission\Submission::AUTHOR_TOC_DEFAULT) || $publication->getData('hideAuthor') == APP\submission\Submission::AUTHOR_TOC_SHOW}
 	{assign var="showAuthor" value=true}
 {/if}
 
-<div class="obj_article_summary">
-	{if $publication->getLocalizedData('coverImage')}
-		<div class="cover">
-			<a {if $journal}href="{url journal=$journal->getPath() page="article" op="view" path=$articlePath}"{else}href="{url page="article" op="view" path=$articlePath}"{/if} class="file">
-				{assign var="coverImage" value=$publication->getLocalizedData('coverImage')}
-				<img
-					src="{$publication->getLocalizedCoverImageUrl($article->getData('contextId'))|escape}"
-					alt="{$coverImage.altText|escape|default:''}"
-				>
-			</a>
-		</div>
-	{/if}
+<div class="obj_article_summary v-academic-card">
 
-	<{$heading} class="title">
-		<a id="article-{$article->getId()}" {if $journal}href="{url journal=$journal->getPath() page="article" op="view" path=$articlePath}"{else}href="{url page="article" op="view" path=$articlePath}"{/if}>
-			{if $currentContext}
-				{$publication->getLocalizedTitle(null, 'html')|strip_unsafe_html}
-				{assign var=localizedSubtitle value=$publication->getLocalizedSubtitle(null, 'html')|strip_unsafe_html}
-				{if $localizedSubtitle}
-					<span class="subtitle">{$localizedSubtitle}</span>
-				{/if}
-			{else}
-				{$publication->getLocalizedFullTitle(null, 'html')|strip_unsafe_html}
-				<span class="subtitle">
-					{$journal->getLocalizedName()|escape}
+	{* 1. Top Scholarly Metadata Bar *}
+	<div class="v-art-topbar">
+		<div class="v-art-badges-group">
+			<span class="v-art-pill v-pill-type">
+				<i class="fas fa-file-alt"></i> {if $section.title}{$section.title|escape}{else}Research Article{/if}
+			</span>
+			<span class="v-art-pill v-pill-oa">
+				<i class="fas fa-lock-open"></i> Diamond OA
+			</span>
+			{assign var=doiObject value=$publication->getData('doiObject')}
+			{if $doiObject}
+				<span class="v-art-pill v-pill-doi" title="DOI: {$doiObject->getData('doi')|escape}">
+					<i class="fas fa-fingerprint"></i> {$doiObject->getData('doi')|escape}
 				</span>
+			{elseif $publication->getData('pub-id::doi')}
+				<span class="v-art-pill v-pill-doi" title="DOI: {$publication->getData('pub-id::doi')|escape}">
+					<i class="fas fa-fingerprint"></i> {$publication->getData('pub-id::doi')|escape}
+				</span>
+			{/if}
+		</div>
+		<div class="v-art-meta-group">
+			{if $publication->getData('pages')}
+				<span class="v-art-pages-tag"><i class="fas fa-book-open"></i> pp. {$publication->getData('pages')|escape}</span>
+			{/if}
+			{if $publication->getData('datePublished')}
+				<span class="v-art-date-tag"><i class="far fa-calendar-alt"></i> {$publication->getData('datePublished')|date_format:$dateFormatShort}</span>
+			{/if}
+		</div>
+	</div>
+
+	{* 2. Prominent Article Title *}
+	<{$heading} class="v-art-title">
+		<a id="article-{$article->getId()}" {if $journal}href="{url journal=$journal->getPath() page="article" op="view" path=$articlePath}"{else}href="{url page="article" op="view" path=$articlePath}"{/if}>
+			{$publication->getLocalizedTitle(null, 'html')|strip_unsafe_html}
+			{assign var=localizedSubtitle value=$publication->getLocalizedSubtitle(null, 'html')|strip_unsafe_html}
+			{if $localizedSubtitle}
+				<span class="subtitle">{$localizedSubtitle}</span>
 			{/if}
 		</a>
 	</{$heading}>
 
-	{assign var=submissionPages value=$publication->getData('pages')}
-	{assign var=submissionDatePublished value=$publication->getData('datePublished')}
-	{if $showAuthor || $submissionPages || ($submissionDatePublished && $showDatePublished)}
-	<div class="meta">
-		{if $showAuthor}
-		<div class="authors">
-			{$publication->getAuthorString($authorUserGroups)|escape}
-		</div>
-		{/if}
-
-		{* Page numbers for this article *}
-		{if $submissionPages}
-			<div class="pages">{$submissionPages|escape}</div>
-		{/if}
-
-		{if $showDatePublished && $submissionDatePublished}
-			<div class="published">
-				{$submissionDatePublished|date_format:$dateFormatShort}
+	{* 3. Authors Row with Verified ORCID Badges *}
+	{if $publication->getData('authors')}
+		<div class="v-art-authors-row">
+			<div class="v-author-list">
+				{foreach from=$publication->getData('authors') item=author name=authLoop}
+					<span class="v-author-item">
+						<span class="v-author-name">{$author->getFullName()|escape}</span>
+						{if $author->getData('orcid')}
+							<a href="{$author->getData('orcid')|escape}" target="_blank" rel="noopener" class="v-orcid-badge" title="ORCID: {$author->getOrcidDisplayValue()|escape}">
+								<i class="fab fa-orcid"></i>
+							</a>
+						{/if}
+					</span>
+					{if !$smarty.foreach.authLoop.last}<span class="v-author-sep">&bull;</span>{/if}
+				{/foreach}
 			</div>
-		{/if}
-
-	</div>
+		</div>
 	{/if}
 
-	<div class="v-summary-footer">
-		<div class="v-summary-badges">
-			<span class="v-summary-oa-badge"><i class="fas fa-lock-open"></i> Open Access</span>
+	{* 4. Structured Abstract Preview *}
+	{if $publication->getLocalizedData('abstract')}
+		<div class="v-art-abstract">
+			{$publication->getLocalizedData('abstract')|strip_tags|truncate:280:"...":false|escape}
 		</div>
-		<div class="v-summary-actions">
+	{/if}
+
+	{* 5. Keywords Cluster *}
+	{if !empty($publication->getLocalizedData('keywords'))}
+		<div class="v-art-keywords">
+			{foreach name="kws" from=$publication->getLocalizedData('keywords') item="keyword"}
+				{if $smarty.foreach.kws.iteration <= 5}
+					<span class="v-kw-pill">#{$keyword.name|escape}</span>
+				{/if}
+			{/foreach}
+		</div>
+	{/if}
+
+	{* 6. Bottom Action & Galleys Footer *}
+	<div class="v-art-footer">
+		<div class="v-art-footer-left">
+			<span class="v-art-license-note"><i class="fab fa-creative-commons"></i> CC BY 4.0 &bull; Diamond Open Access</span>
+		</div>
+		<div class="v-art-footer-actions">
 			{if !$hideGalleys && $publication->getData('galleys')}
-				<ul class="galleys_links">
+				<ul class="v-galley-btn-group">
 					{foreach from=$publication->getData('galleys') item=galley}
 						{if $primaryGenreIds}
 							{assign var="file" value=$galley->getFile()}
@@ -108,8 +118,8 @@
 					{/foreach}
 				</ul>
 			{/if}
-			<a class="v-summary-read-btn" {if $journal}href="{url journal=$journal->getPath() page="article" op="view" path=$articlePath}"{else}href="{url page="article" op="view" path=$articlePath}"{/if}>
-				Read Article <i class="fas fa-arrow-right"></i>
+			<a class="v-art-read-btn" {if $journal}href="{url journal=$journal->getPath() page="article" op="view" path=$articlePath}"{else}href="{url page="article" op="view" path=$articlePath}"{/if}>
+				<span>Read Article</span> <i class="fas fa-arrow-right"></i>
 			</a>
 		</div>
 	</div>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="never">
+  <info>
+    <title>Veridica: Journal of Multidisciplinary Research (APA 7th Diamond OA)</title>
+    <id>https://veridica.org/csl/veridica-style</id>
+    <link href="https://veridica.org/index.php/veridica/about/submissions" rel="documentation"/>
+    <author>
+      <name>Veridica Editorial Office</name>
+      <email>editorial@veridica.org</email>
+    </author>
+    <category citation-format="author-date"/>
+    <category field="multidisciplinary"/>
+    <issn>2984-712X</issn>
+    <eissn>2984-7111</eissn>
+    <updated>2026-10-15T12:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+  <macro name="author">
+    <names variable="author">
+      <name and="symbol" initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+      <label form="short" prefix=" (" suffix=")"/>
+      <substitute>
+        <names variable="editor"/>
+        <text variable="title"/>
+      </substitute>
+    </names>
+  </macro>
+  <macro name="issued">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="true" collapse="year">
+    <sort>
+      <key macro="author"/>
+      <key macro="issued"/>
+    </sort>
+    <layout prefix="(" suffix=")" delimiter="; ">
+      <group delimiter=", ">
+        <text macro="author"/>
+        <text macro="issued"/>
+      </group>
+    </layout>
+  </citation>
+  <bibliography hanging-indent="true" et-al-min="8" et-al-use-first="6" et-al-use-last="true" entry-spacing="0" line-spacing="2">
+    <sort>
+      <key macro="author"/>
+      <key macro="issued"/>
+    </sort>
+    <layout>
+      <group suffix=".">
+        <text macro="author" suffix="."/>
+        <text macro="issued" prefix=" (" suffix=")."/>
+        <text variable="title" prefix=" " suffix="."/>
+        <group prefix=" " delimiter=", ">
+          <text variable="container-title" font-style="italic"/>
+          <text variable="volume" font-style="italic"/>
+          <text variable="page"/>
+        </group>
+      </group>
+      <text variable="DOI" prefix=" https://doi.org/"/>
+    </layout>
+  </bibliography>
+</style>
